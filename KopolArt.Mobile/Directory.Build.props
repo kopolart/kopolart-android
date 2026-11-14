@@ -1,0 +1,9 @@
+<Project>
+	<Import Project="signing.local.props" Condition="Exists('signing.local.props')" />
+
+	<PropertyGroup>
+		<!-- Secrets can come from signing.local.props (gitignored) or from environment variables. -->
+		<AndroidSigningPassword Condition="'$(AndroidSigningPassword)' == '' and '$(KOPOLART_SIGNING_PASSWORD)' != ''">$(KOPOLART_SIGNING_PASSWORD)</AndroidSigningPassword>
+		<AndroidSigningKeyStore Condition="'$(AndroidSigningKeyStore)' == '' and '$(KOPOLART_KEYSTORE_PATH)' != ''">$(KOPOLART_KEYSTORE_PATH)</AndroidSigningKeyStore>
+	</PropertyGroup>
+</Project>

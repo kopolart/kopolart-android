@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KopolArt.Mobile.Views.UpdatePopup"
+             HorizontalOptions="Fill"
+             VerticalOptions="Fill"
+             IsVisible="False">
+
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+        <!-- Backdrop -->
+        <BoxView Color="{AppThemeBinding Light={StaticResource BrandBackground}, Dark={StaticResource BrandBackgroundDark}}"
+                 Opacity="0.85"
+                 HorizontalOptions="Fill"
+                 VerticalOptions="Fill" />
+        
+        <!-- Center Card -->
+        <Border x:Name="UpdateCard"
+                Style="{StaticResource PopupCardBorderStyle}"
+                MaximumHeightRequest="480">
+
+            <ScrollView VerticalScrollBarVisibility="Never" HorizontalOptions="Fill" VerticalOptions="Center">
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" Padding="24,20,24,24" RowSpacing="0" FlowDirection="RightToLeft">
+                    <!-- Logo -->
+                    <Image Source="kopolart_icon.png" Grid.Row="0" WidthRequest="64" HeightRequest="64" HorizontalOptions="Center" Margin="0,0,0,10" />
+                    
+                    <!-- Title -->
+                    <Label Text="به‌روزرسانی جدید کپل‌آرت"
+                           Grid.Row="1"
+                           Style="{StaticResource PopupTitleLabelStyle}"
+                           Margin="0,0,0,14" />
+
+                    <!-- Scrollable Release Notes -->
+                    <ScrollView Grid.Row="2" MaximumHeightRequest="140" Margin="0,0,0,14">
+                        <VerticalStackLayout x:Name="ReleaseNotesContainer" Spacing="10" />
+                    </ScrollView>
+
+                    <!-- Progress Section -->
+                    <VerticalStackLayout x:Name="ProgressSection" Grid.Row="3" IsVisible="False" Spacing="8" Margin="0,4,0,10">
+                        <ProgressBar x:Name="DownloadProgressBar" ProgressColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}" HeightRequest="8" HorizontalOptions="Fill" />
+                        <Label x:Name="ProgressLabel" Text="در حال دانلود... ۰٪" HorizontalTextAlignment="Center" FontFamily="KopolFontMedium" TextColor="{AppThemeBinding Light={StaticResource PopupSubtitle}, Dark={StaticResource PopupSubtitleDark}}" FontSize="13" />
+                        <Button x:Name="CancelDownloadButton" Text="لغو دانلود" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light={StaticResource PopupSubtitle}, Dark={StaticResource PopupSubtitleDark}}" BorderColor="{AppThemeBinding Light={StaticResource PopupSubtitle}, Dark={StaticResource PopupSubtitleDark}}" BorderWidth="1" FontFamily="KopolFontBlack" FontSize="13" CornerRadius="12" HeightRequest="38" Margin="0,6,0,0" Clicked="OnCancelDownloadClicked" />
+                    </VerticalStackLayout>
+
+                    <!-- Buttons -->
+                    <Grid x:Name="ButtonsSection" Grid.Row="4" ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,6,0,0">
+                        <Button x:Name="UpdateButton" Grid.Column="0" Text="به‌روزرسانی" BackgroundColor="{StaticResource BrandPrimary}" TextColor="{StaticResource White}" FontFamily="KopolFontBlack" CornerRadius="12" HeightRequest="42" Clicked="OnUpdateClicked" />
+                        <Button x:Name="RemindLaterButton" Grid.Column="1" Text="بعداً" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light={StaticResource PopupSubtitle}, Dark={StaticResource PopupSubtitleDark}}" BorderColor="{AppThemeBinding Light={StaticResource PopupSubtitle}, Dark={StaticResource PopupSubtitleDark}}" BorderWidth="1" FontFamily="KopolFontBlack" CornerRadius="12" HeightRequest="42" Clicked="OnRemindLaterClicked" />
+                    </Grid>
+                </Grid>
+            </ScrollView>
+        </Border>
+    </Grid>
+</ContentView>

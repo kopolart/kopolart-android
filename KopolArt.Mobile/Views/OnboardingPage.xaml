@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KopolArt.Mobile.ViewModels"
+             xmlns:models="clr-namespace:KopolArt.Mobile.Models"
+             xmlns:helpers="clr-namespace:KopolArt.Mobile.Helpers"
+             x:Class="KopolArt.Mobile.Views.OnboardingPage"
+             x:DataType="vm:OnboardingViewModel"
+             BackgroundColor="{AppThemeBinding Light={StaticResource BrandBackground}, Dark={StaticResource BrandBackgroundDark}}"
+             Shell.NavBarIsVisible="False"
+             FlowDirection="RightToLeft">
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="0,10,0,16">
+
+        <!-- ── 1. Top Header (Logo & Skip Button) ────────────────────── -->
+        <Grid Grid.Row="0"
+              ColumnDefinitions="*,Auto"
+              Padding="24,12,24,6"
+              VerticalOptions="Center">
+
+            <!-- Brand Identity -->
+            <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                <Image Source="kopolart_icon.png"
+                       Aspect="AspectFit"
+                       WidthRequest="30"
+                       HeightRequest="30"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" />
+
+                <Label Text="کپل‌آرت"
+                       FontSize="17.5"
+                       Margin="0,3,0,0"
+                       FontFamily="KopolFontBlack"
+                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"/>
+            </HorizontalStackLayout>
+
+            <!-- Skip Button (رد کردن) -->
+            <Border Grid.Column="1"
+                    BackgroundColor="Transparent"
+                    StrokeThickness="0"
+                    Padding="12,6"
+                    VerticalOptions="Center">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SkipCommand}" />
+                </Border.GestureRecognizers>
+                <Label Text="رد کردن"
+                       FontSize="13"
+                       FontFamily="KopolFontBold"
+                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                       VerticalOptions="Center" />
+            </Border>
+        </Grid>
+
+        <!-- ── 2. Carousel Slider Content ────────────────────────────── -->
+        <CarouselView Grid.Row="1"
+                      x:Name="OnboardingCarousel"
+                      ItemsSource="{Binding Slides}"
+                      Position="{Binding CurrentPosition, Mode=TwoWay}"
+                      IndicatorView="CarouselIndicators"
+                      Loop="False"
+                      IsSwipeEnabled="True"
+                      HorizontalScrollBarVisibility="Never">
+            <CarouselView.ItemTemplate>
+                <DataTemplate x:DataType="models:OnboardingSlideModel">
+                    <ScrollView VerticalScrollBarVisibility="Never"
+                                Padding="0,10,0,16">
+                        <VerticalStackLayout Spacing="18"
+                                             VerticalOptions="Center"
+                                             HorizontalOptions="Fill">
+
+                            <!-- Hero Graphic Container -->
+                            <Border StrokeShape="RoundRectangle 28"
+                                    WidthRequest="140"
+                                    HeightRequest="140"
+                                    HorizontalOptions="Center"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}"
+                                    Stroke="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}"
+                                    StrokeThickness="1.5">
+                                <Border.Shadow>
+                                    <Shadow Brush="{AppThemeBinding Light={StaticResource PopupShadow}, Dark={StaticResource PopupShadowDark}}"
+                                            Offset="0,8"
+                                            Radius="18"
+                                            Opacity="0.6" />
+                                </Border.Shadow>
+                                <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                    <!-- Ambient Glow Ring -->
+                                    <Ellipse WidthRequest="96"
+                                             HeightRequest="96"
+                                             Fill="{StaticResource BrandPrimaryLight}"
+                                             Opacity="0.17"
+                                             HorizontalOptions="Center"
+                                             VerticalOptions="Center" />
+
+                                    <!-- Slide Vector Icon -->
+                                    <Label Text="{Binding IconGlyph}"
+                                           FontFamily="KopolArtFa"
+                                           FontSize="55"
+                                           TextColor="{AppThemeBinding Light={StaticResource BrandSecondary}, Dark={StaticResource BrandAccent}}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center" />
+                                </Grid>
+                            </Border>
+
+                            <!-- Badge Pill -->
+                            <Border StrokeShape="RoundRectangle 14"
+                                    StrokeThickness="1"
+                                    Stroke="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}"
+                                    Padding="14,4"
+                                    HorizontalOptions="Center">
+                                <Label Text="{Binding BadgeText}"
+                                       FontSize="12"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                                       HorizontalTextAlignment="Center" />
+                            </Border>
+
+                            <!-- Text Content Card -->
+                            <Border Style="{StaticResource LuxuryCardStyle}"
+                                    Padding="20,20"
+                                    Margin="22,4,22,8">
+                                <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                                    <!-- Title -->
+                                    <Label Text="{Binding Title}"
+                                           FontSize="20"
+                                           FontFamily="KopolFontBlack"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                           HorizontalTextAlignment="Center" />
+
+                                    <!-- Subtitle -->
+                                    <Label Text="{Binding Subtitle}"
+                                           FontSize="14"
+                                           FontFamily="KopolFontBold"
+                                           TextColor="{AppThemeBinding Light={StaticResource BrandSecondary}, Dark={StaticResource BrandAccent}}"
+                                           HorizontalTextAlignment="Center" />
+
+                                    <!-- Divider line -->
+                                    <BoxView Style="{StaticResource CardDividerBoxViewStyle}"
+                                             WidthRequest="120"
+                                             HorizontalOptions="Center"
+                                             Margin="0,4" />
+
+                                    <!-- Description -->
+                                    <Label Text="{Binding Description}"
+                                           FontSize="13.5"
+                                           FontFamily="KopolFontMedium"
+                                           LineHeight="1.4"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                           HorizontalTextAlignment="Center" />
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <!-- ── Interactive Notification Permission Section (Slide 4 Only) ── -->
+                            <Border IsVisible="{Binding IsNotificationSlide}"
+                                    StrokeShape="RoundRectangle 18"
+                                    Stroke="{StaticResource ActionAmber}"
+                                    StrokeThickness="1.2"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}"
+                                    Padding="16,14"
+                                    Margin="22,4,22,10">
+                                <Border.Shadow>
+                                    <Shadow Brush="{StaticResource ActionAmber}"
+                                            Offset="0,4"
+                                            Radius="12"
+                                            Opacity="0.25" />
+                                </Border.Shadow>
+                                <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                                    <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                                        <Label Text="{x:Static helpers:KopolArtFaIcons.Notification}"
+                                               FontFamily="KopolArtFa"
+                                               FontSize="18"
+                                               TextColor="{StaticResource ActionAmber}"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="Center" />
+                                        <Label Text="درخواست مجوز ارسال اعلان"
+                                               FontSize="13"
+                                               FontFamily="KopolFontBold"
+                                               TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                               VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+
+                                    <!-- Grant Notification Permission Button -->
+                                    <Button Command="{Binding Source={RelativeSource AncestorType={x:Type vm:OnboardingViewModel}}, Path=RequestNotificationPermissionCommand}"
+                                            Text="{Binding Source={RelativeSource AncestorType={x:Type vm:OnboardingViewModel}}, Path=NotificationButtonText}"
+                                            FontFamily="KopolFontBold"
+                                            FontSize="14"
+                                            HeightRequest="48"
+                                            CornerRadius="14"
+                                            BackgroundColor="{StaticResource BrandPrimary}"
+                                            TextColor="{StaticResource White}"
+                                            HorizontalOptions="Fill" />
+
+                                    <!-- Status / Guide Note -->
+                                    <Label Text="{Binding Source={RelativeSource AncestorType={x:Type vm:OnboardingViewModel}}, Path=NotificationStatusMessage}"
+                                           FontSize="11.5"
+                                           FontFamily="KopolFontMedium"
+                                           LineHeight="1.3"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                           HorizontalTextAlignment="Center" />
+                                </VerticalStackLayout>
+                            </Border>
+
+                        </VerticalStackLayout>
+                    </ScrollView>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
+        <!-- ── 3. Bottom Navigation & Action Bar ─────────────────────── -->
+        <Grid Grid.Row="2"
+              ColumnDefinitions="1*,Auto,1*"
+              Padding="24,8,24,4"
+              VerticalOptions="Center">
+
+            <!-- Previous Button (قبلی) -->
+            <Button Grid.Column="0"
+                    Command="{Binding PreviousCommand}"
+                    Text="قبلی"
+                    IsVisible="{Binding CanGoBack}"
+                    FontFamily="KopolFontMedium"
+                    FontSize="13"
+                    HeightRequest="44"
+                    Padding="16,0"
+                    CornerRadius="12"
+                    BackgroundColor="Transparent"
+                    TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                    BorderColor="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}"
+                    BorderWidth="1"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center" />
+
+            <!-- Indicator View (Dots) -->
+            <IndicatorView Grid.Column="1"
+                           x:Name="CarouselIndicators"
+                           IndicatorColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                           SelectedIndicatorColor="{StaticResource BrandPrimary}"
+                           IndicatorsShape="Circle"
+                           IndicatorSize="8"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+
+            <!-- Next / Finish Button (بعدی / ورود به کپل‌آرت) -->
+            <Button Grid.Column="2"
+                    Command="{Binding NextCommand}"
+                    Text="{Binding NextButtonText}"
+                    FontFamily="KopolFontBold"
+                    FontSize="14"
+                    HeightRequest="44"
+                    Padding="22,0"
+                    CornerRadius="12"
+                    BackgroundColor="{StaticResource BrandPrimary}"
+                    TextColor="{StaticResource White}"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center">
+            </Button>
+        </Grid>
+    </Grid>
+</ContentPage>

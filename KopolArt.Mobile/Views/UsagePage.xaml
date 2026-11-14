@@ -1,0 +1,681 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KopolArt.Mobile.ViewModels"
+             xmlns:models="clr-namespace:KopolArt.Mobile.Models"
+             xmlns:helpers="clr-namespace:KopolArt.Mobile.Helpers"
+             x:Class="KopolArt.Mobile.Views.UsagePage"
+             x:DataType="vm:UsageViewModel"
+             BackgroundColor="{AppThemeBinding Light={StaticResource BrandBackground}, Dark={StaticResource BrandBackgroundDark}}"
+             Shell.NavBarIsVisible="False"
+             FlowDirection="RightToLeft">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="16,14,16,16" RowSpacing="12">
+        <!-- 1. Top Bar -->
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+            <!-- Back Button -->
+            <Border Grid.Column="0" Style="{StaticResource TopBarBackButtonStyle}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BackCommand}" />
+                </Border.GestureRecognizers>
+                <Label Text="{x:Static helpers:KopolArtFaIcons.Back}"
+                       Style="{StaticResource TopBarBackIconStyle}" />
+            </Border>
+
+            <!-- Title -->
+            <Label Grid.Column="1"
+                   Text="آمار و گزارش وب‌گردی"
+                   Style="{StaticResource TopBarTitleStyle}" />
+
+            <!-- Actions Container: Reset Button (when on Sessions tab) OR Refresh Button (when on Analytics tab) -->
+            <Grid Grid.Column="2">
+                <!-- Reset Stats Button (Sessions tab) -->
+                <Button Text="بازنشانی"
+                        Command="{Binding ResetStatsCommand}"
+                        IsVisible="{Binding IsSessionsTabSelected}"
+                        Style="{StaticResource TopBarDestructiveButtonStyle}" />
+
+                <!-- Refresh Button (Analytics tab) -->
+                <Border IsVisible="{Binding IsAnalyticsTabSelected}"
+                        Style="{StaticResource TopBarBackButtonStyle}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding RefreshAnalyticsCommand}" />
+                    </Border.GestureRecognizers>
+                    <Label Text="{x:Static helpers:KopolArtFaIcons.Refresh}"
+                           Style="{StaticResource TopBarBackIconStyle}" />
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- 2. Segmented Tab Switcher -->
+        <Border Grid.Row="1"
+                Style="{StaticResource LuxuryCardStyle}"
+                Padding="4"
+                BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}"
+                Stroke="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}"
+                StrokeThickness="1">
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="4">
+                <!-- Tab 1: Sessions -->
+                <Border Grid.Column="0"
+                        Padding="0,8"
+                        StrokeThickness="0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding IsSessionsTabSelected}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{StaticResource BrandPrimary}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border" Binding="{Binding IsSessionsTabSelected}" Value="False">
+                            <Setter Property="BackgroundColor" Value="Transparent" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectSessionsTabCommand}" />
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="6">
+                        <Label Text="{x:Static helpers:KopolArtFaIcons.Clock}"
+                               FontFamily="KopolArtFa"
+                               FontSize="{StaticResource FontSize14}"
+                               VerticalOptions="Center">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsSessionsTabSelected}" Value="True">
+                                    <Setter Property="TextColor" Value="{StaticResource White}" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsSessionsTabSelected}" Value="False">
+                                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Label Text="سوابق وب‌گردی"
+                               FontFamily="KopolFontBold"
+                               FontSize="{StaticResource FontSize12}"
+                               VerticalOptions="Center">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsSessionsTabSelected}" Value="True">
+                                    <Setter Property="TextColor" Value="{StaticResource White}" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsSessionsTabSelected}" Value="False">
+                                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                    </HorizontalStackLayout>
+                </Border>
+
+                <!-- Tab 2: Analytics & Trends -->
+                <Border Grid.Column="1"
+                        Padding="0,8"
+                        StrokeThickness="0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding IsAnalyticsTabSelected}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{StaticResource BrandPrimary}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border" Binding="{Binding IsAnalyticsTabSelected}" Value="False">
+                            <Setter Property="BackgroundColor" Value="Transparent" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectAnalyticsTabCommand}" />
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="6">
+                        <Label Text="{x:Static helpers:KopolArtFaIcons.ChartPie}"
+                               FontFamily="KopolArtFa"
+                               FontSize="{StaticResource FontSize14}"
+                               VerticalOptions="Center">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsAnalyticsTabSelected}" Value="True">
+                                    <Setter Property="TextColor" Value="{StaticResource White}" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsAnalyticsTabSelected}" Value="False">
+                                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Label Text="نمودار و تحلیل هوشمند"
+                               FontFamily="KopolFontBold"
+                               FontSize="{StaticResource FontSize12}"
+                               VerticalOptions="Center">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsAnalyticsTabSelected}" Value="True">
+                                    <Setter Property="TextColor" Value="{StaticResource White}" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsAnalyticsTabSelected}" Value="False">
+                                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                    </HorizontalStackLayout>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- 3. Tab Contents -->
+        <Grid Grid.Row="2">
+            <!-- TAB 1: SESSIONS CONTENT -->
+            <Grid IsVisible="{Binding IsSessionsTabSelected}"
+                  RowDefinitions="Auto,Auto,*"
+                  RowSpacing="12">
+                <!-- Summary Statistics Card -->
+                <Border Grid.Row="0" Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="12">
+                        <!-- Row 1: Duration & Data -->
+                        <Grid Grid.Row="0" ColumnDefinitions="*,Auto,*" ColumnSpacing="10">
+                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                <Label Text="کل زمان گردش در کپل‌آرت:"
+                                       FontSize="{StaticResource FontSize12}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                                <Label Text="{Binding TotalUsageTime}"
+                                       FontSize="{StaticResource FontSize14}"
+                                       FontFamily="KopolFontBlack"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}" />
+                            </VerticalStackLayout>
+
+                            <BoxView Grid.Column="1" WidthRequest="1" HeightRequest="40" Color="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}" />
+
+                            <VerticalStackLayout Grid.Column="2" Spacing="4">
+                                <Label Text="کل ترافیک مصرفی:"
+                                       FontSize="{StaticResource FontSize12}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                                <Label Text="{Binding TotalDataUsed}"
+                                       FontSize="{StaticResource FontSize14}"
+                                       FontFamily="KopolFontBlack"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandSecondary}, Dark={StaticResource BrandAccent}}" />
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <BoxView Grid.Row="1" Style="{StaticResource CardDividerBoxViewStyle}" />
+
+                        <!-- Row 2: Current Session IP -->
+                        <Grid Grid.Row="2" ColumnDefinitions="Auto,*">
+                            <Label Grid.Column="0"
+                                   Text="آدرس IP جلسه جاری:"
+                                   FontSize="{StaticResource FontSize12}"
+                                   FontFamily="KopolFontMedium"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                   VerticalOptions="Center" />
+                            <Label Grid.Column="1"
+                                   Text="{Binding CurrentSessionIp}"
+                                   FontSize="{StaticResource FontSize13}"
+                                   FontFamily="KopolFontBlack"
+                                   TextColor="{AppThemeBinding Light={StaticResource BrandSlateBlue}, Dark={StaticResource BrandSlateBlueLight}}"
+                                   HorizontalOptions="End"
+                                   VerticalOptions="Center" />
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <!-- Search Bar for Sessions -->
+                <Border Grid.Row="1"
+                        Style="{StaticResource SearchCardStyle}">
+                    <Grid ColumnDefinitions="Auto,*">
+                        <Label Text="{x:Static helpers:KopolArtFaIcons.Search}"
+                               Style="{StaticResource SearchIconStyle}" />
+                        <Entry Grid.Column="1"
+                               Text="{Binding SearchText}"
+                               Placeholder="جستجو در سوابق (تاریخ، مدت، IP)..."
+                               Style="{StaticResource SearchEntryStyle}" />
+                    </Grid>
+                </Border>
+
+                <!-- Sessions List / Empty View -->
+                <Grid Grid.Row="2">
+                    <!-- Empty View -->
+                    <VerticalStackLayout IsVisible="{Binding IsEmpty}"
+                                         HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         Spacing="12"
+                                         ZIndex="2">
+                        <Border Style="{StaticResource EmptyStateCircleBorderStyle}">
+                            <Label Text="{x:Static helpers:KopolArtFaIcons.ChartPie}"
+                                   Style="{StaticResource EmptyStateIconLabelStyle}" />
+                        </Border>
+                        <Label Text="هنوز سابقه‌ای ثبت نشده است"
+                               Style="{StaticResource EmptyStateTitleLabelStyle}" />
+                        <Label Text="با هر بار وب‌گردی در سایت، زمان و میزان مصرف اینترنت در اینجا ثبت می‌شود."
+                               Style="{StaticResource EmptyStateDescriptionLabelStyle}" />
+                        <Button Text="گردش در سایت کپل‌آرت"
+                                Style="{StaticResource EmptyStateActionButtonStyle}"
+                                Command="{Binding StartBrowsingCommand}"
+                                Margin="0,8,0,0" />
+                    </VerticalStackLayout>
+
+                    <!-- Sessions List -->
+                    <CollectionView ItemsSource="{Binding Sessions}"
+                                    IsVisible="{Binding IsNotEmpty}"
+                                    VerticalScrollBarVisibility="Never"
+                                    SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:UsageDisplayRecord">
+                                <SwipeView Threshold="30">
+                                    <SwipeView.LeftItems>
+                                        <SwipeItems Mode="Reveal">
+                                            <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UsageViewModel}}, Path=RemoveIpCommand}"
+                                                           CommandParameter="{Binding .}">
+                                                <Border Style="{StaticResource SwipeActionSlateBlueBorderStyle}">
+                                                    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="4">
+                                                        <Label Text="{x:Static helpers:KopolArtFaIcons.Globe}"
+                                                               Style="{StaticResource SwipeActionIconLabelStyle}" />
+                                                        <Label Text="حذف IP"
+                                                               Style="{StaticResource SwipeActionTextLabelStyle}" />
+                                                    </VerticalStackLayout>
+                                                </Border>
+                                            </SwipeItemView>
+                                        </SwipeItems>
+                                    </SwipeView.LeftItems>
+
+                                    <SwipeView.RightItems>
+                                        <SwipeItems Mode="Reveal">
+                                            <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UsageViewModel}}, Path=DeleteSessionCommand}"
+                                                           CommandParameter="{Binding .}">
+                                                <Border Style="{StaticResource SwipeActionDeleteBorderStyle}">
+                                                    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="4">
+                                                        <Label Text="{x:Static helpers:KopolArtFaIcons.Trash}"
+                                                               Style="{StaticResource SwipeActionIconLabelStyle}" />
+                                                        <Label Text="حذف"
+                                                               Style="{StaticResource SwipeActionTextLabelStyle}" />
+                                                    </VerticalStackLayout>
+                                                </Border>
+                                            </SwipeItemView>
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+
+                                    <Grid Padding="4,2,4,14">
+                                        <Border Style="{StaticResource LuxuryCardStyle}"
+                                                Padding="14,12">
+                                            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto" RowSpacing="6">
+                                                <Label Grid.Row="0" Grid.Column="0"
+                                                       Text="{Binding FormattedDate}"
+                                                       Style="{StaticResource ItemTitleLabelStyle}"
+                                                       LineBreakMode="TailTruncation"
+                                                       VerticalOptions="Center" />
+
+                                                <Border Grid.Row="0" Grid.Column="1"
+                                                        Style="{StaticResource CardDeleteButtonBorderStyle}">
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UsageViewModel}}, Path=DeleteSessionCommand}"
+                                                                              CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>
+                                                    <Label Text="{x:Static helpers:KopolArtFaIcons.Trash}"
+                                                           Style="{StaticResource CardDeleteIconLabelStyle}" />
+                                                </Border>
+
+                                                <VerticalStackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Spacing="4">
+                                                    <Grid ColumnDefinitions="Auto,*,Auto">
+                                                        <HorizontalStackLayout Spacing="4">
+                                                            <Label Text="مدت:" FontSize="{StaticResource FontSize11}" FontFamily="KopolFontMedium" TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                                                            <Label Text="{Binding FormattedDuration}" FontSize="{StaticResource FontSize11}" FontFamily="KopolFontBlack" TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}" />
+                                                        </HorizontalStackLayout>
+
+                                                        <HorizontalStackLayout Grid.Column="2" Spacing="4">
+                                                            <Label Text="ترافیک:" FontSize="{StaticResource FontSize11}" FontFamily="KopolFontMedium" TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                                                            <Label Text="{Binding FormattedData}" FontSize="{StaticResource FontSize11}" FontFamily="KopolFontBlack" TextColor="{AppThemeBinding Light={StaticResource BrandSecondary}, Dark={StaticResource BrandAccent}}" />
+                                                        </HorizontalStackLayout>
+                                                    </Grid>
+
+                                                    <Grid ColumnDefinitions="Auto,*">
+                                                        <Label Grid.Column="0" Text="آدرس IP:" FontSize="{StaticResource FontSize11}" FontFamily="KopolFontMedium" TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" VerticalOptions="Center" />
+                                                        <Label Grid.Column="1" Text="{Binding IpAddress}" FontSize="{StaticResource FontSize11}" FontFamily="KopolFontMedium" TextColor="{AppThemeBinding Light={StaticResource BrandSlateBlue}, Dark={StaticResource BrandSlateBlueLight}}" LineBreakMode="TailTruncation" VerticalOptions="Center" Margin="4,0,0,0" />
+                                                    </Grid>
+                                                </VerticalStackLayout>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </SwipeView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Grid>
+
+            <!-- TAB 2: ANALYTICS & TRENDS CONTENT -->
+            <ScrollView IsVisible="{Binding IsAnalyticsTabSelected}"
+                        VerticalScrollBarVisibility="Never">
+                <VerticalStackLayout Spacing="14" Padding="0,2,0,16">
+                    <!-- Period Filter Chips -->
+                    <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                        <HorizontalStackLayout Spacing="8" BindableLayout.ItemsSource="{Binding PeriodOptions}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="models:UsageAnalyticsPeriodOption">
+                                    <Border StrokeThickness="1.2"
+                                            Padding="14,7"
+                                            VerticalOptions="Center">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="16" />
+                                        </Border.StrokeShape>
+                                        <Border.Triggers>
+                                            <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                                <Setter Property="BackgroundColor" Value="{StaticResource BrandPrimary}" />
+                                                <Setter Property="Stroke" Value="{StaticResource BrandPrimary}" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="False">
+                                                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}" />
+                                                <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource FilterChipBorderLight}, Dark={StaticResource FilterChipBorderDark}}" />
+                                            </DataTrigger>
+                                        </Border.Triggers>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UsageViewModel}}, Path=SelectPeriodCommand}"
+                                                                  CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+                                        <Label Text="{Binding Title}"
+                                               FontFamily="KopolFontBold"
+                                               FontSize="{StaticResource FontSize12}">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                                    <Setter Property="TextColor" Value="{StaticResource White}" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="False">
+                                                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </HorizontalStackLayout>
+                    </ScrollView>
+
+                    <!-- Key Metrics: Daily Average & Peak Consumption Cards -->
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <!-- Average Card -->
+                        <Border Grid.Column="0" Style="{StaticResource LuxuryCardStyle}" Padding="14,12">
+                            <VerticalStackLayout Spacing="4">
+                                <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                    <Label Text="{x:Static helpers:KopolArtFaIcons.Clock}"
+                                           FontFamily="KopolArtFa"
+                                           FontSize="{StaticResource FontSize14}"
+                                           TextColor="{StaticResource BrandPrimary}"
+                                           VerticalOptions="Center" />
+                                    <Label Text="میانگین مدت گردش"
+                                           FontSize="{StaticResource FontSize11}"
+                                           FontFamily="KopolFontMedium"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                           VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+                                <Label Text="{Binding AverageDurationText}"
+                                       FontSize="{StaticResource FontSize14}"
+                                       FontFamily="KopolFontBlack"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                       LineBreakMode="TailTruncation" />
+                                <Label Text="در هر دوره زمانی"
+                                       FontSize="{StaticResource FontSize9_5}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- Peak Card -->
+                        <Border Grid.Column="1" Style="{StaticResource LuxuryCardStyle}" Padding="14,12">
+                            <VerticalStackLayout Spacing="4">
+                                <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                    <Label Text="{x:Static helpers:KopolArtFaIcons.Fire}"
+                                           FontFamily="KopolArtFa"
+                                           FontSize="{StaticResource FontSize14}"
+                                           TextColor="{StaticResource BrandSecondary}"
+                                           VerticalOptions="Center" />
+                                    <Label Text="اوج وب‌گردی"
+                                           FontSize="{StaticResource FontSize11}"
+                                           FontFamily="KopolFontMedium"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                           VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+                                <Label Text="{Binding PeakDurationText}"
+                                       FontSize="{StaticResource FontSize14}"
+                                       FontFamily="KopolFontBlack"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandSecondary}, Dark={StaticResource BrandAccent}}"
+                                       LineBreakMode="TailTruncation" />
+                                <Label Text="{Binding PeakDateText}"
+                                       FontSize="{StaticResource FontSize9_5}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                       LineBreakMode="TailTruncation" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+
+                    <!-- Interactive Bar Chart Card -->
+                    <Border Style="{StaticResource LuxuryBorderlessCardStyle}" Padding="16,14">
+                        <VerticalStackLayout Spacing="14">
+                            <!-- Chart Header & Interactive Selected Day Info -->
+                            <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                                <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                    <Label Text="نمودار فعالیت"
+                                           FontFamily="KopolFontBold"
+                                           FontSize="{StaticResource FontSize13_5}"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                    <Label Text="{Binding SelectedBar.FullDateString, FallbackValue='برای جزئیات ستون‌ها را لمس کنید'}"
+                                           FontFamily="KopolFontMedium"
+                                           FontSize="{StaticResource FontSize10_5}"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                                </VerticalStackLayout>
+
+                                <!-- Selected Bar Duration Pill -->
+                                <Border Grid.Column="1"
+                                        BackgroundColor="Transparent"
+                                        Stroke="{StaticResource BrandPrimary}"
+                                        StrokeThickness="1"
+                                        Padding="10,4"
+                                        VerticalOptions="Center">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="12" />
+                                    </Border.StrokeShape>
+                                    <Label Text="{Binding SelectedBar.FormattedDuration, FallbackValue='- '}"
+                                           FontFamily="KopolFontBold"
+                                           FontSize="{StaticResource FontSize11_5}"
+                                           TextColor="{StaticResource BrandPrimary}" />
+                                </Border>
+                            </Grid>
+
+                            <BoxView Style="{StaticResource CardDividerBoxViewStyle}" />
+
+                            <!-- Empty State if no usage -->
+                            <VerticalStackLayout IsVisible="{Binding IsAnalyticsEmpty}"
+                                                 HorizontalOptions="Center"
+                                                 Padding="0,30"
+                                                 Spacing="8">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.ChartPie}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="{StaticResource FontSize32}"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                       HorizontalOptions="Center" />
+                                <Label Text="در این بازه زمانی گردشی ثبت نشده است"
+                                       FontFamily="KopolFontMedium"
+                                       FontSize="{StaticResource FontSize12}"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                       HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+
+                            <!-- The Bars Scrollable Container -->
+                            <ScrollView x:Name="ChartScrollView"
+                                        IsVisible="{Binding HasAnalyticsData}"
+                                        Orientation="Horizontal"
+                                        HorizontalScrollBarVisibility="Never"
+                                        FlowDirection="LeftToRight">
+                                <HorizontalStackLayout x:Name="ChartBarsLayout"
+                                                       Spacing="8"
+                                                       Padding="6,6,6,6"
+                                                       HorizontalOptions="Center"
+                                                       BindableLayout.ItemsSource="{Binding ChartBars}">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate x:DataType="models:UsageAnalyticsBarItem">
+                                            <VerticalStackLayout Spacing="6"
+                                                                 HorizontalOptions="Center"
+                                                                 VerticalOptions="End">
+                                                <VerticalStackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UsageViewModel}}, Path=SelectBarCommand}"
+                                                                          CommandParameter="{Binding .}" />
+                                                </VerticalStackLayout.GestureRecognizers>
+
+                                                <!-- Bar Vertical Track (Height 130dp) -->
+                                                <Grid HeightRequest="130"
+                                                      WidthRequest="32"
+                                                      HorizontalOptions="Center"
+                                                      VerticalOptions="End">
+                                                    <!-- The actual colored bar -->
+                                                    <Border HeightRequest="{Binding BarHeightDp}"
+                                                            WidthRequest="14"
+                                                            VerticalOptions="End"
+                                                            HorizontalOptions="Center"
+                                                            StrokeThickness="1">
+                                                        <Border.StrokeShape>
+                                                            <RoundRectangle CornerRadius="7,7,3,3" />
+                                                        </Border.StrokeShape>
+                                                        <Border.Triggers>
+                                                            <!-- Selected state -->
+                                                            <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                                                <Setter Property="BackgroundColor" Value="{StaticResource BrandPrimary}" />
+                                                                <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource BrandPrimaryDark}, Dark={StaticResource White}}" />
+                                                                <Setter Property="WidthRequest" Value="18" />
+                                                            </DataTrigger>
+                                                            <!-- Peak state but not selected -->
+                                                            <MultiTrigger TargetType="Border">
+                                                                <MultiTrigger.Conditions>
+                                                                    <BindingCondition Binding="{Binding IsPeak}" Value="True" />
+                                                                    <BindingCondition Binding="{Binding IsSelected}" Value="False" />
+                                                                </MultiTrigger.Conditions>
+                                                                <Setter Property="BackgroundColor" Value="{StaticResource BrandSecondary}" />
+                                                                <Setter Property="Stroke" Value="{StaticResource BrandSecondary}" />
+                                                            </MultiTrigger>
+                                                            <!-- Normal with usage -->
+                                                            <MultiTrigger TargetType="Border">
+                                                                <MultiTrigger.Conditions>
+                                                                    <BindingCondition Binding="{Binding HasUsage}" Value="True" />
+                                                                    <BindingCondition Binding="{Binding IsSelected}" Value="False" />
+                                                                    <BindingCondition Binding="{Binding IsPeak}" Value="False" />
+                                                                </MultiTrigger.Conditions>
+                                                                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}" />
+                                                                <Setter Property="Stroke" Value="Transparent" />
+                                                                <Setter Property="Opacity" Value="0.65" />
+                                                            </MultiTrigger>
+                                                            <!-- Empty day (no usage) -->
+                                                            <DataTrigger TargetType="Border" Binding="{Binding HasUsage}" Value="False">
+                                                                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}" />
+                                                                <Setter Property="Stroke" Value="Transparent" />
+                                                                <Setter Property="WidthRequest" Value="6" />
+                                                                <Setter Property="HeightRequest" Value="4" />
+                                                            </DataTrigger>
+                                                        </Border.Triggers>
+                                                    </Border>
+                                                </Grid>
+
+                                                <!-- Day Label Below Bar -->
+                                                <Label Text="{Binding ShortDayName}"
+                                                       FontFamily="KopolFontBold"
+                                                       FontSize="{StaticResource FontSize10_5}"
+                                                       HorizontalOptions="Center"
+                                                       HorizontalTextAlignment="Center">
+                                                    <Label.Triggers>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                                            <Setter Property="TextColor" Value="{StaticResource BrandPrimary}" />
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="False">
+                                                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                                                        </DataTrigger>
+                                                    </Label.Triggers>
+                                                </Label>
+                                            </VerticalStackLayout>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </HorizontalStackLayout>
+                            </ScrollView>
+
+                            <!-- Legend / Hint -->
+                            <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center" Margin="0,4,0,0">
+                                <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                    <Ellipse WidthRequest="8" HeightRequest="8" Fill="{StaticResource BrandPrimary}" VerticalOptions="Center" />
+                                    <Label Text="انتخاب‌شده" FontSize="{StaticResource FontSize10}" FontFamily="KopolFontMedium" TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" VerticalOptions="Center" />
+                                    <Ellipse WidthRequest="8" HeightRequest="8" Fill="{StaticResource BrandSecondary}" VerticalOptions="Center" Margin="8,0,0,0" />
+                                    <Label Text="اوج مصرف" FontSize="{StaticResource FontSize10}" FontFamily="KopolFontMedium" TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+                                <Label Grid.Column="2"
+                                       Text="لمس ستون = جزئیات"
+                                       FontSize="{StaticResource FontSize9_5}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                       VerticalOptions="Center" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Total Period Overview Card -->
+                    <Border Style="{StaticResource LuxuryCardStyle}" Padding="16,14">
+                        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto,*" ColumnSpacing="16" RowSpacing="8">
+                            <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="2" VerticalOptions="Center">
+                                <Label Text="کل زمان در این بازه:" FontSize="{StaticResource FontSize11}" FontFamily="KopolFontMedium" TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                                <Label Text="{Binding TotalDurationText}" FontSize="{StaticResource FontSize13_5}" FontFamily="KopolFontBlack" TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}" />
+                            </VerticalStackLayout>
+
+                            <BoxView Grid.Row="0" Grid.Column="1" WidthRequest="1" HeightRequest="36" Color="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}" VerticalOptions="Center" Margin="2,0" />
+
+                            <VerticalStackLayout Grid.Row="0" Grid.Column="2" Spacing="2" VerticalOptions="Center">
+                                <Label Text="کل ترافیک مصرفی:" FontSize="{StaticResource FontSize11}" FontFamily="KopolFontMedium" TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                                <Label Text="{Binding TotalDataText}" FontSize="{StaticResource FontSize13_5}" FontFamily="KopolFontBlack" TextColor="{AppThemeBinding Light={StaticResource BrandSecondary}, Dark={StaticResource BrandAccent}}" />
+                            </VerticalStackLayout>
+
+                            <!-- Selected Bar Details (if selected) -->
+                            <Border Grid.Row="1" Grid.ColumnSpan="3"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}"
+                                    Stroke="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}"
+                                    StrokeThickness="1"
+                                    Padding="12,8"
+                                    Margin="0,4,0,0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="12" />
+                                </Border.StrokeShape>
+                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                    <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                                        <Label Text="تاریخ:" FontSize="{StaticResource FontSize10_5}" FontFamily="KopolFontMedium" TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                                        <Label Text="{Binding SelectedBar.FullDateString, FallbackValue='-'}" FontSize="{StaticResource FontSize10_5}" FontFamily="KopolFontBold" TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout Grid.Column="2" Spacing="4" VerticalOptions="Center">
+                                        <Label Text="داده:" FontSize="{StaticResource FontSize10_5}" FontFamily="KopolFontMedium" TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                                        <Label Text="{Binding SelectedBar.FormattedData, FallbackValue='-'}" FontSize="{StaticResource FontSize10_5}" FontFamily="KopolFontBold" TextColor="{StaticResource BrandSecondary}" />
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- Smart Insight Banner -->
+                    <Border Style="{StaticResource LuxuryCardStyle}"
+                            Padding="14,12"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}">
+                        <Grid ColumnDefinitions="Auto,*">
+                            <Border WidthRequest="34" HeightRequest="34"
+                                    BackgroundColor="Transparent"
+                                    Stroke="{StaticResource BrandPrimary}"
+                                    StrokeThickness="1"
+                                    VerticalOptions="Center">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.DocTextInv}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="{StaticResource FontSize15}"
+                                       TextColor="{StaticResource BrandPrimary}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Border>
+
+                            <VerticalStackLayout Grid.Column="1" Margin="10,0,0,0" VerticalOptions="Center" Spacing="2">
+                                <Label Text="تحلیل هوشمند کپل‌آرت"
+                                       FontFamily="KopolFontBold"
+                                       FontSize="{StaticResource FontSize12}"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                <Label Text="{Binding SmartInsightText}"
+                                       FontFamily="KopolFontMedium"
+                                       FontSize="{StaticResource FontSize11}"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>

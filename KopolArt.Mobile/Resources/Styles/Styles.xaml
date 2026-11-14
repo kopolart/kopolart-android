@@ -1,0 +1,846 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:KopolArt.Mobile.Models">
+
+    <!-- Typography scale -->
+    <x:Double x:Key="FontSize9_5">9.5</x:Double>
+    <x:Double x:Key="FontSize10">10</x:Double>
+    <x:Double x:Key="FontSize10_5">10.5</x:Double>
+    <x:Double x:Key="FontSize11">11</x:Double>
+    <x:Double x:Key="FontSize11_5">11.5</x:Double>
+    <x:Double x:Key="FontSize12">12</x:Double>
+    <x:Double x:Key="FontSize12_5">12.5</x:Double>
+    <x:Double x:Key="FontSize13">13</x:Double>
+    <x:Double x:Key="FontSize13_5">13.5</x:Double>
+    <x:Double x:Key="FontSize14">14</x:Double>
+    <x:Double x:Key="FontSize15">15</x:Double>
+    <x:Double x:Key="FontSize15_5">15.5</x:Double>
+    <x:Double x:Key="FontSize16">16</x:Double>
+    <x:Double x:Key="FontSize17">17</x:Double>
+    <x:Double x:Key="FontSize18">18</x:Double>
+    <x:Double x:Key="FontSize20">20</x:Double>
+    <x:Double x:Key="FontSize21">21</x:Double>
+    <x:Double x:Key="FontSize22">22</x:Double>
+    <x:Double x:Key="FontSize23">23</x:Double>
+    <x:Double x:Key="FontSize25">25</x:Double>
+    <x:Double x:Key="FontSize25_5">25.5</x:Double>
+    <x:Double x:Key="FontSize26">26</x:Double>
+    <x:Double x:Key="FontSize32">32</x:Double>
+    <x:Double x:Key="FontSize38">38</x:Double>
+
+    <Style TargetType="Border">
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
+        <Setter Property="StrokeShape" Value="Rectangle"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+    </Style>
+
+    <Style TargetType="BoxView">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
+    </Style>
+
+    <Style TargetType="Button">
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource BrandPrimary}" />
+        <Setter Property="FontFamily" Value="KopolFontMedium"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="BorderWidth" Value="0"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Padding" Value="14,10"/>
+        <Setter Property="MinimumHeightRequest" Value="44"/>
+        <Setter Property="MinimumWidthRequest" Value="44"/>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
+                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="PointerOver" />
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Label">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="KopolFontMedium" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Span">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+    </Style>
+
+    <Style TargetType="Page" ApplyToDerivedTypes="True">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}" />
+    </Style>
+
+
+    <Style TargetType="NavigationPage">
+        <Setter Property="BarBackgroundColor" Value="{AppThemeBinding Light={StaticResource BrandBackground}, Dark={StaticResource BrandBackgroundDark}}" />
+        <Setter Property="BarTextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+        <Setter Property="IconColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+    </Style>
+
+    <Style TargetType="Shell" ApplyToDerivedTypes="True">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource BrandBackground}, Dark={StaticResource BrandBackgroundDark}}" />
+        <Setter Property="ForegroundColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+        <Setter Property="TitleColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+        <Setter Property="DisabledColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+        <Setter Property="UnselectedColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray300}}" />
+    </Style>
+
+    <Style TargetType="Switch">
+        <Setter Property="OnColor" Value="{StaticResource BrandPrimary}" />
+        <Setter Property="ThumbColor" Value="{StaticResource White}" />
+        <Setter Property="OffColor" Value="{AppThemeBinding Light={StaticResource SwitchTrackOffLight}, Dark={StaticResource CardBorderDark}}" />
+    </Style>
+
+    <Style TargetType="CheckBox">
+        <Setter Property="Color" Value="{StaticResource BrandPrimary}" />
+    </Style>
+
+    <!-- Luxury Card Style -->
+    <Style x:Key="LuxuryCardStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="20" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow Brush="{AppThemeBinding Light={StaticResource PopupShadow}, Dark={StaticResource PopupShadowDark}}"
+                        Offset="0,4"
+                        Radius="12"
+                        Opacity="0.23" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Luxury Borderless Card Style (Card background without border outline) -->
+    <Style x:Key="LuxuryBorderlessCardStyle" TargetType="Border" BasedOn="{StaticResource LuxuryCardStyle}">
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Stroke" Value="Transparent" />
+    </Style>
+
+    <!-- Luxury Primary Action Button -->
+    <Style x:Key="LuxuryPrimaryButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource BrandPrimary}" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="FontFamily" Value="KopolFontBold" />
+        <Setter Property="FontSize" Value="14.5" />
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="HeightRequest" Value="52" />
+    </Style>
+
+    <!-- Luxury Ghost / Outline Button -->
+    <Style x:Key="LuxuryGhostButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="FontFamily" Value="KopolFontBold" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="CornerRadius" Value="14" />
+        <Setter Property="HeightRequest" Value="44" />
+    </Style>
+
+    <!-- Luxury Accent Button (gold/bronze action, e.g. apply wallpaper) -->
+    <Style x:Key="LuxuryAccentButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource BrandAccent}, Dark={StaticResource BrandSecondary}}" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="FontFamily" Value="KopolFontBold" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="CornerRadius" Value="14" />
+        <Setter Property="HeightRequest" Value="42" />
+    </Style>
+
+    <!-- Navigation & Header Styles -->
+    <Style x:Key="TopBarBackButtonStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="WidthRequest" Value="40" />
+        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="TopBarBackIconStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="KopolArtFa" />
+        <Setter Property="FontSize" Value="25" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="TopBarTitleStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="18.5" />
+        <Setter Property="FontFamily" Value="KopolFontBlack" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Margin" Value="8,0,0,0" />
+    </Style>
+
+    <Style x:Key="TopBarDestructiveButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{StaticResource StatusRed}" />
+        <Setter Property="FontFamily" Value="KopolFontBlack" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Padding" Value="8,4" />
+        <Setter Property="HeightRequest" Value="36" />
+    </Style>
+
+    <!-- Search & Filter Styles -->
+    <Style x:Key="SearchCardStyle" TargetType="Border" BasedOn="{StaticResource LuxuryCardStyle}">
+        <Setter Property="Padding" Value="12,4" />
+    </Style>
+
+    <Style x:Key="SearchIconStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="KopolArtFa" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Margin" Value="4,0,8,0" />
+    </Style>
+
+    <Style x:Key="SearchEntryStyle" TargetType="Entry">
+        <Setter Property="FontFamily" Value="KopolFontMedium" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+        <Setter Property="ClearButtonVisibility" Value="WhileEditing" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="SortButtonCardStyle" TargetType="Border" BasedOn="{StaticResource LuxuryCardStyle}">
+        <Setter Property="Padding" Value="10,0" />
+        <Setter Property="HeightRequest" Value="46" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="SortIconStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="KopolArtFa" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="SortLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="11.5" />
+        <Setter Property="FontFamily" Value="KopolFontBold" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <!-- Empty State Styles -->
+    <Style x:Key="EmptyStateCircleBorderStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="WidthRequest" Value="64" />
+        <Setter Property="HeightRequest" Value="64" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="32" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="EmptyStateIconLabelStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="KopolArtFa" />
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="EmptyStateTitleLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontFamily" Value="KopolFontBlack" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="EmptyStateDescriptionLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontFamily" Value="KopolFontMedium" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="EmptyStateActionButtonStyle" TargetType="Button">
+        <Setter Property="FontFamily" Value="KopolFontBold" />
+        <Setter Property="FontSize" Value="12.5" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource BrandPrimary}" />
+        <Setter Property="CornerRadius" Value="14" />
+        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="MinimumHeightRequest" Value="40" />
+        <Setter Property="Padding" Value="20,0" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="Margin" Value="0,6,0,0" />
+    </Style>
+
+    <!-- Swipe Action Styles -->
+    <Style x:Key="SwipeActionDeleteBorderStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource StatusRed}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="WidthRequest" Value="76" />
+        <Setter Property="Margin" Value="4,2,4,14" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="18" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SwipeActionShareBorderStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource ActionBlue}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="WidthRequest" Value="82" />
+        <Setter Property="Margin" Value="4,2,4,14" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="18" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SwipeActionAmberBorderStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource ActionAmber}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="WidthRequest" Value="82" />
+        <Setter Property="Margin" Value="4,2,4,14" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="18" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SwipeActionSlateBlueBorderStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource BrandSlateBlue}, Dark={StaticResource BrandSlateBlueLight}}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="WidthRequest" Value="82" />
+        <Setter Property="Margin" Value="4,2,4,14" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="18" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SwipeActionIconLabelStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="KopolArtFa" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="SwipeActionTextLabelStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="KopolFontBold" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+    </Style>
+
+    <!-- Card Common & Item Styles -->
+    <Style x:Key="CardDividerBoxViewStyle" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="1" />
+        <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}" />
+    </Style>
+
+    <Style x:Key="CardSectionTitleLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="KopolFontBlack" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}" />
+    </Style>
+
+    <Style x:Key="CardRowIconBorderStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="WidthRequest" Value="40" />
+        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="12" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CardRowIconLabelStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="KopolArtFa" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="CardRowTitleLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="KopolFontBold" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+        <Setter Property="LineBreakMode" Value="TailTruncation" />
+    </Style>
+
+    <Style x:Key="CardRowSubtitleLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontFamily" Value="KopolFontMedium" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+        <Setter Property="LineBreakMode" Value="TailTruncation" />
+    </Style>
+
+    <Style x:Key="CardDeleteButtonBorderStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="WidthRequest" Value="36" />
+        <Setter Property="HeightRequest" Value="36" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="CardDeleteIconLabelStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="KopolArtFa" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="TextColor" Value="{StaticResource StatusRed}" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="ItemCategoryBadgeBorderStyle" TargetType="Border">
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Padding" Value="8,2" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="8" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ItemCategoryBadgeLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="FontFamily" Value="KopolFontBold" />
+    </Style>
+
+    <Style x:Key="ItemTitleLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="KopolFontBlack" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+    </Style>
+
+    <Style x:Key="ItemSubtitleLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontFamily" Value="KopolFontMedium" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+    </Style>
+
+    <Style x:Key="ItemTimeLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontFamily" Value="KopolFontBlack" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}" />
+    </Style>
+
+    <Style x:Key="ItemDateLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontFamily" Value="KopolFontMedium" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+    </Style>
+
+    <Style x:Key="ItemDotSeparatorLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+    </Style>
+
+    <!-- Destructive Outline Button Style -->
+    <Style x:Key="LuxuryDestructiveGhostButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource StatusRed}, Dark={StaticResource DarkRedDark}}" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource StatusRed}, Dark={StaticResource DarkRedDark}}" />
+        <Setter Property="BorderWidth" Value="1.5" />
+        <Setter Property="FontFamily" Value="KopolFontBold" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="CornerRadius" Value="14" />
+        <Setter Property="HeightRequest" Value="42" />
+    </Style>
+
+    <!-- Popup Common Styles -->
+    <Style x:Key="PopupCardBorderStyle" TargetType="Border">
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource PopupBackground}, Dark={StaticResource PopupBackgroundDark}}" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="WidthRequest" Value="320" />
+        <Setter Property="MaximumWidthRequest" Value="320" />
+        <Setter Property="Margin" Value="20,16" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="24" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow Brush="{AppThemeBinding Light={StaticResource PopupShadow}, Dark={StaticResource PopupShadowDark}}" Offset="0,8" Radius="24" Opacity="0.4" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="PopupCloseLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource PopupCloseButton}, Dark={StaticResource Gray200}}" />
+    </Style>
+
+    <Style x:Key="PopupTitleLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="19.5" />
+        <Setter Property="FontFamily" Value="KopolFontBlack" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource PopupTitle}, Dark={StaticResource PopupTitleDark}}" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="PopupSubtitleLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="12.5" />
+        <Setter Property="FontFamily" Value="KopolFontMedium" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource PopupSubtitle}, Dark={StaticResource PopupSubtitleDark}}" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="SocialPromoButtonBorderStyle" TargetType="Border">
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="HeightRequest" Value="42" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="12" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Settings Theme Option Border Style -->
+    <Style x:Key="ThemeOptionBorderStyle" TargetType="Border">
+        <Setter Property="StrokeThickness" Value="1.5" />
+        <Setter Property="HeightRequest" Value="44" />
+        <Setter Property="Padding" Value="4,0" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="12" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Date Group Header Styles -->
+    <Style x:Key="DateGroupHeaderTitleStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="13.5" />
+        <Setter Property="FontFamily" Value="KopolFontBlack" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="DateGroupHeaderBadgeStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Padding" Value="7,2" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="8" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DateGroupHeaderBadgeLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="10.5" />
+        <Setter Property="FontFamily" Value="KopolFontBold" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="DateGroupHeaderDividerStyle" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="1" />
+        <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Opacity" Value="0.6" />
+    </Style>
+
+    <!-- Dashboard Instant Search Bar Styles -->
+    <Style x:Key="DashboardSearchBarCardStyle" TargetType="Border" BasedOn="{StaticResource LuxuryCardStyle}">
+        <Setter Property="Padding" Value="6,5,6,5" />
+        <Setter Property="HeightRequest" Value="56" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="DashboardSearchCategoryPillStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource BrandPrimaryTintLight}, Dark={StaticResource BrandPrimaryTintDark}}" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Padding" Value="9,0" />
+        <Setter Property="HeightRequest" Value="42" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="14" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DashboardSearchBarDividerStyle" TargetType="BoxView">
+        <Setter Property="WidthRequest" Value="1" />
+        <Setter Property="HeightRequest" Value="24" />
+        <Setter Property="Margin" Value="6,0" />
+        <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="DashboardSearchActionButtonStyle" TargetType="Border">
+        <Setter Property="WidthRequest" Value="42" />
+        <Setter Property="HeightRequest" Value="42" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource BrandPrimaryTintLight}, Dark={StaticResource BrandPrimaryTintDark}}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="14" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Search Suggestions Live Dropdown Styles -->
+    <Style x:Key="SearchSuggestionsCardStyle" TargetType="Border" BasedOn="{StaticResource LuxuryCardStyle}">
+        <Setter Property="Margin" Value="0,-4,0,0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="18" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SearchSuggestionImageBorderStyle" TargetType="Border">
+        <Setter Property="WidthRequest" Value="40" />
+        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="10" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SearchSuggestionRowBorderStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Padding" Value="12,7" />
+    </Style>
+
+    <!-- Recent Search Chips Styles -->
+    <Style x:Key="RecentSearchChipBorderStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HeightRequest" Value="30" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="12" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="RecentSearchChipLabelStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="KopolFontMedium" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="LineBreakMode" Value="NoWrap" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="RecentSearchChipDeleteIconStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="KopolArtFa" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+    </Style>
+
+
+    <!-- Gesture Guide Styles -->
+    <Style x:Key="GestureIconBorderStyle" TargetType="Border">
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="WidthRequest" Value="40" />
+        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="12" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="GestureIconHeaderBorderStyle" TargetType="Border">
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="WidthRequest" Value="46" />
+        <Setter Property="HeightRequest" Value="46" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="14" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="GestureBadgeBorderStyle" TargetType="Border">
+        <Setter Property="Padding" Value="8,3" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="8" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="GestureBadgeLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="FontFamily" Value="KopolFontBold" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="GestureTitleLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="13.5" />
+        <Setter Property="FontFamily" Value="KopolFontBlack" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+        <Setter Property="LineBreakMode" Value="TailTruncation" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Margin" Value="8,0,0,0" />
+    </Style>
+
+    <Style x:Key="GestureSubtitleLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontFamily" Value="KopolFontBold" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+    </Style>
+
+    <Style x:Key="GestureBodyLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontFamily" Value="KopolFontMedium" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+        <Setter Property="LineHeight" Value="1.3" />
+    </Style>
+    <!-- Wallpaper Preview Styles -->
+    <Style x:Key="WallpaperPreviewFrameStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource OffBlack}" />
+        <Setter Property="StrokeThickness" Value="3" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="34" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="WallpaperTargetChipStyle" TargetType="Border" x:DataType="models:WallpaperTargetOption">
+        <Setter Property="StrokeThickness" Value="1.2" />
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource FilterChipBorderLight}, Dark={StaticResource FilterChipBorderDark}}" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="14" />
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}" />
+                <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="WallpaperTargetChipLabelStyle" TargetType="Label" x:DataType="models:WallpaperTargetOption">
+        <Setter Property="FontFamily" Value="KopolFontBold" />
+        <Setter Property="FontSize" Value="12.5" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Style.Triggers>
+            <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                <Setter Property="TextColor" Value="{StaticResource White}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="WallpaperHintLabelStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="KopolFontMedium" />
+        <Setter Property="FontSize" Value="11.5" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="LineHeight" Value="1.4" />
+    </Style>
+
+    <Style x:Key="WallpaperPreviewStatusLabelStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="KopolFontMedium" />
+        <Setter Property="FontSize" Value="12.5" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="WallpaperPreviewErrorLabelStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="KopolFontMedium" />
+        <Setter Property="FontSize" Value="12.5" />
+        <Setter Property="TextColor" Value="{StaticResource StatusRed}" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+    </Style>
+    <Style x:Key="WallpaperSheetFileLabelStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="KopolFontBold" />
+        <Setter Property="FontSize" Value="12.5" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+        <Setter Property="LineBreakMode" Value="MiddleTruncation" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="WallpaperSheetMetaLabelStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="KopolFontMedium" />
+        <Setter Property="FontSize" Value="11.5" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="WallpaperPreviewErrorIconStyle" TargetType="Label">
+        <Setter Property="FontFamily" Value="KopolArtFa" />
+        <Setter Property="FontSize" Value="34" />
+        <Setter Property="TextColor" Value="{StaticResource StatusRed}" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+    </Style>
+</ResourceDictionary>

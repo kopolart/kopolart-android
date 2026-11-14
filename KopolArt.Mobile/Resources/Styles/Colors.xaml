@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Base UI Colors -->
+    <Color x:Key="White">#FFFCFA</Color> <!-- Hardcoded in Android vector drawables -->
+    <Color x:Key="Black">#000000</Color>
+    <Color x:Key="OffBlack">#1f1f1f</Color>
+
+    <!-- Gray Scale (only keeping what Styles.xaml and the app actually reference) -->
+    <Color x:Key="Gray200">#C8C8C8</Color>
+    <Color x:Key="Gray300">#ACACAC</Color>
+    <Color x:Key="Gray500">#666</Color>
+    <Color x:Key="Gray600">#404040</Color>
+    <Color x:Key="Gray950">#141414</Color>
+
+    <!-- KopolArt Brand Colors -->
+    <Color x:Key="BrandBackground">#E2CDB4</Color> <!-- Hardcoded in Constants.cs, Android colors.xml & splash_screen.xml -->
+    <Color x:Key="BrandBackgroundDark">#403E3B</Color>
+    <Color x:Key="BrandPrimary">#8C5634</Color>
+    <Color x:Key="BrandPrimaryDark">#C8A582</Color> <!-- Hardcoded in UpdatePopup.xaml.cs & Android values-night/colors.xml -->
+    <Color x:Key="BrandPrimaryLight">#FCD8AE</Color>
+    <Color x:Key="BrandPrimarySubtext">#F2E6D8</Color>
+    <Color x:Key="BrandPrimaryTintLight">#15865231</Color>
+    <Color x:Key="BrandPrimaryTintDark">#35C8A582</Color>
+    <Color x:Key="BrandAccentTintDark">#22F2A93B</Color>
+
+    <!-- Popup Colors -->
+    <Color x:Key="PopupBackground">#FFF8F0</Color>
+    <Color x:Key="PopupBackgroundDark">#3A3835</Color>
+    <Color x:Key="PopupShadow">#44000000</Color>
+    <Color x:Key="PopupShadowDark">#88000000</Color>
+    <Color x:Key="PopupCloseButton">#999999</Color>
+    <Color x:Key="PopupTitle">#333333</Color>
+    <Color x:Key="PopupTitleDark">#FFF8F0</Color>
+    <Color x:Key="PopupSubtitle">#777777</Color> <!-- Hardcoded in UpdatePopup.xaml.cs -->
+    <Color x:Key="PopupSubtitleDark">#B5B0AB</Color> <!-- Hardcoded in UpdatePopup.xaml.cs -->
+
+    <!-- Social Media Brand Colors -->
+    <Color x:Key="InstagramBrand">#B154C4</Color>
+    <Color x:Key="TelegramBrand">#249CF0</Color> <!-- Hardcoded in CategoryBadgeHelper.cs -->
+    <Color x:Key="EitaaBrand">#ED9537</Color>
+    <Color x:Key="BaleBrand">#00B38F</Color>
+
+    <!-- Luxury Design System Colors -->
+    <Color x:Key="BrandSecondary">#AD7239</Color>
+    <Color x:Key="BrandAccent">#CF914C</Color> <!-- Hardcoded in CustomAlertService.cs -->
+    <Color x:Key="BrandSlateBlue">#505B78</Color>
+    <Color x:Key="BrandSlateBlueLight">#6A7799</Color>
+    <Color x:Key="BrandSlateBlueTintLight">#15535E7B</Color>
+    <Color x:Key="BrandSlateBlueTintDark">#35626F8F</Color>
+    <Color x:Key="BrandSlateBlueBorderLight">#25535E7B</Color>
+    <Color x:Key="BrandSlateBlueBorderDark">#45626F8F</Color>
+
+    <Color x:Key="CardBackgroundLight">#FFFDF9</Color> <!-- Hardcoded in AlertCardBuilder.cs -->
+    <Color x:Key="CardBackgroundDark">#2C2A28</Color> <!-- Hardcoded in AlertCardBuilder.cs -->
+    <Color x:Key="CardBorderLight">#E4D5C3</Color> <!-- Hardcoded in AlertCardBuilder.cs & CustomAlertService.cs -->
+    <Color x:Key="CardBorderDark">#4D4A47</Color> <!-- Hardcoded in AlertCardBuilder.cs & CustomAlertService.cs -->
+    <Color x:Key="FilterChipBorderLight">#B89F86</Color>
+    <Color x:Key="FilterChipBorderDark">#6E6862</Color>
+
+    <Color x:Key="SurfaceLight">#F7EFE4</Color>
+    <Color x:Key="SurfaceDark">#242220</Color>
+
+    <!-- Switch Track Colors -->
+    <Color x:Key="SwitchTrackOffLight">#C8B8A6</Color>
+
+    <Color x:Key="TextPrimaryLight">#201C18</Color> <!-- Hardcoded in AlertCardBuilder.cs & CustomAlertService.cs -->
+    <Color x:Key="TextPrimaryDark">#F9F6F0</Color> <!-- Hardcoded in AlertCardBuilder.cs & CustomAlertService.cs -->
+    <Color x:Key="TextSecondaryLight">#695F58</Color>
+    <Color x:Key="TextSecondaryDark">#BDB5AA</Color>
+    <Color x:Key="TextMutedLight">#968C7E</Color>
+    <Color x:Key="TextMutedDark">#857E75</Color>
+
+    <!-- Status & Action Colors -->
+    <Color x:Key="DarkRedDark">#EF5350</Color>
+    <Color x:Key="DarkRedTintLight">#18C62828</Color>
+    <Color x:Key="DarkRedTintDark">#35EF5350</Color>
+
+    <Color x:Key="StatusRed">#C62828</Color>
+    <Color x:Key="StatusGreen">#2E7D32</Color> <!-- Hardcoded in DownloadHistoryViewModel.cs -->
+    <Color x:Key="LiveGreenLight">#16A34A</Color>
+    <Color x:Key="LiveGreenDark">#22C55E</Color>
+
+    <Color x:Key="ActionBlue">#2563EB</Color>
+    <Color x:Key="ActionBlueDark">#60A5FA</Color> <!-- Hardcoded in CategoryBadgeHelper.cs -->
+    <Color x:Key="ActionBlueTintLight">#152563EB</Color>
+    <Color x:Key="ActionBlueTintDark">#353B82F6</Color>
+    <Color x:Key="ActionAmber">#E09D00</Color>
+
+</ResourceDictionary>

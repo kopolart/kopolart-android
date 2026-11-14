@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_quick_actions_title">کپل‌آرت | دسترسی سریع</string>
+    <string name="widget_quick_actions_description">دسترسی سریع به مرور آثار، نشان‌شده‌ها، دانلودها و تنظیمات کپل‌آرت</string>
+    <string name="widget_action_browse">مرور</string>
+    <string name="widget_action_bookmarks">نشان‌ها</string>
+    <string name="widget_action_downloads">دانلودها</string>
+    <string name="widget_action_settings">تنظیمات</string>
+    <string name="widget_action_contact">تماس</string>
+    <string name="widget_action_history">تاریخچه</string>
+    <string name="widget_action_updates">آپدیت</string>
+    <string name="widget_action_about">درباره</string>
+</resources>

@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KopolArt.Mobile.ViewModels"
+             xmlns:helpers="clr-namespace:KopolArt.Mobile.Helpers"
+             xmlns:views="clr-namespace:KopolArt.Mobile.Views"
+             x:Class="KopolArt.Mobile.Views.AboutPage"
+             x:DataType="vm:AboutViewModel"
+             BackgroundColor="{AppThemeBinding Light={StaticResource BrandBackground}, Dark={StaticResource BrandBackgroundDark}}"
+             Shell.NavBarIsVisible="False"
+             FlowDirection="RightToLeft">
+
+    <Grid RowDefinitions="Auto,*">
+        <!-- Top Bar -->
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" Padding="16,14" VerticalOptions="Center">
+            <Border Style="{StaticResource TopBarBackButtonStyle}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BackCommand}" />
+                </Border.GestureRecognizers>
+                <Label Text="{x:Static helpers:KopolArtFaIcons.Back}"
+                       Style="{StaticResource TopBarBackIconStyle}" />
+            </Border>
+
+            <Label Grid.Column="1"
+                   Text="درباره برنامه کپل‌آرت"
+                   Style="{StaticResource TopBarTitleStyle}" />
+        </Grid>
+
+        <!-- Content -->
+        <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Never">
+            <VerticalStackLayout Spacing="16" Padding="16,8,16,32">
+
+                <!-- Logo & Version Card -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="20">
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Image Source="{AppThemeBinding Default=kopolart_logo.png, Light=kopolart_logo.png, Dark=kopolart_logo_dark.png}"
+                               WidthRequest="180"
+                               HeightRequest="120"
+                               HorizontalOptions="Center" />
+
+                        <Label Text="اپلیکیشن رسمی کپل‌آرت"
+                               FontSize="18"
+                               FontFamily="KopolFontBlack"
+                               TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                               HorizontalTextAlignment="Center" />
+
+                        <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                            <Label Text="{Binding AppVersion}"
+                                   FontSize="13"
+                                   FontFamily="KopolFontBlack"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                            <Label Text="-" TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            <Label Text="{Binding BuildNumber}"
+                                   FontSize="12"
+                                   FontFamily="KopolFontMedium"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                        </HorizontalStackLayout>
+
+                        <!-- Action Buttons: Check for Update & Changelog -->
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,6,0,0">
+                            <Button Grid.Column="0"
+                                    Text="بررسی آپدیت"
+                                    Command="{Binding CheckForUpdateCommand}"
+                                    Style="{StaticResource LuxuryPrimaryButtonStyle}"
+                                    HeightRequest="40"
+                                    FontSize="12">
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button" Binding="{Binding IsCheckingUpdate}" Value="True">
+                                        <Setter Property="Text" Value="در حال بررسی..." />
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Button.Triggers>
+                            </Button>
+
+                            <Button Grid.Column="1"
+                                    Text="تاریخچه تغییرات"
+                                    Command="{Binding OpenUpdatesHistoryCommand}"
+                                    Style="{StaticResource LuxuryGhostButtonStyle}"
+                                    HeightRequest="40"
+                                    FontSize="12" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Our Story Card (داستان کپل‌آرت) -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <VerticalStackLayout Spacing="10">
+                        <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                            <Label Text="{x:Static helpers:KopolArtFaIcons.Leaf}"
+                                   FontFamily="KopolArtFa"
+                                   FontSize="18"
+                                   TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                   VerticalOptions="Center" />
+                            <Label Text="داستان کپل‌آرت"
+                                   FontSize="14"
+                                   FontFamily="KopolFontBlack"
+                                   TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                                   VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+
+                        <VerticalStackLayout Spacing="8">
+                                <Label Text="داستان کپل‌آرت از پاییز ۱۳۹۸ با اشتراک‌گذاری محتوای بصری و الهام‌بخش در شبکه‌های اجتماعی آغاز شد و در تابستان ۱۴۰۰ با راه‌اندازی وب‌سایت رسمی ادامه یافت. این مسیر در دی‌ماه ۱۴۰۴ با انتشار اپلیکیشن‌های اندروید و ویندوز گسترش پیدا کرد. کپل‌آرت بر بازآفرینی آثار هنری، روان‌شناسی رنگ و پالت‌های رنگی با کدهای استاندارد، مقالات تخصصی هنر و فناوری و والپیپرهای اختصاصی و باکیفیت تمرکز دارد و این محتوا را به‌صورت کاملاً رایگان ارائه می‌کند."
+                                   FontSize="12"
+                                   FontFamily="KopolFontMedium"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                   LineHeight="1.4"
+                                   helpers:LabelHelper.JustifyText="True" />
+
+                            <!--<Label Text="تمرکز اصلی کپل‌آرت بر بازآفرینی آثار هنری، تحلیل روان‌شناسی پالت‌های رنگی به همراه کدهای استاندارد، مقالات تخصصی هنر و تکنولوژی، و ارائه والپیپرهای اختصاصی و باکیفیت است."
+                                   FontSize="12"
+                                   FontFamily="KopolFontMedium"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                   LineHeight="1.4"
+                                   helpers:LabelHelper.JustifyText="True" />-->
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Communication & Support Card (ارتباط با ما و همراهی) -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="ارتباط و همراهی با کپل‌آرت"
+                               Style="{StaticResource CardSectionTitleLabelStyle}" />
+
+                        <!-- Communication & Support Row -->
+                        <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenContactUsCommand}" />
+                            </Grid.GestureRecognizers>
+                            <Border Style="{StaticResource CardRowIconBorderStyle}">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.Phone}"
+                                       Style="{StaticResource CardRowIconLabelStyle}" />
+                            </Border>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="2" Margin="12,0,10,0" VerticalOptions="Center">
+                                <Label Text="ارتباط با ما و پشتیبانی"
+                                       Style="{StaticResource CardRowTitleLabelStyle}" />
+                                <Label Text="ارتباط مستقیم، پشتیبانی فنی، پیگیری و ارسال دیدگاه‌ها"
+                                       Style="{StaticResource CardRowSubtitleLabelStyle}" />
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <BoxView Style="{StaticResource CardDividerBoxViewStyle}" />
+
+                        <!-- Follow / Social Media Row -->
+                        <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ShowSocialPromoCommand}" />
+                            </Grid.GestureRecognizers>
+                            <Border Style="{StaticResource CardRowIconBorderStyle}">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.ShareSquared}"
+                                       Style="{StaticResource CardRowIconLabelStyle}" />
+                            </Border>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="2" Margin="12,0,10,0" VerticalOptions="Center">
+                                <Label Text="کپل‌آرت در فضای مجازی"
+                                       Style="{StaticResource CardRowTitleLabelStyle}" />
+                                <Label Text="کانال‌ها و صفحات رسمی در اینستاگرام، تلگرام، ایتا و بله"
+                                       Style="{StaticResource CardRowSubtitleLabelStyle}" />
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <BoxView Style="{StaticResource CardDividerBoxViewStyle}" />
+
+                        <!-- Donation / Support Row -->
+                        <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenDonateCommand}" />
+                            </Grid.GestureRecognizers>
+                            <Border Style="{StaticResource CardRowIconBorderStyle}">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.Heart}"
+                                       Style="{StaticResource CardRowIconLabelStyle}" />
+                            </Border>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="2" Margin="12,0,10,0" VerticalOptions="Center">
+                                <Label Text="حمایت از کپل‌آرت"
+                                       Style="{StaticResource CardRowTitleLabelStyle}" />
+                                <Label Text="حمایت مالی برای تداوم و توسعه پروژه و خدمات رایگان"
+                                       Style="{StaticResource CardRowSubtitleLabelStyle}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Legal & Compliance Card (Terms & Licenses) -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="قوانین و مجوزها"
+                               Style="{StaticResource CardSectionTitleLabelStyle}" />
+
+                        <!-- Terms Row -->
+                        <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenTermsCommand}" />
+                            </Grid.GestureRecognizers>
+                            <Border Style="{StaticResource CardRowIconBorderStyle}">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.DocTextInv}"
+                                       Style="{StaticResource CardRowIconLabelStyle}" />
+                            </Border>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="2" Margin="12,0,10,0" VerticalOptions="Center">
+                                <Label Text="قوانین و مقررات"
+                                       Style="{StaticResource CardRowTitleLabelStyle}" />
+                                <Label Text="شرایط استفاده از خدمات و حریم خصوصی کپل‌آرت"
+                                       Style="{StaticResource CardRowSubtitleLabelStyle}" />
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <BoxView Style="{StaticResource CardDividerBoxViewStyle}" />
+
+                        <!-- License Row -->
+                        <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenLicenseCommand}" />
+                            </Grid.GestureRecognizers>
+                            <Border Style="{StaticResource CardRowIconBorderStyle}">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.Verified}"
+                                       Style="{StaticResource CardRowIconLabelStyle}" />
+                            </Border>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="2" Margin="12,0,10,0" VerticalOptions="Center">
+                                <Label Text="مجوزها و لایسنس"
+                                       Style="{StaticResource CardRowTitleLabelStyle}" />
+                                <Label Text="حقوق نشر، مجوزهای قانونی و مالکیت معنوی"
+                                       Style="{StaticResource CardRowSubtitleLabelStyle}" />
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <BoxView Style="{StaticResource CardDividerBoxViewStyle}" />
+
+                        <!-- CC BY 4.0 License Row -->
+                        <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenCcLicenseCommand}" />
+                            </Grid.GestureRecognizers>
+                            <Border Style="{StaticResource CardRowIconBorderStyle}">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.Copyright}"
+                                       Style="{StaticResource CardRowIconLabelStyle}"
+                                       FontSize="24" />
+                            </Border>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="2" Margin="12,0,10,0" VerticalOptions="Center">
+                                <Label Text="مجوز CC BY 4.0"
+                                       Style="{StaticResource CardRowTitleLabelStyle}" />
+                                <Label Text="حق نشر آزاد با ذکر منبع (Creative Commons 4.0)"
+                                       Style="{StaticResource CardRowSubtitleLabelStyle}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Diagnostics & Device Info (Cleaned: No C# / Runtime) -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="مشخصات دستگاه و عیب‌یابی"
+                               Style="{StaticResource CardSectionTitleLabelStyle}" />
+
+                        <!-- Minimum Supported Android -->
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                            <Label Grid.Column="0" Text="حداقل سیستم‌عامل مورد نیاز:" FontSize="12" FontFamily="KopolFontMedium" TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" VerticalOptions="Center" />
+                            <Label Grid.Column="1" Text="{Binding MinSupportedAndroid}" FontSize="12" FontFamily="KopolFontBlack" TextColor="{StaticResource StatusGreen}" HorizontalOptions="End" VerticalOptions="Center" LineBreakMode="TailTruncation" />
+                        </Grid>
+
+                        <BoxView Style="{StaticResource CardDividerBoxViewStyle}" />
+
+                        <!-- User Device & OS -->
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                            <Label Grid.Column="0" Text="دستگاه شما:" FontSize="12" FontFamily="KopolFontMedium" TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" VerticalOptions="Center" />
+                            <Label Grid.Column="1" Text="{Binding DeviceModel}" FontSize="12" FontFamily="KopolFontBlack" TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" HorizontalOptions="End" VerticalOptions="Center" LineBreakMode="TailTruncation" FlowDirection="LeftToRight" />
+                        </Grid>
+
+                        <BoxView Style="{StaticResource CardDividerBoxViewStyle}" />
+
+                        <!-- Package ID -->
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                            <Label Grid.Column="0" Text="شناسه بسته:" FontSize="12" FontFamily="KopolFontMedium" TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" VerticalOptions="Center" />
+                            <Label Grid.Column="1" Text="{Binding PackageName}" FontSize="12" FontFamily="KopolFontBlack" TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" HorizontalOptions="End" VerticalOptions="Center" LineBreakMode="TailTruncation" FlowDirection="LeftToRight" />
+                        </Grid>
+
+                        <BoxView Style="{StaticResource CardDividerBoxViewStyle}" />
+
+                        <!-- Copy Diagnostics Button -->
+                        <Grid ColumnDefinitions="Auto,*" VerticalOptions="Center" Padding="4,4">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding CopyDiagnosticsCommand}" />
+                            </Grid.GestureRecognizers>
+                            <Border BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}"
+                                    StrokeThickness="0"
+                                    WidthRequest="36"
+                                    HeightRequest="36"
+                                    VerticalOptions="Center">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.Copy}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="18"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Border>
+                            <Label Grid.Column="1"
+                                   Text="کپی مشخصات جهت گزارش باگ و پشتیبانی"
+                                   FontSize="12"
+                                   FontFamily="KopolFontBold"
+                                   TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                   Margin="10,0,0,0"
+                                   VerticalOptions="Center" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Website Action Button -->
+                <Button Text="مشاهده وب‌سایت کپل‌آرت"
+                        Command="{Binding OpenWebsiteCommand}"
+                        FontFamily="KopolFontBold"
+                        Style="{StaticResource LuxuryPrimaryButtonStyle}" />
+
+                <!-- Copyright -->
+                <Label Text="تمامی حقوق مادی و معنوی برای مجموعه کپل‌آرت محفوظ است."
+                       FontSize="11"
+                       FontFamily="KopolFontMedium"
+                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                       HorizontalTextAlignment="Center"
+                       Margin="0,8,0,0" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Integrated Update Popup (Direct child of root Grid) -->
+        <views:UpdatePopup x:Name="UpdatePopupView"
+                           Grid.RowSpan="2"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Fill"
+                           ZIndex="99999" />
+
+        <!-- Social Media Promo Popup Overlay -->
+        <views:SocialPromoPopup x:Name="SocialPromo"
+                                Grid.RowSpan="2" />
+    </Grid>
+</ContentPage>

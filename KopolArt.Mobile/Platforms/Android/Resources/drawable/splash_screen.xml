@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:opacity="opaque">
+    <!-- Theme-aware background color: #E2CDB4 in Light, #3C3A38 in Dark -->
+    <item android:drawable="@color/windowBackground" />
+
+    <!-- Centered KopolArt logo -->
+    <item
+        android:drawable="@drawable/kopolart_logo"
+        android:gravity="center"
+        android:width="160dp"
+        android:height="160dp" />
+</layer-list>

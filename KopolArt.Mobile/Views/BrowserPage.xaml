@@ -1,0 +1,416 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KopolArt.Mobile.ViewModels"
+             xmlns:views="clr-namespace:KopolArt.Mobile.Views"
+             xmlns:helpers="clr-namespace:KopolArt.Mobile.Helpers"
+             x:Class="KopolArt.Mobile.Views.BrowserPage"
+             x:DataType="vm:BrowserViewModel"
+             BackgroundColor="{AppThemeBinding Light={StaticResource BrandBackground}, Dark={StaticResource BrandBackgroundDark}}"
+             Shell.NavBarIsVisible="False"
+             SafeAreaEdges="None">
+
+    <Grid>
+        <!-- WebView Container with Pull-to-Refresh -->
+        <RefreshView x:Name="PageRefreshView"
+                     IsRefreshing="{Binding IsPullRefreshing, Mode=TwoWay}"
+                     Command="{Binding PullRefreshCommand}"
+                     RefreshColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                     HorizontalOptions="Fill"
+                     VerticalOptions="Fill"
+                     IsVisible="{Binding IsBrowserVisible}">
+            <WebView x:Name="WebBrowser"
+                     HorizontalOptions="Fill"
+                     VerticalOptions="Fill"
+                     Navigating="OnNavigating"
+                     Navigated="OnNavigated" />
+        </RefreshView>
+
+        <!-- Loading View -->
+        <Grid x:Name="LoadingView"
+              IsVisible="{Binding IsLoading}"
+              BackgroundColor="{AppThemeBinding Light={StaticResource BrandBackground}, Dark={StaticResource BrandBackgroundDark}}"
+              RowDefinitions="*,Auto"
+              HorizontalOptions="Fill"
+              VerticalOptions="Fill">
+
+            <ScrollView Grid.Row="0"
+                        VerticalScrollBarVisibility="Never"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center">
+                <VerticalStackLayout x:Name="LoadingContentStack"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center"
+                                     Spacing="14">
+
+                    <Image x:Name="LoadingLogo"
+                           Source="{AppThemeBinding Default=kopolart_logo.png, Light=kopolart_logo.png, Dark=kopolart_logo_dark.png}"
+                           WidthRequest="220"
+                           HeightRequest="220" />
+
+                    <Label x:Name="LoadingLabel"
+                           Text="{Binding LoadingText}"
+                           TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                           FontSize="36"
+                           FontFamily="KopolFontBlack"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center" />
+
+                    <Label x:Name="RetryLabel"
+                           Text="{Binding RetryText}"
+                           IsVisible="{Binding ShowRetryText}"
+                           TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                           FontSize="14"
+                           FontFamily="KopolFontMedium"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           Margin="0,-8,0,0" />
+
+                    <!-- Welcome Card -->
+                    <VerticalStackLayout x:Name="WelcomeLoadingCard"
+                                         IsVisible="{Binding ShowWelcomeOnLoading}"
+                                         Opacity="0"
+                                         Spacing="4"
+                                         HorizontalOptions="Center"
+                                         FlowDirection="RightToLeft"
+                                         Margin="0,4,0,0">
+                        <Label x:Name="WelcomeUserNameLabel"
+                               Text="{Binding WelcomeUserName}"
+                               IsVisible="{Binding HasWelcomeUserName}"
+                               TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                               FontSize="16"
+                               FontFamily="KopolFontBlack"
+                               LineBreakMode="TailTruncation"
+                               MaxLines="1"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center" />
+                        <Label x:Name="WelcomeTitleLabel"
+                               Text="{Binding WelcomeTitle}"
+                               TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource White}}"
+                               FontSize="16"
+                               FontFamily="KopolFontBlack"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center" />
+                        <Label x:Name="WelcomeSubtitleLabel"
+                               Text="{Binding WelcomeSubtitle}"
+                               IsVisible="{Binding HasWelcomeSubtitle}"
+                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                               FontSize="13"
+                               FontFamily="KopolFontMedium"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <Label x:Name="AppVersionLabel"
+                   Grid.Row="1"
+                   Text="{Binding AppVersion}"
+                   IsVisible="{Binding ShowVersion}"
+                   TextColor="{AppThemeBinding Light={StaticResource PopupSubtitle}, Dark={StaticResource PopupSubtitleDark}}"
+                   FontSize="12"
+                   FontFamily="KopolFontMedium"
+                   HorizontalOptions="Center"
+                   VerticalOptions="End"
+                   Margin="0,0,0,15" />
+        </Grid>
+
+        <!-- Error View -->
+        <Grid x:Name="ErrorView"
+              IsVisible="{Binding IsError}"
+              BackgroundColor="{AppThemeBinding Light={StaticResource BrandBackground}, Dark={StaticResource BrandBackgroundDark}}"
+              RowDefinitions="*,Auto,Auto,*"
+              HorizontalOptions="Fill"
+              VerticalOptions="Fill">
+
+            <VerticalStackLayout Grid.Row="1"
+                                 Spacing="16"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center">
+
+                <Image Source="{AppThemeBinding Default=kopolart_logo.png, Light=kopolart_logo.png, Dark=kopolart_logo_dark.png}"
+                       WidthRequest="180"
+                       HeightRequest="140"
+                       HorizontalOptions="Center" />
+
+                <Label Text="⚠️"
+                       FontSize="40"
+                       HorizontalOptions="Center" />
+
+                <Label Text="اتصال اینترنت قطع است!"
+                       FontSize="22"
+                       FontFamily="KopolFontBlack"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource White}}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+
+                <Label Text="وضعیت اتصال اینترنت دستگاه خود را بررسی کنید"
+                       FontSize="14"
+                       FontFamily="KopolFontMedium"
+                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+
+            <Button Grid.Row="2"
+                    Text="تلاش مجدد"
+                    Command="{Binding RetryCommand}"
+                    HorizontalOptions="Center"
+                    WidthRequest="200"
+                    FontFamily="KopolFontBlack"
+                    BackgroundColor="{StaticResource BrandPrimary}"
+                    TextColor="{StaticResource White}"
+                    CornerRadius="25"
+                    Margin="0,35,0,0" />
+
+            <!-- Error Actions Stack -->
+            <VerticalStackLayout Grid.Row="3"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="End"
+                                 Spacing="10"
+                                 Margin="0,0,0,20">
+                <!-- Offline Pages Button -->
+                <Button Text="مطالعه صفحات ذخیره‌شده آفلاین"
+                        Clicked="OnOpenOfflinePagesClicked"
+                        HorizontalOptions="Center"
+                        FontSize="13"
+                        FontFamily="KopolFontBold"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource BrandPrimaryTintLight}, Dark={StaticResource BrandPrimaryTintDark}}"
+                        TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                        CornerRadius="14"
+                        HeightRequest="40"
+                        Padding="20,0" />
+
+                <!-- Return to Dashboard Button -->
+                <Button Text="بازگشت به داشبورد اصلی"
+                        Clicked="OnDashboardReturnClicked"
+                        HorizontalOptions="Center"
+                        FontSize="13.5"
+                        FontFamily="KopolFontBlack"
+                        BackgroundColor="Transparent"
+                        TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <!-- Modern Floating Find in Page Bar -->
+        <Border x:Name="FindInPageBar"
+                IsVisible="False"
+                Opacity="0"
+                TranslationY="-60"
+                VerticalOptions="Start"
+                HorizontalOptions="Fill"
+                Margin="14,14,14,0"
+                Style="{StaticResource LuxuryCardStyle}"
+                Padding="10,6"
+                ZIndex="150">
+            <Border.Shadow>
+                <Shadow Brush="{AppThemeBinding Light={StaticResource PopupShadow}, Dark={StaticResource PopupShadowDark}}" Offset="0,6" Radius="14" Opacity="0.35" />
+            </Border.Shadow>
+            <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" ColumnSpacing="6" VerticalOptions="Center" FlowDirection="RightToLeft">
+                <!-- Search Icon -->
+                <Label Grid.Column="0"
+                       Text="{x:Static helpers:KopolArtFaIcons.Search}"
+                       FontFamily="KopolArtFa"
+                       FontSize="18"
+                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                       VerticalOptions="Center"
+                       Margin="4,0" />
+
+                <!-- Query Entry -->
+                <Entry Grid.Column="1"
+                       x:Name="FindQueryEntry"
+                       Placeholder="جستجو در متن صفحه..."
+                       FontFamily="KopolFontMedium"
+                       FontSize="13"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                       PlaceholderColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                       ClearButtonVisibility="WhileEditing"
+                       VerticalOptions="Center"
+                       TextChanged="OnFindQueryTextChanged"
+                       Completed="OnFindQueryCompleted" />
+
+                <!-- Match Count Label -->
+                <Label Grid.Column="2"
+                       x:Name="FindMatchesLabel"
+                       Text=""
+                       FontSize="11.5"
+                       FontFamily="KopolFontBold"
+                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                       VerticalOptions="Center"
+                       Margin="4,0" />
+
+                <!-- Prev & Next Arrow Buttons -->
+                <HorizontalStackLayout Grid.Column="3" Spacing="4" VerticalOptions="Center">
+                    <Button Text="▲"
+                            Clicked="OnFindPreviousClicked"
+                            BackgroundColor="Transparent"
+                            TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                            FontSize="13"
+                            WidthRequest="44"
+                            HeightRequest="44"
+                            Padding="0"
+                            CornerRadius="10" />
+                    <Button Text="▼"
+                            Clicked="OnFindNextClicked"
+                            BackgroundColor="Transparent"
+                            TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                            FontSize="13"
+                            WidthRequest="44"
+                            HeightRequest="44"
+                            Padding="0"
+                            CornerRadius="10" />
+                </HorizontalStackLayout>
+
+                <!-- Close Button -->
+                <Border Grid.Column="4"
+                        WidthRequest="44"
+                        HeightRequest="44"
+                        BackgroundColor="Transparent"
+                        StrokeThickness="0"
+                        VerticalOptions="Center">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnFindCloseTapped" />
+                    </Border.GestureRecognizers>
+                    <Label Text="{x:Static helpers:KopolArtFaIcons.Cancel}"
+                           FontFamily="KopolArtFa"
+                           FontSize="16"
+                           TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Welcome Toast (Floating Pill) -->
+        <Border x:Name="WelcomeToastBorder"
+                IsVisible="False"
+                Opacity="0"
+                TranslationY="-80"
+                VerticalOptions="Start"
+                HorizontalOptions="Center"
+                Margin="20,16,20,0"
+                BackgroundColor="{AppThemeBinding Light={StaticResource PopupBackground}, Dark={StaticResource PopupBackgroundDark}}"
+                StrokeThickness="0"
+                Padding="16,10">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
+            <Border.Shadow>
+                <Shadow Brush="{AppThemeBinding Light={StaticResource PopupShadow}, Dark={StaticResource PopupShadowDark}}" Offset="0,6" Radius="16" Opacity="0.35" />
+            </Border.Shadow>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnWelcomeToastTapped" />
+            </Border.GestureRecognizers>
+            <HorizontalStackLayout Spacing="8" FlowDirection="RightToLeft" VerticalOptions="Center">
+                <Label Text="🌸" FontSize="14" VerticalOptions="Center" />
+                <Label x:Name="WelcomeToastText"
+                       Text="{Binding WelcomeFullMessage}"
+                       TextColor="{AppThemeBinding Light={StaticResource PopupTitle}, Dark={StaticResource PopupTitleDark}}"
+                       FontFamily="KopolFontBlack"
+                       FontSize="12"
+                       VerticalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+            </HorizontalStackLayout>
+        </Border>
+
+        <!-- Modern Android 14 Back Gesture Pill (Right Edge - Swiping Leftwards) -->
+        <Border x:Name="BackGesturePill"
+                IsVisible="False"
+                InputTransparent="True"
+                Opacity="0"
+                TranslationX="60"
+                Scale="0.85"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                Margin="0,0,12,0"
+                BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}"
+                Stroke="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                StrokeThickness="1.2"
+                Padding="14,10">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="24,10,10,24" />
+            </Border.StrokeShape>
+            <Border.Shadow>
+                <Shadow Brush="{AppThemeBinding Light={StaticResource PopupShadow}, Dark={StaticResource PopupShadowDark}}" Offset="-2,4" Radius="14" Opacity="0.4" />
+            </Border.Shadow>
+            <HorizontalStackLayout Spacing="8" FlowDirection="RightToLeft" VerticalOptions="Center">
+                <Border WidthRequest="28"
+                        HeightRequest="28"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource BrandPrimaryTintLight}, Dark={StaticResource BrandPrimaryTintDark}}"
+                        Stroke="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                        StrokeThickness="1"
+                        VerticalOptions="Center">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="14" />
+                    </Border.StrokeShape>
+                    <Label x:Name="BackGestureIcon"
+                           Text="›"
+                           FontSize="18"
+                           FontFamily="KopolFontBold"
+                           TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Margin="0,-2,0,0" />
+                </Border>
+                <Label x:Name="BackGestureLabel"
+                       Text="صفحه قبل"
+                       FontSize="12.5"
+                       FontFamily="KopolFontBold"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                       VerticalOptions="Center" />
+            </HorizontalStackLayout>
+        </Border>
+
+        <!-- Modern Android 14 Forward Gesture Pill (Left Edge - Swiping Rightwards) -->
+        <Border x:Name="ForwardGesturePill"
+                IsVisible="False"
+                InputTransparent="True"
+                Opacity="0"
+                TranslationX="-60"
+                Scale="0.85"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                Margin="12,0,0,0"
+                BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}"
+                Stroke="{AppThemeBinding Light={StaticResource ActionBlue}, Dark={StaticResource ActionBlueDark}}"
+                StrokeThickness="1.2"
+                Padding="14,10">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10,24,24,10" />
+            </Border.StrokeShape>
+            <Border.Shadow>
+                <Shadow Brush="{AppThemeBinding Light={StaticResource PopupShadow}, Dark={StaticResource PopupShadowDark}}" Offset="2,4" Radius="14" Opacity="0.4" />
+            </Border.Shadow>
+            <HorizontalStackLayout Spacing="8" FlowDirection="LeftToRight" VerticalOptions="Center">
+                <Border WidthRequest="28"
+                        HeightRequest="28"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource ActionBlueTintLight}, Dark={StaticResource ActionBlueTintDark}}"
+                        Stroke="{AppThemeBinding Light={StaticResource ActionBlue}, Dark={StaticResource ActionBlueDark}}"
+                        StrokeThickness="1"
+                        VerticalOptions="Center">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="14" />
+                    </Border.StrokeShape>
+                    <Label Text="‹"
+                           FontSize="18"
+                           FontFamily="KopolFontBold"
+                           TextColor="{AppThemeBinding Light={StaticResource ActionBlue}, Dark={StaticResource ActionBlueDark}}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Margin="0,-2,0,0" />
+                </Border>
+                <Label Text="صفحه بعد"
+                       FontSize="12.5"
+                       FontFamily="KopolFontBold"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                       VerticalOptions="Center" />
+            </HorizontalStackLayout>
+        </Border>
+
+        <!-- Social Media Promo Popup -->
+        <views:SocialPromoPopup x:Name="SocialPromo" />
+
+        <!-- App Update Popup -->
+        <views:UpdatePopup x:Name="UpdatePopup" />
+    </Grid>
+</ContentPage>

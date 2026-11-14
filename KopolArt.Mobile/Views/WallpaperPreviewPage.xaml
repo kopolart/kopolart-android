@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KopolArt.Mobile.ViewModels"
+             xmlns:models="clr-namespace:KopolArt.Mobile.Models"
+             xmlns:helpers="clr-namespace:KopolArt.Mobile.Helpers"
+             x:Class="KopolArt.Mobile.Views.WallpaperPreviewPage"
+             x:DataType="vm:WallpaperPreviewViewModel"
+             BackgroundColor="{AppThemeBinding Light={StaticResource BrandBackground}, Dark={StaticResource BrandBackgroundDark}}"
+             Shell.NavBarIsVisible="False"
+             Shell.PresentationMode="ModalAnimated"
+             FlowDirection="RightToLeft">
+
+    <Grid x:Name="RootGrid"
+          RowDefinitions="Auto,*,Auto"
+          ColumnDefinitions="*"
+          Padding="16,14,16,16"
+          RowSpacing="12"
+          ColumnSpacing="12">
+
+        <!-- 1. Top Bar -->
+        <Grid x:Name="TopBarGrid"
+              Grid.Row="0"
+              ColumnDefinitions="Auto,*"
+              VerticalOptions="Center">
+            <Border Style="{StaticResource TopBarBackButtonStyle}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CloseCommand}" />
+                </Border.GestureRecognizers>
+                <Label Text="{x:Static helpers:KopolArtFaIcons.Cancel}"
+                       Style="{StaticResource TopBarBackIconStyle}" />
+            </Border>
+
+            <Label Grid.Column="1"
+                   Text="پیش‌نمایش پس‌زمینه"
+                   Style="{StaticResource TopBarTitleStyle}" />
+        </Grid>
+
+        <!-- 2. Phone Frame Preview -->
+        <Grid Grid.Row="1" x:Name="PreviewHost" SizeChanged="OnPreviewHostSizeChanged">
+
+            <Border Style="{StaticResource WallpaperPreviewFrameStyle}"
+                    WidthRequest="{Binding FrameWidth}"
+                    HeightRequest="{Binding FrameHeight}"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    IsVisible="{Binding IsReady}">
+                <Grid IsClippedToBounds="True">
+                    <Image Source="{Binding PreviewImagePath}"
+                           Aspect="AspectFill"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Fill"
+                           Scale="{Binding ImageScale}"
+                           TranslationX="{Binding ImageTranslationX}"
+                           TranslationY="{Binding ImageTranslationY}">
+                        <Image.GestureRecognizers>
+                            <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
+                            <PanGestureRecognizer PanUpdated="OnPanUpdated" />
+                            <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnDoubleTapped" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Grid>
+            </Border>
+
+            <!-- Loading State -->
+            <VerticalStackLayout IsVisible="{Binding IsLoading}"
+                                 Spacing="12"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center">
+                <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                   IsVisible="{Binding IsLoading}"
+                                   Color="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                                   HeightRequest="42"
+                                   WidthRequest="42" />
+                <Label Text="در حال آماده‌سازی پیش‌نمایش..."
+                       Style="{StaticResource WallpaperPreviewStatusLabelStyle}" />
+            </VerticalStackLayout>
+
+            <!-- Error State -->
+            <Border Style="{StaticResource LuxuryCardStyle}"
+                    Padding="18"
+                    Margin="12"
+                    IsVisible="{Binding HasError}"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                <VerticalStackLayout Spacing="14">
+                    <Label Text="{x:Static helpers:KopolArtFaIcons.AlertDanger}"
+                           Style="{StaticResource WallpaperPreviewErrorIconStyle}" />
+                    <Label Text="{Binding ErrorMessage}"
+                           Style="{StaticResource WallpaperPreviewErrorLabelStyle}" />
+                    <Button Text="بستن"
+                            Command="{Binding CloseCommand}"
+                            Style="{StaticResource LuxuryGhostButtonStyle}" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <!-- 3. Action Sheet -->
+        <Border x:Name="ActionCard"
+                Grid.Row="2"
+                Style="{StaticResource LuxuryCardStyle}"
+                Padding="16,14"
+                IsVisible="{Binding IsReady}">
+            <VerticalStackLayout Spacing="12">
+
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                    <Label Grid.Column="0"
+                           Text="{Binding FileSummary}"
+                           Style="{StaticResource WallpaperSheetFileLabelStyle}" />
+                    <Label Grid.Column="1"
+                           Text="{Binding ResolutionSummary}"
+                           Style="{StaticResource WallpaperSheetMetaLabelStyle}" />
+                </Grid>
+
+                <Label Text="برای انتخاب بخش دلخواه تصویر، با دو انگشت بزرگ‌نمایی کنید و جای تصویر را جابه‌جا کنید. با دو ضربه، نمایش به حالت اولیه برمی‌گردد."
+                       Style="{StaticResource WallpaperHintLabelStyle}" />
+
+                <HorizontalStackLayout Spacing="8"
+                                       HorizontalOptions="Center"
+                                       BindableLayout.ItemsSource="{Binding TargetOptions}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:WallpaperTargetOption">
+                            <Border Style="{StaticResource WallpaperTargetChipStyle}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:WallpaperPreviewViewModel}}, Path=SelectTargetCommand}"
+                                                          CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                                <Label Text="{Binding Title}"
+                                       Style="{StaticResource WallpaperTargetChipLabelStyle}" />
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </HorizontalStackLayout>
+
+                <Grid>
+                    <Button Text="تنظیم پس‌زمینه"
+                            Command="{Binding ApplyCommand}"
+                            IsEnabled="{Binding IsApplyEnabled}"
+                            Style="{StaticResource LuxuryPrimaryButtonStyle}" />
+                    <ActivityIndicator IsRunning="{Binding IsApplying}"
+                                       IsVisible="{Binding IsApplying}"
+                                       Color="{StaticResource White}"
+                                       HeightRequest="22"
+                                       WidthRequest="22"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       InputTransparent="True" />
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentPage>

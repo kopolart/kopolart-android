@@ -1,0 +1,131 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<!-- Pin the target platform so the build always compiles against Android 17 (API 37)
+		     instead of whichever platform the installed workload happens to default to. -->
+		<TargetFrameworks>net11.0-android37.0</TargetFrameworks>
+		<OutputType>Exe</OutputType>
+		<RootNamespace>KopolArt.Mobile</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<ApplicationTitle>KopolArt</ApplicationTitle>
+		<ApplicationId>ir.kopolart.app</ApplicationId>
+		<ApplicationDisplayVersion>1.6.6</ApplicationDisplayVersion>
+		<ApplicationVersion>332</ApplicationVersion>
+
+		<!-- Android 8.0 baseline (API 26) -->
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">26.0</SupportedOSPlatformVersion>
+
+		<!-- Strip unused satellite resource cultures to reduce APK size -->
+		<SatelliteResourceLanguages>none</SatelliteResourceLanguages>
+
+		<!-- Debug RIDs include x64 for emulators; Release overrides to physical ARM devices.
+		     android-x86 is omitted: .NET 11 Android uses CoreCLR, which has no x86 runtime pack. -->
+		<RuntimeIdentifiers Condition="$(TargetFramework.Contains('-android'))">android-arm;android-arm64;android-x64</RuntimeIdentifiers>
+
+		<!-- Disable MAUI's intermediate font resizetizer on Android; fonts are included directly as AndroidAsset -->
+		<EnableMauiFontProcessing>false</EnableMauiFontProcessing>
+		<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
+		<CodePage>65001</CodePage>
+	</PropertyGroup>
+
+	<!-- Font family selection. The licensed Abar family is used only when those files exist
+	     locally; the public repository ships OFL Estedad instead because Abar may not be
+	     redistributed. Nothing else in the build needs to know which family is active. -->
+	<PropertyGroup>
+		<KopolArtUsePremiumFonts Condition="Exists('$(MSBuildProjectDirectory)\Resources\Fonts\abar-medium.ttf')">true</KopolArtUsePremiumFonts>
+		<KopolArtUiFontMedium Condition="'$(KopolArtUsePremiumFonts)' == 'true'">abar-medium.ttf</KopolArtUiFontMedium>
+		<KopolArtUiFontBold Condition="'$(KopolArtUsePremiumFonts)' == 'true'">abar-bold.ttf</KopolArtUiFontBold>
+		<KopolArtUiFontBlack Condition="'$(KopolArtUsePremiumFonts)' == 'true'">abar-black.ttf</KopolArtUiFontBlack>
+		<KopolArtUiFontMedium Condition="'$(KopolArtUiFontMedium)' == ''">estedad-regular.ttf</KopolArtUiFontMedium>
+		<KopolArtUiFontBold Condition="'$(KopolArtUiFontBold)' == ''">estedad-extrabold.ttf</KopolArtUiFontBold>
+		<KopolArtUiFontBlack Condition="'$(KopolArtUiFontBlack)' == ''">estedad-black.ttf</KopolArtUiFontBlack>
+		<DefineConstants Condition="'$(KopolArtUsePremiumFonts)' == 'true'">$(DefineConstants);KOPOLAR_FONT_ABAR</DefineConstants>
+	</PropertyGroup>
+
+	<!-- DEBUG CONFIGURATION -->
+	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>portable</DebugType>
+		<AndroidIncludeDebugSymbols>true</AndroidIncludeDebugSymbols>
+	</PropertyGroup>
+
+	<!-- RELEASE CONFIGURATION -->
+	<PropertyGroup Condition="'$(Configuration)' == 'Release' and $(TargetFramework.Contains('-android'))">
+		<!-- Keep debug symbols on build machine for crash reports, but DO NOT bundle them into APK -->
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>portable</DebugType>
+		<AndroidIncludeDebugSymbols>false</AndroidIncludeDebugSymbols>
+
+		<!-- Release signing. The keystore and passwords never live in this repo: they come
+		     from signing.local.props (gitignored) or from the KOPOLART_KEYSTORE_PATH /
+		     KOPOLART_SIGNING_PASSWORD environment variables. -->
+		<AndroidSigningKeyAlias Condition="'$(AndroidSigningKeyAlias)' == ''">my-key-alias</AndroidSigningKeyAlias>
+		<AndroidSigningStorePass Condition="'$(AndroidSigningPassword)' != ''">$(AndroidSigningPassword)</AndroidSigningStorePass>
+		<AndroidSigningKeyPass Condition="'$(AndroidSigningPassword)' != ''">$(AndroidSigningPassword)</AndroidSigningKeyPass>
+		<AndroidKeyStore Condition="'$(AndroidSigningPassword)' != ''">true</AndroidKeyStore>
+
+		<!-- Universal installable APK for direct distribution (arm32 + arm64) -->
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+		<RuntimeIdentifiers>android-arm;android-arm64</RuntimeIdentifiers>
+
+		<!-- Trimming: Safe partial trimming for BCL -->
+		<PublishTrimmed>true</PublishTrimmed>
+		<TrimMode>partial</TrimMode>
+
+		<!-- Fast startup: Use standard Profiled AOT (avoids massive APK bloat and long compilation times of Full AOT) -->
+		<AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
+
+		<!-- Note: If you deliberately want Full AOT despite larger APK size (~32MB vs ~18MB), uncomment the following:
+		<RunAOTCompilation>true</RunAOTCompilation>
+		<AndroidStripILAfterAOT>false</AndroidStripILAfterAOT>
+		-->
+	</PropertyGroup>
+
+	<!-- Preserve MAUI assemblies from ILLink trimming to ensure fonts, XAML, and reflection work reliably -->
+	<ItemGroup Condition="'$(Configuration)' == 'Release'">
+		<TrimmerRootAssembly Include="KopolArt.Mobile" />
+		<TrimmerRootAssembly Include="Microsoft.Maui" />
+		<TrimmerRootAssembly Include="Microsoft.Maui.Controls" />
+		<TrimmerRootAssembly Include="Microsoft.Maui.Graphics" />
+		<TrimmerRootAssembly Include="Microsoft.Maui.Essentials" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<MauiIcon Include="Resources\Images\icon.png" />
+		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Remove="Resources\Images\icon.png" />
+		<!-- Keep MauiFont for cross-platform tooling and metadata (TTF only) -->
+		<MauiFont Include="Resources\Fonts\*.ttf" Exclude="Resources\Fonts\abar-*.ttf;Resources\Fonts\estedad-*.ttf" />
+		<MauiFont Include="Resources\Fonts\abar-*.ttf" Condition="'$(KopolArtUsePremiumFonts)' == 'true'" />
+		<MauiFont Include="Resources\Fonts\estedad-*.ttf" Condition="'$(KopolArtUsePremiumFonts)' != 'true'" />
+		<!-- Directly include the active font family and web assets as Android assets so they are ALWAYS packaged into APK assets/ -->
+		<AndroidAsset Include="Resources\Fonts\*" Exclude="Resources\Fonts\abar-*;Resources\Fonts\estedad-*" Link="%(Filename)%(Extension)" Visible="false" />
+		<AndroidAsset Include="Resources\Fonts\abar-*" Condition="'$(KopolArtUsePremiumFonts)' == 'true'" Link="%(Filename)%(Extension)" Visible="false" />
+		<AndroidAsset Include="Resources\Fonts\estedad-*" Condition="'$(KopolArtUsePremiumFonts)' != 'true'" Link="%(Filename)%(Extension)" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Maui.Controls" Version="11.0.10" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.12" Condition="'$(Configuration)' == 'Debug'" />
+	</ItemGroup>
+
+	<!-- Safety safeguard: Ensure font assets are copied to Android intermediate assets directory before APK packaging -->
+	<Target Name="EnsureFontAssetsPresent" BeforeTargets="_CreateBaseApk;_CreateBaseApkWithAapt2;_GenerateAndroidAssetsDir" Condition="$(TargetFramework.Contains('-android'))">
+		<MakeDir Directories="$(IntermediateOutputPath)assets" />
+		<Copy SourceFiles="@(AndroidAsset)" DestinationFiles="@(AndroidAsset->'$(IntermediateOutputPath)assets\%(Link)')" SkipUnchangedFiles="true" />
+	</Target>
+
+	<!-- Verification safeguard: Validate that custom fonts exist in intermediate assets directory before packaging -->
+	<Target Name="VerifyFontAssetsBeforePackaging" BeforeTargets="_CreateBaseApk;_CreateBaseApkWithAapt2" Condition="$(TargetFramework.Contains('-android'))">
+		<Error Condition="!Exists('$(IntermediateOutputPath)assets\$(KopolArtUiFontBlack)')" Text="[FontCheck] Critical error: '$(KopolArtUiFontBlack)' is missing from Android assets! Build aborted." />
+		<Error Condition="!Exists('$(IntermediateOutputPath)assets\$(KopolArtUiFontBold)')" Text="[FontCheck] Critical error: '$(KopolArtUiFontBold)' is missing from Android assets! Build aborted." />
+		<Error Condition="!Exists('$(IntermediateOutputPath)assets\$(KopolArtUiFontMedium)')" Text="[FontCheck] Critical error: '$(KopolArtUiFontMedium)' is missing from Android assets! Build aborted." />
+		<Error Condition="!Exists('$(IntermediateOutputPath)assets\kopolart-fa.ttf')" Text="[FontCheck] Critical error: 'kopolart-fa.ttf' is missing from Android assets! Build aborted." />
+		<Message Importance="high" Text="[FontCheck] Verified $(KopolArtUiFontMedium) family is ready for APK packaging." />
+	</Target>
+
+</Project>

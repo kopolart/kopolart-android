@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:KopolArt.Mobile.Helpers"
+             x:Class="KopolArt.Mobile.Views.SocialPromoPopup"
+             IsVisible="False">
+
+    <!-- Semi-transparent backdrop -->
+    <Grid>
+        <BoxView Color="{AppThemeBinding Light={StaticResource BrandBackground}, Dark={StaticResource BrandBackgroundDark}}"
+                 HorizontalOptions="Fill"
+                 VerticalOptions="Fill">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnBackdropTapped" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
+
+        <!-- Centered Card -->
+        <Border x:Name="PromoCard"
+                Style="{StaticResource PopupCardBorderStyle}"
+                MaximumHeightRequest="420">
+
+            <ScrollView VerticalScrollBarVisibility="Never"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center">
+                <VerticalStackLayout Padding="22,18,22,22"
+                                     Spacing="0"
+                                     HorizontalOptions="Fill"
+                                     FlowDirection="RightToLeft">
+
+                    <!-- Close Button -->
+                    <Label Text="✕"
+                           Style="{StaticResource PopupCloseLabelStyle}"
+                           HorizontalOptions="Start"
+                           FlowDirection="LeftToRight"
+                           Margin="0,0,0,4">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnCloseTapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <!-- Logo -->
+                    <Image Source="kopolart_icon.png"
+                           WidthRequest="72"
+                           HeightRequest="72"
+                           HorizontalOptions="Center"
+                           Margin="0,0,0,8" />
+
+                    <!-- Title -->
+                    <Label Text="ما رو دنبال کنید!"
+                           Style="{StaticResource PopupTitleLabelStyle}"
+                           Margin="0,0,0,6" />
+
+                    <!-- Subtitle -->
+                    <Label Text="برای دیدن جدیدترین آثار هنری و بروزرسانی‌ها"
+                           Style="{StaticResource PopupSubtitleLabelStyle}"
+                           Margin="0,0,0,16" />
+
+                    <!-- Social Buttons 2x2 Grid -->
+                    <Grid RowDefinitions="Auto,Auto"
+                          ColumnDefinitions="*,*"
+                          RowSpacing="10"
+                          ColumnSpacing="10">
+
+                        <!-- Instagram Button -->
+                        <Border Grid.Row="0"
+                                Grid.Column="0"
+                                Style="{StaticResource SocialPromoButtonBorderStyle}"
+                                BackgroundColor="{StaticResource InstagramBrand}">
+                            <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="6">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.Instagram}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="15"
+                                       TextColor="{StaticResource White}"
+                                       VerticalOptions="Center" />
+                                <Label Text="پیج اینستاگرام"
+                                       FontSize="12.5"
+                                       FontFamily="KopolFontBlack"
+                                       TextColor="{StaticResource White}"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnInstagramTapped" />
+                            </Border.GestureRecognizers>
+                        </Border>
+
+                        <!-- Telegram Button -->
+                        <Border Grid.Row="0"
+                                Grid.Column="1"
+                                Style="{StaticResource SocialPromoButtonBorderStyle}"
+                                BackgroundColor="{StaticResource TelegramBrand}">
+                            <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="6">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.Telegram}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="15"
+                                       TextColor="{StaticResource White}"
+                                       VerticalOptions="Center" />
+                                <Label Text="کانال تلگرام"
+                                       FontSize="12.5"
+                                       FontFamily="KopolFontBlack"
+                                       TextColor="{StaticResource White}"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnTelegramTapped" />
+                            </Border.GestureRecognizers>
+                        </Border>
+
+                        <!-- Eitaa Button -->
+                        <Border Grid.Row="1"
+                                Grid.Column="0"
+                                Style="{StaticResource SocialPromoButtonBorderStyle}"
+                                BackgroundColor="{StaticResource EitaaBrand}">
+                            <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="6">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.Eitaa}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="15"
+                                       TextColor="{StaticResource White}"
+                                       VerticalOptions="Center" />
+                                <Label Text="کانال ایتا"
+                                       FontSize="12.5"
+                                       FontFamily="KopolFontBlack"
+                                       TextColor="{StaticResource White}"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnEitaTapped" />
+                            </Border.GestureRecognizers>
+                        </Border>
+
+                        <!-- Bale Button -->
+                        <Border Grid.Row="1"
+                                Grid.Column="1"
+                                Style="{StaticResource SocialPromoButtonBorderStyle}"
+                                BackgroundColor="{StaticResource BaleBrand}">
+                            <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="6">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.Bale}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="15"
+                                       TextColor="{StaticResource White}"
+                                       VerticalOptions="Center" />
+                                <Label Text="کانال بله"
+                                       FontSize="12.5"
+                                       FontFamily="KopolFontBlack"
+                                       TextColor="{StaticResource White}"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnBaleTapped" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                    </Grid>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Border>
+    </Grid>
+</ContentView>

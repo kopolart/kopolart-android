@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_widget_card"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp"
+    android:gravity="center_vertical">
+
+    <!-- Top Header: Logo + App Name (Clicking opens main app) -->
+    <LinearLayout
+        android:id="@+id/widget_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
+        android:paddingBottom="3dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/widget_app_icon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_widget_logo"
+            android:contentDescription="@string/widget_quick_actions_title"
+            android:duplicateParentState="true" />
+
+        <TextView
+            android:id="@+id/widget_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:text="@string/widget_quick_actions_title"
+            android:textColor="@color/widget_text_primary"
+            android:textSize="11.5sp"
+            android:textStyle="bold"
+            android:gravity="start|center_vertical"
+            android:lines="1"
+            android:singleLine="true"
+            android:includeFontPadding="false"
+            android:duplicateParentState="true" />
+    </LinearLayout>
+
+    <!-- Separator Line 1 using FrameLayout (RemoteViews-compliant) -->
+    <FrameLayout
+        android:id="@+id/widget_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/widget_stroke"
+        android:layout_marginBottom="3dp" />
+
+    <!-- Row 1: Primary Action Buttons (Always visible) -->
+    <LinearLayout
+        android:id="@+id/widget_row_primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <!-- 1. Browse -->
+        <LinearLayout
+            android:id="@+id/btn_widget_browse"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_widget_item"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/img_widget_browse"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_shortcut_browse"
+                android:contentDescription="@string/widget_action_browse"
+                android:duplicateParentState="true" />
+
+            <TextView
+                android:id="@+id/txt_widget_browse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/widget_action_browse"
+                android:textColor="@color/widget_text_secondary"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:lines="1"
+                android:singleLine="true"
+                android:includeFontPadding="false"
+                android:visibility="gone"
+                android:shadowColor="#30000000"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="1.5"
+                android:duplicateParentState="true" />
+        </LinearLayout>
+
+        <!-- 2. Bookmarks -->
+        <LinearLayout
+            android:id="@+id/btn_widget_bookmarks"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_widget_item"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/img_widget_bookmarks"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_shortcut_bookmark"
+                android:contentDescription="@string/widget_action_bookmarks"
+                android:duplicateParentState="true" />
+
+            <TextView
+                android:id="@+id/txt_widget_bookmarks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/widget_action_bookmarks"
+                android:textColor="@color/widget_text_secondary"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:lines="1"
+                android:singleLine="true"
+                android:includeFontPadding="false"
+                android:visibility="gone"
+                android:shadowColor="#30000000"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="1.5"
+                android:duplicateParentState="true" />
+        </LinearLayout>
+
+        <!-- 3. Downloads -->
+        <LinearLayout
+            android:id="@+id/btn_widget_downloads"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_widget_item"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/img_widget_downloads"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_shortcut_download"
+                android:contentDescription="@string/widget_action_downloads"
+                android:duplicateParentState="true" />
+
+            <TextView
+                android:id="@+id/txt_widget_downloads"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/widget_action_downloads"
+                android:textColor="@color/widget_text_secondary"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:lines="1"
+                android:singleLine="true"
+                android:includeFontPadding="false"
+                android:visibility="gone"
+                android:shadowColor="#30000000"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="1.5"
+                android:duplicateParentState="true" />
+        </LinearLayout>
+
+        <!-- 4. Settings -->
+        <LinearLayout
+            android:id="@+id/btn_widget_settings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_widget_item"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/img_widget_settings"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_shortcut_settings"
+                android:contentDescription="@string/widget_action_settings"
+                android:duplicateParentState="true" />
+
+            <TextView
+                android:id="@+id/txt_widget_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/widget_action_settings"
+                android:textColor="@color/widget_text_secondary"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:lines="1"
+                android:singleLine="true"
+                android:includeFontPadding="false"
+                android:visibility="gone"
+                android:shadowColor="#30000000"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="1.5"
+                android:duplicateParentState="true" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Separator Line 2 (Shown only in 4x2 / tall mode) -->
+    <FrameLayout
+        android:id="@+id/widget_divider_secondary"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/widget_stroke"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:visibility="gone" />
+
+    <!-- Row 2: Secondary Action Buttons (Shown only in 4x2 / tall mode) -->
+    <LinearLayout
+        android:id="@+id/widget_row_secondary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <!-- 5. Contact -->
+        <LinearLayout
+            android:id="@+id/btn_widget_contact"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_widget_item"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/img_widget_contact"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_shortcut_contact"
+                android:contentDescription="@string/widget_action_contact"
+                android:duplicateParentState="true" />
+
+            <TextView
+                android:id="@+id/txt_widget_contact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/widget_action_contact"
+                android:textColor="@color/widget_text_secondary"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:lines="1"
+                android:singleLine="true"
+                android:includeFontPadding="false"
+                android:shadowColor="#30000000"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="1.5"
+                android:duplicateParentState="true" />
+        </LinearLayout>
+
+        <!-- 6. History -->
+        <LinearLayout
+            android:id="@+id/btn_widget_history"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_widget_item"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/img_widget_history"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_shortcut_history"
+                android:contentDescription="@string/widget_action_history"
+                android:duplicateParentState="true" />
+
+            <TextView
+                android:id="@+id/txt_widget_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/widget_action_history"
+                android:textColor="@color/widget_text_secondary"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:lines="1"
+                android:singleLine="true"
+                android:includeFontPadding="false"
+                android:shadowColor="#30000000"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="1.5"
+                android:duplicateParentState="true" />
+        </LinearLayout>
+
+        <!-- 7. Updates -->
+        <LinearLayout
+            android:id="@+id/btn_widget_updates"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_widget_item"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/img_widget_updates"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_shortcut_update"
+                android:contentDescription="@string/widget_action_updates"
+                android:duplicateParentState="true" />
+
+            <TextView
+                android:id="@+id/txt_widget_updates"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/widget_action_updates"
+                android:textColor="@color/widget_text_secondary"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:lines="1"
+                android:singleLine="true"
+                android:includeFontPadding="false"
+                android:shadowColor="#30000000"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="1.5"
+                android:duplicateParentState="true" />
+        </LinearLayout>
+
+        <!-- 8. About -->
+        <LinearLayout
+            android:id="@+id/btn_widget_about"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_widget_item"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/img_widget_about"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_shortcut_about"
+                android:contentDescription="@string/widget_action_about"
+                android:duplicateParentState="true" />
+
+            <TextView
+                android:id="@+id/txt_widget_about"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/widget_action_about"
+                android:textColor="@color/widget_text_secondary"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:lines="1"
+                android:singleLine="true"
+                android:includeFontPadding="false"
+                android:shadowColor="#30000000"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="1.5"
+                android:duplicateParentState="true" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

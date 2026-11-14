@@ -1,0 +1,311 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KopolArt.Mobile.ViewModels"
+             xmlns:models="clr-namespace:KopolArt.Mobile.Models"
+             xmlns:helpers="clr-namespace:KopolArt.Mobile.Helpers"
+             x:Class="KopolArt.Mobile.Views.BookmarksPage"
+             x:DataType="vm:BookmarksViewModel"
+             BackgroundColor="{AppThemeBinding Light={StaticResource BrandBackground}, Dark={StaticResource BrandBackgroundDark}}"
+             Shell.NavBarIsVisible="False"
+             FlowDirection="RightToLeft">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*" Padding="16,14,16,16" RowSpacing="12">
+
+        <!-- 1. Top Bar -->
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+
+            <!-- Back Button -->
+            <Border Style="{StaticResource TopBarBackButtonStyle}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BackCommand}" />
+                </Border.GestureRecognizers>
+                <Label Text="{x:Static helpers:KopolArtFaIcons.Back}"
+                       Style="{StaticResource TopBarBackIconStyle}" />
+            </Border>
+
+            <!-- Title -->
+            <Label Grid.Column="1"
+                   Text="صفحات نشان‌شده"
+                   Style="{StaticResource TopBarTitleStyle}" />
+
+            <!-- Top Bar Actions -->
+            <HorizontalStackLayout Grid.Column="2" Spacing="6" VerticalOptions="Center">
+                <!-- Offline Pages Button -->
+                <Border BackgroundColor="{AppThemeBinding Light={StaticResource BrandPrimaryTintLight}, Dark={StaticResource BrandPrimaryTintDark}}"
+                        Stroke="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                        StrokeThickness="1"
+                        Padding="8,4"
+                        HeightRequest="34"
+                        VerticalOptions="Center">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenOfflinePagesCommand}" />
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout Spacing="5" VerticalOptions="Center">
+                        <Label Text="{x:Static helpers:KopolArtFaIcons.DocTextInv}"
+                               FontFamily="KopolArtFa"
+                               FontSize="13"
+                               TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                               VerticalOptions="Center" />
+                        <Label Text="صفحات آفلاین"
+                               FontSize="11.5"
+                               FontFamily="KopolFontBold"
+                               TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+
+                <!-- Clear All Button -->
+                <Button Text="پاک‌سازی کل"
+                        Command="{Binding ClearAllCommand}"
+                        Style="{StaticResource TopBarDestructiveButtonStyle}" />
+            </HorizontalStackLayout>
+        </Grid>
+
+        <!-- 2. Summary Statistics Card -->
+        <Border Grid.Row="1" Style="{StaticResource LuxuryCardStyle}" Padding="16,12">
+            <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                <Label Grid.Column="0"
+                       Text="کل صفحات نشان‌شده:"
+                       FontSize="12.5"
+                       FontFamily="KopolFontMedium"
+                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                       VerticalOptions="Center" />
+                <Label Grid.Column="1"
+                       Text="{Binding TotalBookmarksCount}"
+                       FontSize="14.5"
+                       FontFamily="KopolFontBlack"
+                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                       HorizontalOptions="End"
+                       VerticalOptions="Center" />
+            </Grid>
+        </Border>
+
+        <!-- 3. Search & Sort Bar -->
+        <Grid Grid.Row="2" ColumnDefinitions="*,Auto" ColumnSpacing="8">
+            <Border Grid.Column="0"
+                    Style="{StaticResource SearchCardStyle}">
+                <Grid ColumnDefinitions="Auto,*">
+                    <Label Text="{x:Static helpers:KopolArtFaIcons.Search}"
+                           Style="{StaticResource SearchIconStyle}" />
+                    <Entry Grid.Column="1"
+                           Text="{Binding SearchText}"
+                           Placeholder="جستجو در نشان‌شده‌ها..."
+                           Style="{StaticResource SearchEntryStyle}" />
+                </Grid>
+            </Border>
+
+            <!-- Sort Button -->
+            <Border Grid.Column="1"
+                    Style="{StaticResource SortButtonCardStyle}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ChangeSortCommand}" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                    <Label Text="{x:Static helpers:KopolArtFaIcons.SortAltDown}"
+                           Style="{StaticResource SortIconStyle}" />
+                    <Label Text="{Binding CurrentSortTitle}"
+                           Style="{StaticResource SortLabelStyle}" />
+                </HorizontalStackLayout>
+            </Border>
+        </Grid>
+
+        <!-- 4. Category Filter Chips Bar -->
+        <ScrollView Grid.Row="3" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+            <HorizontalStackLayout Spacing="8" BindableLayout.ItemsSource="{Binding CategoryFilters}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:CategoryFilterOption">
+                        <Border StrokeThickness="1.2"
+                                Padding="14,6"
+                                VerticalOptions="Center">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16" />
+                            </Border.StrokeShape>
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource BrandPrimary}" />
+                                    <Setter Property="Stroke" Value="{StaticResource BrandPrimary}" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="False">
+                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}" />
+                                    <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource FilterChipBorderLight}, Dark={StaticResource FilterChipBorderDark}}" />
+                                </DataTrigger>
+                            </Border.Triggers>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BookmarksViewModel}}, Path=SelectCategoryCommand}"
+                                                      CommandParameter="{Binding Name}" />
+                            </Border.GestureRecognizers>
+                            <Label Text="{Binding Name}"
+                                   FontFamily="KopolFontBold"
+                                   FontSize="12">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                        <Setter Property="TextColor" Value="{StaticResource White}" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="False">
+                                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <!-- 5. Bookmarks List / Empty View -->
+        <Grid Grid.Row="4">
+
+            <!-- Empty State -->
+            <VerticalStackLayout IsVisible="{Binding IsEmpty}"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"
+                                 Spacing="12"
+                                 ZIndex="2">
+                <Border Style="{StaticResource EmptyStateCircleBorderStyle}">
+                    <Label Text="{x:Static helpers:KopolArtFaIcons.BookmarkEmpty}"
+                           Style="{StaticResource EmptyStateIconLabelStyle}" />
+                </Border>
+                <Label Text="نشان‌شده‌ای یافت نشد"
+                       Style="{StaticResource EmptyStateTitleLabelStyle}" />
+                <Label Text="با نگه داشتن انگشت روی هر صفحه و انتخاب گزینه نشان‌کردن، می‌توانید آن را به این فهرست اضافه نمایید."
+                       Style="{StaticResource EmptyStateDescriptionLabelStyle}" />
+                <Button Text="کاوش در مطالب سایت"
+                        Command="{Binding ExploreWebsiteCommand}"
+                        Style="{StaticResource EmptyStateActionButtonStyle}" />
+            </VerticalStackLayout>
+
+            <!-- Bookmarks List -->
+            <CollectionView ItemsSource="{Binding BookmarkGroups}"
+                            IsVisible="{Binding IsNotEmpty}"
+                            IsGrouped="True"
+                            VerticalScrollBarVisibility="Never"
+                            SelectionMode="None">
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate x:DataType="models:BookmarkDateGroup">
+                        <Grid ColumnDefinitions="Auto,Auto,*"
+                              Padding="4,12,4,6"
+                              ColumnSpacing="8"
+                              VerticalOptions="Center">
+                            <HorizontalStackLayout Grid.Column="0" Spacing="6" VerticalOptions="Center">
+                                <Label Text="{Binding GroupIcon}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="14"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                                       VerticalOptions="Center" />
+                                <Label Text="{Binding GroupTitle}"
+                                       Style="{StaticResource DateGroupHeaderTitleStyle}" />
+                            </HorizontalStackLayout>
+                            <Border Grid.Column="1"
+                                    Style="{StaticResource DateGroupHeaderBadgeStyle}">
+                                <Label Text="{Binding CountBadgeText}"
+                                       Style="{StaticResource DateGroupHeaderBadgeLabelStyle}" />
+                            </Border>
+                            <BoxView Grid.Column="2"
+                                     Style="{StaticResource DateGroupHeaderDividerStyle}" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:BookmarkDisplayItem">
+                        <SwipeView Threshold="30">
+
+                            <!-- Left Swipe Action (Revealed when swiping to the Right): Share -->
+                            <SwipeView.LeftItems>
+                                <SwipeItems Mode="Reveal">
+                                    <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BookmarksViewModel}}, Path=ShareBookmarkCommand}"
+                                                   CommandParameter="{Binding .}">
+                                        <Border Style="{StaticResource SwipeActionShareBorderStyle}">
+                                            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="4">
+                                                <Label Text="{x:Static helpers:KopolArtFaIcons.ShareSquared}"
+                                                       Style="{StaticResource SwipeActionIconLabelStyle}" />
+                                                <Label Text="اشتراک"
+                                                       Style="{StaticResource SwipeActionTextLabelStyle}" />
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </SwipeItemView>
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+
+                            <!-- Right Swipe Action (Revealed when swiping to the Left): Delete -->
+                            <SwipeView.RightItems>
+                                <SwipeItems Mode="Reveal">
+                                    <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BookmarksViewModel}}, Path=DeleteBookmarkCommand}"
+                                                   CommandParameter="{Binding .}">
+                                        <Border Style="{StaticResource SwipeActionDeleteBorderStyle}">
+                                            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="4">
+                                                <Label Text="{x:Static helpers:KopolArtFaIcons.Trash}"
+                                                       Style="{StaticResource SwipeActionIconLabelStyle}" />
+                                                <Label Text="حذف"
+                                                       Style="{StaticResource SwipeActionTextLabelStyle}" />
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </SwipeItemView>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Grid Padding="4,2,4,14">
+                                <Border Style="{StaticResource LuxuryCardStyle}"
+                                        Stroke="{StaticResource ActionAmber}"
+                                        StrokeThickness="1"
+                                        Padding="14,12">
+                                    <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BookmarksViewModel}}, Path=OpenBookmarkCommand}"
+                                                          CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" RowSpacing="6">
+
+                                    <!-- Top Row: Category Badge & Title -->
+                                    <Grid Grid.Row="0" Grid.Column="0" ColumnDefinitions="Auto,*" ColumnSpacing="8" VerticalOptions="Center">
+                                        <Border Grid.Column="0"
+                                                Style="{StaticResource ItemCategoryBadgeBorderStyle}"
+                                                BackgroundColor="{Binding BadgeBackgroundColor}"
+                                                Stroke="{Binding BadgeBorderColor}">
+                                            <Label Text="{Binding CategoryName}"
+                                                   Style="{StaticResource ItemCategoryBadgeLabelStyle}"
+                                                   TextColor="{Binding BadgeTextColor}" />
+                                        </Border>
+                                        <Label Grid.Column="1"
+                                               Text="{Binding Title}"
+                                               Style="{StaticResource ItemTitleLabelStyle}"
+                                               LineBreakMode="TailTruncation"
+                                               VerticalOptions="Center" />
+                                    </Grid>
+
+                                    <!-- Delete single bookmark (Preserved on-card button) -->
+                                    <Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="1"
+                                            Style="{StaticResource CardDeleteButtonBorderStyle}">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BookmarksViewModel}}, Path=DeleteBookmarkCommand}"
+                                                                  CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+                                        <Label Text="{x:Static helpers:KopolArtFaIcons.Trash}"
+                                               Style="{StaticResource CardDeleteIconLabelStyle}" />
+                                    </Border>
+
+                                    <!-- Middle Row: URL -->
+                                    <Label Grid.Row="1" Grid.Column="0"
+                                           Text="{Binding Url}"
+                                           Style="{StaticResource ItemSubtitleLabelStyle}"
+                                           LineBreakMode="MiddleTruncation" />
+
+                                    <!-- Bottom Row: Relative Time & Persian Date -->
+                                    <HorizontalStackLayout Grid.Row="2" Grid.Column="0" Spacing="8">
+                                        <Label Text="{Binding RelativeTime}"
+                                               Style="{StaticResource ItemTimeLabelStyle}" />
+                                        <Label Text="•"
+                                               Style="{StaticResource ItemDotSeparatorLabelStyle}" />
+                                        <Label Text="{Binding FullPersianDate}"
+                                               Style="{StaticResource ItemDateLabelStyle}" />
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </Grid>
+</ContentPage>

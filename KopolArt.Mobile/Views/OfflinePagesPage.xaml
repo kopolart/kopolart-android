@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KopolArt.Mobile.ViewModels"
+             xmlns:models="clr-namespace:KopolArt.Mobile.Models"
+             xmlns:helpers="clr-namespace:KopolArt.Mobile.Helpers"
+             x:Class="KopolArt.Mobile.Views.OfflinePagesPage"
+             x:DataType="vm:OfflinePagesViewModel"
+             BackgroundColor="{AppThemeBinding Light={StaticResource BrandBackground}, Dark={StaticResource BrandBackgroundDark}}"
+             Shell.NavBarIsVisible="False"
+             FlowDirection="RightToLeft">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*" Padding="16,14,16,16" RowSpacing="12">
+
+        <!-- 1. Top Bar -->
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+
+            <!-- Back Button -->
+            <Border Style="{StaticResource TopBarBackButtonStyle}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BackCommand}" />
+                </Border.GestureRecognizers>
+                <Label Text="{x:Static helpers:KopolArtFaIcons.Back}"
+                       Style="{StaticResource TopBarBackIconStyle}" />
+            </Border>
+
+            <!-- Title -->
+            <Label Grid.Column="1"
+                   Text="صفحات ذخیره‌شده آفلاین"
+                   Style="{StaticResource TopBarTitleStyle}" />
+
+            <!-- Clear All Button -->
+            <Button Grid.Column="2"
+                    Text="پاک‌سازی کل"
+                    Command="{Binding ClearAllCommand}"
+                    Style="{StaticResource TopBarDestructiveButtonStyle}" />
+        </Grid>
+
+        <!-- 2. Summary Statistics Card -->
+        <Border Grid.Row="1" Style="{StaticResource LuxuryCardStyle}" Padding="16,12">
+            <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                <Label Grid.Column="0"
+                       Text="کل صفحات آفلاین:"
+                       FontSize="12.5"
+                       FontFamily="KopolFontMedium"
+                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                       VerticalOptions="Center" />
+                <Label Grid.Column="1"
+                       Text="{Binding TotalOfflinePagesCount}"
+                       FontSize="14.5"
+                       FontFamily="KopolFontBlack"
+                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                       HorizontalOptions="End"
+                       VerticalOptions="Center" />
+            </Grid>
+        </Border>
+
+        <!-- 3. Search & Sort Bar -->
+        <Grid Grid.Row="2" ColumnDefinitions="*,Auto" ColumnSpacing="8">
+            <Border Grid.Column="0"
+                    Style="{StaticResource SearchCardStyle}">
+                <Grid ColumnDefinitions="Auto,*">
+                    <Label Text="{x:Static helpers:KopolArtFaIcons.Search}"
+                           Style="{StaticResource SearchIconStyle}" />
+                    <Entry Grid.Column="1"
+                           Text="{Binding SearchText}"
+                           Placeholder="جستجو در صفحات آفلاین..."
+                           Style="{StaticResource SearchEntryStyle}" />
+                </Grid>
+            </Border>
+
+            <!-- Sort Button -->
+            <Border Grid.Column="1"
+                    Style="{StaticResource SortButtonCardStyle}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ChangeSortCommand}" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                    <Label Text="{x:Static helpers:KopolArtFaIcons.SortAltDown}"
+                           Style="{StaticResource SortIconStyle}" />
+                    <Label Text="{Binding CurrentSortTitle}"
+                           Style="{StaticResource SortLabelStyle}" />
+                </HorizontalStackLayout>
+            </Border>
+        </Grid>
+
+        <!-- 4. Category Filter Chips Bar -->
+        <ScrollView Grid.Row="3" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+            <HorizontalStackLayout Spacing="8" BindableLayout.ItemsSource="{Binding CategoryFilters}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:CategoryFilterOption">
+                        <Border StrokeThickness="1.2"
+                                Padding="14,6"
+                                VerticalOptions="Center">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16" />
+                            </Border.StrokeShape>
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource BrandPrimary}" />
+                                    <Setter Property="Stroke" Value="{StaticResource BrandPrimary}" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="False">
+                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}" />
+                                    <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource FilterChipBorderLight}, Dark={StaticResource FilterChipBorderDark}}" />
+                                </DataTrigger>
+                            </Border.Triggers>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:OfflinePagesViewModel}}, Path=SelectCategoryCommand}"
+                                                      CommandParameter="{Binding Name}" />
+                            </Border.GestureRecognizers>
+                            <Label Text="{Binding Name}"
+                                   FontFamily="KopolFontBold"
+                                   FontSize="12">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                        <Setter Property="TextColor" Value="{StaticResource White}" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="False">
+                                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <!-- 5. List / Empty View -->
+        <Grid Grid.Row="4">
+
+            <!-- Empty State -->
+            <VerticalStackLayout IsVisible="{Binding IsEmpty}"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"
+                                 Spacing="12"
+                                 Padding="24,0"
+                                 ZIndex="2">
+                <Border Style="{StaticResource EmptyStateCircleBorderStyle}">
+                    <Label Text="{x:Static helpers:KopolArtFaIcons.DocTextInv}"
+                           Style="{StaticResource EmptyStateIconLabelStyle}" />
+                </Border>
+                <Label Text="صفحه آفلاینی ذخیره نشده است"
+                       Style="{StaticResource EmptyStateTitleLabelStyle}" />
+                <Label Text="هنگام مشاهده هر صفحه، با لمس طولانی و انتخاب «ذخیره برای مطالعه آفلاین» می‌توانید آن را برای استفاده بدون اینترنت در این بخش نگه دارید."
+                       Style="{StaticResource EmptyStateDescriptionLabelStyle}" />
+                <Button Text="کاوش در مطالب سایت"
+                        Command="{Binding ExploreWebsiteCommand}"
+                        Style="{StaticResource EmptyStateActionButtonStyle}" />
+            </VerticalStackLayout>
+
+            <!-- Offline Pages List -->
+            <CollectionView ItemsSource="{Binding Pages}"
+                            IsVisible="{Binding IsNotEmpty}"
+                            VerticalScrollBarVisibility="Never"
+                            SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:OfflinePageDisplayItem">
+                        <SwipeView Threshold="30">
+
+                            <!-- Left Swipe: Share -->
+                            <SwipeView.LeftItems>
+                                <SwipeItems Mode="Reveal">
+                                    <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type vm:OfflinePagesViewModel}}, Path=SharePageCommand}"
+                                                   CommandParameter="{Binding .}">
+                                        <Border Style="{StaticResource SwipeActionShareBorderStyle}">
+                                            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="4">
+                                                <Label Text="{x:Static helpers:KopolArtFaIcons.ShareSquared}"
+                                                       Style="{StaticResource SwipeActionIconLabelStyle}" />
+                                                <Label Text="اشتراک"
+                                                       Style="{StaticResource SwipeActionTextLabelStyle}" />
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </SwipeItemView>
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+
+                            <!-- Right Swipe: Delete -->
+                            <SwipeView.RightItems>
+                                <SwipeItems Mode="Reveal">
+                                    <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type vm:OfflinePagesViewModel}}, Path=DeletePageCommand}"
+                                                   CommandParameter="{Binding .}">
+                                        <Border Style="{StaticResource SwipeActionDeleteBorderStyle}">
+                                            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="4">
+                                                <Label Text="{x:Static helpers:KopolArtFaIcons.Trash}"
+                                                       Style="{StaticResource SwipeActionIconLabelStyle}" />
+                                                <Label Text="حذف"
+                                                       Style="{StaticResource SwipeActionTextLabelStyle}" />
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </SwipeItemView>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+
+                            <!-- Main Card Item -->
+                            <Border Style="{StaticResource LuxuryCardStyle}"
+                                    Padding="14,12"
+                                    Margin="0,0,0,8">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:OfflinePagesViewModel}}, Path=OpenPageCommand}"
+                                                          CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10" VerticalOptions="Center">
+                                    <VerticalStackLayout Grid.Column="0" Spacing="4" VerticalOptions="Center">
+                                        <!-- Title -->
+                                        <Label Text="{Binding Title}"
+                                               Style="{StaticResource ItemTitleLabelStyle}"
+                                               LineBreakMode="TailTruncation"
+                                               MaxLines="1" />
+
+                                        <!-- Meta info: Size, Date & Category -->
+                                        <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                                            <Label Text="{Binding FormattedSize}"
+                                                   Style="{StaticResource ItemTimeLabelStyle}" />
+
+                                            <Label Text="•"
+                                                   Style="{StaticResource ItemDotSeparatorLabelStyle}" />
+
+                                            <Label Text="{Binding FormattedDate}"
+                                                   Style="{StaticResource ItemDateLabelStyle}" />
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+
+                                    <!-- Category Badge & Offline icon -->
+                                    <HorizontalStackLayout Grid.Column="1" Spacing="6" VerticalOptions="Center">
+                                        <Border Style="{StaticResource ItemCategoryBadgeBorderStyle}"
+                                                BackgroundColor="{Binding CategoryBgColor}"
+                                                Stroke="{Binding CategoryBorderColor}">
+                                            <Label Text="{Binding Category}"
+                                                   TextColor="{Binding CategoryTextColor}"
+                                                   Style="{StaticResource ItemCategoryBadgeLabelStyle}" />
+                                        </Border>
+
+                                        <Border WidthRequest="32"
+                                                HeightRequest="32"
+                                                BackgroundColor="{AppThemeBinding Light={StaticResource BrandPrimaryTintLight}, Dark={StaticResource BrandPrimaryTintDark}}"
+                                                StrokeThickness="0"
+                                                VerticalOptions="Center">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="16" />
+                                            </Border.StrokeShape>
+                                            <Label Text="{x:Static helpers:KopolArtFaIcons.DocTextInv}"
+                                                   FontFamily="KopolArtFa"
+                                                   FontSize="14"
+                                                   TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+                                        </Border>
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </Border>
+
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </Grid>
+    </Grid>
+
+</ContentPage>

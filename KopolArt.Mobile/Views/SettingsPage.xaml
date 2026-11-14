@@ -1,0 +1,589 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KopolArt.Mobile.ViewModels"
+             xmlns:views="clr-namespace:KopolArt.Mobile.Views"
+             xmlns:helpers="clr-namespace:KopolArt.Mobile.Helpers"
+             x:Class="KopolArt.Mobile.Views.SettingsPage"
+             x:DataType="vm:SettingsViewModel"
+             BackgroundColor="{AppThemeBinding Light={StaticResource BrandBackground}, Dark={StaticResource BrandBackgroundDark}}"
+             Shell.NavBarIsVisible="False"
+             FlowDirection="RightToLeft">
+
+    <Grid>
+        <Grid RowDefinitions="Auto,*">
+        <!-- Top Navigation Bar -->
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" Padding="16,14" VerticalOptions="Center">
+            <!-- Back Button -->
+            <Border Style="{StaticResource TopBarBackButtonStyle}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BackCommand}" />
+                </Border.GestureRecognizers>
+                <Label Text="{x:Static helpers:KopolArtFaIcons.Back}"
+                       Style="{StaticResource TopBarBackIconStyle}" />
+            </Border>
+
+            <!-- Title -->
+            <Label Grid.Column="1"
+                   Style="{StaticResource TopBarTitleStyle}"
+                   Text="تنظیمات برنامه" />
+        </Grid>
+
+        <!-- Main Content -->
+        <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Never">
+            <VerticalStackLayout Spacing="16" Padding="16,8,16,32">
+
+                <!-- 1. Theme Selector Section -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Style="{StaticResource CardSectionTitleLabelStyle}"
+                               Text="پوسته و تم برنامه" />
+
+                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                            <!-- 1. System (Auto) Theme -->
+                            <Border Grid.Column="0"
+                                    Style="{StaticResource ThemeOptionBorderStyle}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SetThemeCommand}" CommandParameter="System" />
+                                </Border.GestureRecognizers>
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding IsSystemThemeSelected}" Value="True">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource BrandPrimary}" />
+                                        <Setter Property="Stroke" Value="{StaticResource BrandPrimary}" />
+                                    </DataTrigger>
+                                </Border.Triggers>
+
+                                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="6">
+                                    <Label Text="{x:Static helpers:KopolArtFaIcons.ThemeAuto}"
+                                           FontFamily="KopolArtFa"
+                                           FontSize="{StaticResource FontSize16}"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                           VerticalOptions="Center">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsSystemThemeSelected}" Value="True">
+                                                <Setter Property="TextColor" Value="{StaticResource White}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+
+                                    <Label Text="خودکار"
+                                           FontFamily="KopolFontBold"
+                                           FontSize="{StaticResource FontSize12}"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                           VerticalOptions="Center">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsSystemThemeSelected}" Value="True">
+                                                <Setter Property="TextColor" Value="{StaticResource White}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </HorizontalStackLayout>
+                            </Border>
+
+                            <!-- 2. Light Theme -->
+                            <Border Grid.Column="1"
+                                    Style="{StaticResource ThemeOptionBorderStyle}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SetThemeCommand}" CommandParameter="Light" />
+                                </Border.GestureRecognizers>
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding IsLightThemeSelected}" Value="True">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource BrandPrimary}" />
+                                        <Setter Property="Stroke" Value="{StaticResource BrandPrimary}" />
+                                    </DataTrigger>
+                                </Border.Triggers>
+
+                                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="6">
+                                    <Label Text="{x:Static helpers:KopolArtFaIcons.Sun}"
+                                           FontFamily="KopolArtFa"
+                                           FontSize="{StaticResource FontSize16}"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                           VerticalOptions="Center">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsLightThemeSelected}" Value="True">
+                                                <Setter Property="TextColor" Value="{StaticResource White}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+
+                                    <Label Text="روشن"
+                                           FontFamily="KopolFontBold"
+                                           FontSize="{StaticResource FontSize12}"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                           VerticalOptions="Center">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsLightThemeSelected}" Value="True">
+                                                <Setter Property="TextColor" Value="{StaticResource White}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </HorizontalStackLayout>
+                            </Border>
+
+                            <!-- 3. Dark Theme -->
+                            <Border Grid.Column="2"
+                                    Style="{StaticResource ThemeOptionBorderStyle}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SetThemeCommand}" CommandParameter="Dark" />
+                                </Border.GestureRecognizers>
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding IsDarkThemeSelected}" Value="True">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource BrandPrimary}" />
+                                        <Setter Property="Stroke" Value="{StaticResource BrandPrimary}" />
+                                    </DataTrigger>
+                                </Border.Triggers>
+
+                                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="6">
+                                    <Label Text="{x:Static helpers:KopolArtFaIcons.Moon}"
+                                           FontFamily="KopolArtFa"
+                                           FontSize="{StaticResource FontSize16}"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                           VerticalOptions="Center">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsDarkThemeSelected}" Value="True">
+                                                <Setter Property="TextColor" Value="{StaticResource White}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+
+                                    <Label Text="تاریک"
+                                           FontFamily="KopolFontBold"
+                                           FontSize="{StaticResource FontSize12}"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                           VerticalOptions="Center">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsDarkThemeSelected}" Value="True">
+                                                <Setter Property="TextColor" Value="{StaticResource White}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </HorizontalStackLayout>
+                            </Border>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- 2. Navigation & Startup Behavior -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Style="{StaticResource CardSectionTitleLabelStyle}"
+                               Text="رفتار ناوبری و مرورگر" />
+
+                        <!-- Toggle 1: Open Dashboard at startup -->
+                        <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                <Label Text="باز شدن داشبورد در شروع برنامه"
+                                       FontSize="{StaticResource FontSize14}"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                <Label Text="نمایش داشبورد امکانات به جای باز شدن مستقیم وب‌سایت"
+                                       FontSize="{StaticResource FontSize11_5}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            </VerticalStackLayout>
+                            <Switch Grid.Column="1"
+                                    IsToggled="{Binding OpenDashboardAtStartup}"
+                                    OnColor="{StaticResource BrandPrimary}"
+                                    ThumbColor="{StaticResource White}"
+                                    OffColor="{AppThemeBinding Light={StaticResource SwitchTrackOffLight}, Dark={StaticResource CardBorderDark}}" />
+                        </Grid>
+
+                        <BoxView Style="{StaticResource CardDividerBoxViewStyle}" />
+
+                        <!-- Toggle 2: Show loading on every navigation -->
+                        <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                <Label Text="نمایش لودینگ در هر ناوبری"
+                                       FontSize="{StaticResource FontSize14}"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                <Label Text="نمایش انیمیشن لودینگ هنگام بارگذاری صفحات"
+                                       FontSize="{StaticResource FontSize11_5}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            </VerticalStackLayout>
+                            <Switch Grid.Column="1"
+                                    IsToggled="{Binding ShowLoadingOnNavigation}"
+                                    OnColor="{StaticResource BrandPrimary}"
+                                    ThumbColor="{StaticResource White}"
+                                    OffColor="{AppThemeBinding Light={StaticResource SwitchTrackOffLight}, Dark={StaticResource CardBorderDark}}" />
+                        </Grid>
+
+                        <BoxView Style="{StaticResource CardDividerBoxViewStyle}" />
+
+                        <!-- Toggle 2: Restore last visited page at startup -->
+                        <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                <Label Text="بازیابی آخرین صفحه در شروع"
+                                       FontSize="{StaticResource FontSize14}"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                <Label Text="باز شدن با آخرین صفحه‌ای که در آن بودید"
+                                       FontSize="{StaticResource FontSize11_5}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            </VerticalStackLayout>
+                            <Switch Grid.Column="1"
+                                    IsToggled="{Binding RestoreLastPageAtStartup}"
+                                    OnColor="{StaticResource BrandPrimary}"
+                                    ThumbColor="{StaticResource White}"
+                                    OffColor="{AppThemeBinding Light={StaticResource SwitchTrackOffLight}, Dark={StaticResource CardBorderDark}}" />
+                        </Grid>
+
+                        <BoxView Style="{StaticResource CardDividerBoxViewStyle}" />
+
+                        <!-- Toggle 3: Auto clear cache on exit -->
+                        <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                <Label Text="پاک‌سازی خودکار کش هنگام خروج"
+                                       FontSize="{StaticResource FontSize14}"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                <Label Text="پاک‌سازی حافظه موقت (کش) با بستن برنامه"
+                                       FontSize="{StaticResource FontSize11_5}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            </VerticalStackLayout>
+                            <Switch Grid.Column="1"
+                                    IsToggled="{Binding AutoClearCacheOnExit}"
+                                    OnColor="{StaticResource BrandPrimary}"
+                                    ThumbColor="{StaticResource White}"
+                                    OffColor="{AppThemeBinding Light={StaticResource SwitchTrackOffLight}, Dark={StaticResource CardBorderDark}}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- 3. Cache & Storage Management -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Style="{StaticResource CardSectionTitleLabelStyle}"
+                               Text="حافظه و داده‌های وب‌ویو" />
+
+                        <!-- Metric Rows -->
+                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" RowSpacing="10">
+                            <!-- Cache Size -->
+                            <Label Grid.Row="0" Grid.Column="0" Text="حجم حافظه کش مرورگر:" FontSize="{StaticResource FontSize13}" FontFamily="KopolFontMedium" TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding CacheSize}" FontSize="{StaticResource FontSize13}" FontFamily="KopolFontBlack" TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}" />
+
+                            <!-- Data Size -->
+                            <Label Grid.Row="1" Grid.Column="0" Text="حجم داده‌های برنامه:" FontSize="{StaticResource FontSize13}" FontFamily="KopolFontMedium" TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding AppDataSize}" FontSize="{StaticResource FontSize13}" FontFamily="KopolFontBlack" TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}" />
+
+                            <!-- Cookie Count -->
+                            <Label Grid.Row="2" Grid.Column="0" Text="تعداد کوکی‌های فعال:" FontSize="{StaticResource FontSize13}" FontFamily="KopolFontMedium" TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding CookieCount}" FontSize="{StaticResource FontSize13}" FontFamily="KopolFontBlack" TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}" />
+                        </Grid>
+
+                        <BoxView Style="{StaticResource CardDividerBoxViewStyle}" Margin="0,4" />
+
+                        <!-- Separate Action Buttons -->
+                        <Button Text="پاک‌سازی حافظه کش"
+                                Command="{Binding ClearCacheCommand}"
+                                Style="{StaticResource LuxuryGhostButtonStyle}" />
+
+                        <Button Text="پاک‌سازی کل دیتای وب‌ویو"
+                                Command="{Binding ClearAppDataCommand}"
+                                Style="{StaticResource LuxuryGhostButtonStyle}" />
+
+                        <Button Text="حذف تمامی کوکی‌ها"
+                                Command="{Binding ClearCookiesCommand}"
+                                Style="{StaticResource LuxuryGhostButtonStyle}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Download Directory & Preferences Section -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Style="{StaticResource CardSectionTitleLabelStyle}"
+                               Text="مسیر و محل ذخیره دانلودها" />
+
+                        <Label Text="تعیین پوشه‌ای که فایل‌های دانلودی از وب‌سایت کپل‌آرت در آن ذخیره می‌شوند."
+                               FontSize="{StaticResource FontSize11_5}"
+                               FontFamily="KopolFontMedium"
+                               TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+
+                        <!-- Current Folder Display -->
+                        <Border StrokeThickness="1"
+                                Padding="12,10"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}"
+                                Stroke="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" VerticalOptions="Center">
+                                <Label Grid.Column="0"
+                                       Text="{x:Static helpers:KopolArtFaIcons.FolderOpen}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="{StaticResource FontSize20}"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                                       VerticalOptions="Center" />
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="مسیر فعلی ذخیره‌سازی:"
+                                           FontSize="{StaticResource FontSize11}"
+                                           FontFamily="KopolFontMedium"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                                    <Label Text="{Binding DownloadFolderDisplayName}"
+                                           FontSize="{StaticResource FontSize12_5}"
+                                           FontFamily="KopolFontBold"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="1" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+
+                        <!-- Action Buttons -->
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                            <Button Grid.Column="0"
+                                    Text="تغییر پوشه ذخیره"
+                                    Command="{Binding ChangeDownloadFolderCommand}"
+                                    Style="{StaticResource LuxuryPrimaryButtonStyle}"
+                                    HeightRequest="42"
+                                    FontSize="{StaticResource FontSize12}" />
+
+                            <Button Grid.Column="1"
+                                    Text="بازنشانی به پیش‌فرض"
+                                    Command="{Binding ResetDownloadFolderCommand}"
+                                    IsVisible="{Binding IsCustomDownloadFolderSet}"
+                                    Style="{StaticResource LuxuryGhostButtonStyle}"
+                                    HeightRequest="42"
+                                    Padding="14,0"
+                                    FontSize="{StaticResource FontSize12}" />
+                        </Grid>
+
+                        <BoxView Style="{StaticResource CardDividerBoxViewStyle}" Margin="0,2" />
+
+                        <!-- Toggle: Ask Before Download -->
+                        <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                <Label Text="پرسش محل ذخیره هنگام دانلود"
+                                       FontSize="{StaticResource FontSize13_5}"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                <Label Text="نمایش پنجره تأیید و انتخاب پوشه قبل از شروع دانلود هر فایل"
+                                       FontSize="{StaticResource FontSize11_5}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            </VerticalStackLayout>
+                            <Switch Grid.Column="1"
+                                    IsToggled="{Binding AskBeforeDownload}"
+                                    OnColor="{StaticResource BrandPrimary}"
+                                    ThumbColor="{StaticResource White}"
+                                    OffColor="{AppThemeBinding Light={StaticResource SwitchTrackOffLight}, Dark={StaticResource CardBorderDark}}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- 4. Notifications & Updates Section -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Style="{StaticResource CardSectionTitleLabelStyle}"
+                               Text="اعلان‌ها و به‌روزرسانی" />
+
+                        <!-- Toggle: New Content Notification (RSS) -->
+                        <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                <Label Text="اعلان مطالب و طرح‌های جدید سایت"
+                                       FontSize="{StaticResource FontSize14}"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                <Label Text="اطلاع‌رسانی حداکثر هر ۳ روز یک‌بار هنگام انتشار محتوای تازه"
+                                       FontSize="{StaticResource FontSize11_5}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            </VerticalStackLayout>
+                            <Switch Grid.Column="1"
+                                    IsToggled="{Binding NotifyNewContent}"
+                                    OnColor="{StaticResource BrandPrimary}"
+                                    ThumbColor="{StaticResource White}"
+                                    OffColor="{AppThemeBinding Light={StaticResource SwitchTrackOffLight}, Dark={StaticResource CardBorderDark}}" />
+                        </Grid>
+
+                        <BoxView Style="{StaticResource CardDividerBoxViewStyle}" />
+
+                        <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                            <VerticalStackLayout Grid.Column="0" Spacing="3" VerticalOptions="Center">
+                                <Label Text="نسخه برنامه کپل‌آرت"
+                                       FontSize="{StaticResource FontSize14}"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                <!-- Hidden diagnostics: 5 taps on the version text sends a test new-post notification. -->
+                                <Label Text="{Binding CurrentAppVersion}"
+                                       FontSize="{StaticResource FontSize12}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="5"
+                                                              Command="{Binding SendTestPostNotificationCommand}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Label Text="{Binding UpdateStatusText}"
+                                       FontSize="{StaticResource FontSize11}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding HasUpdateBadge}" Value="True">
+                                            <Setter Property="TextColor" Value="{StaticResource StatusRed}" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                            </VerticalStackLayout>
+
+                            <!-- Red Notification Badge if update available -->
+                            <Border Grid.Column="1"
+                                    x:Name="GlowingBadge"
+                                    IsVisible="{Binding HasUpdateBadge}"
+                                    BackgroundColor="{StaticResource StatusRed}"
+                                    StrokeThickness="0"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    Padding="8,3">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="8" />
+                                </Border.StrokeShape>
+                                <Label Text="{Binding NewVersionNumber}"
+                                       FontSize="{StaticResource FontSize11_5}"
+                                       TextColor="{StaticResource White}"
+                                       FontFamily="KopolFontBlack"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalTextAlignment="Center"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center" />
+                            </Border>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,4,0,0">
+                            <Button Grid.Column="0"
+                                    Text="بررسی به‌روزرسانی"
+                                    Command="{Binding CheckUpdateCommand}"
+                                    Style="{StaticResource LuxuryPrimaryButtonStyle}"
+                                    HeightRequest="44"
+                                    FontSize="{StaticResource FontSize12}" />
+
+                            <Button Grid.Column="1"
+                                    Text="تاریخچه تغییرات"
+                                    Command="{Binding OpenUpdatesHistoryCommand}"
+                                    Style="{StaticResource LuxuryGhostButtonStyle}"
+                                    HeightRequest="44"
+                                    FontSize="{StaticResource FontSize12}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- 5. Backup & Restore Section (Single-file JSON Export/Import) -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Style="{StaticResource CardSectionTitleLabelStyle}"
+                               Text="پشتیبان‌گیری و بازیابی اطلاعات" />
+
+                        <Label Text="از تمام تنظیمات، نشان‌ها، تاریخچه و اطلاعات برنامه یک فایل پشتیبان (JSON) بگیرید و هر زمان خواستید بازیابی کنید."
+                               FontSize="{StaticResource FontSize11_5}"
+                               FontFamily="KopolFontMedium"
+                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                               LineHeight="1.3"
+                               helpers:LabelHelper.JustifyText="True" />
+
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,4,0,0">
+                            <!-- Export Button -->
+                            <Button Grid.Column="0"
+                                    Text="پشتیبان‌گیری (Export)"
+                                    Command="{Binding ExportBackupCommand}"
+                                    Style="{StaticResource LuxuryPrimaryButtonStyle}"
+                                    HeightRequest="44"
+                                    FontSize="{StaticResource FontSize12}" />
+
+                            <!-- Import Button -->
+                            <Button Grid.Column="1"
+                                    Text="بازیابی اطلاعات (Import)"
+                                    Command="{Binding ImportBackupCommand}"
+                                    Style="{StaticResource LuxuryGhostButtonStyle}"
+                                    HeightRequest="44"
+                                    FontSize="{StaticResource FontSize12}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Home Screen Widget & Shortcuts Section -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Style="{StaticResource CardSectionTitleLabelStyle}"
+                               Text="ویجت و میانبرهای صفحه اصلی" />
+
+                        <Label Text="برای دسترسی سریع‌تر به بخش‌های مختلف کپل‌آرت، می‌توانید ویجت اختصاصی یا میانبر برنامه را به صفحه اصلی گوشی خود اضافه کنید."
+                               FontSize="{StaticResource FontSize11_5}"
+                               FontFamily="KopolFontMedium"
+                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                               LineHeight="1.3"
+                               helpers:LabelHelper.JustifyText="True" />
+
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,4,0,0">
+                            <!-- Add Widget Button -->
+                            <Button Grid.Column="0"
+                                    Text="افزودن ویجت به صفحه اصلی"
+                                    Command="{Binding PinWidgetCommand}"
+                                    Style="{StaticResource LuxuryPrimaryButtonStyle}"
+                                    HeightRequest="44"
+                                    FontSize="{StaticResource FontSize12}" />
+
+                            <!-- Add Shortcut Button -->
+                            <Button Grid.Column="1"
+                                    Text="افزودن میانبر به صفحه اصلی"
+                                    Command="{Binding PinShortcutCommand}"
+                                    Style="{StaticResource LuxuryGhostButtonStyle}"
+                                    HeightRequest="44"
+                                    FontSize="{StaticResource FontSize12}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Feature Tour / Walkthrough -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="0" Spacing="4" VerticalOptions="Center">
+                            <Label Style="{StaticResource CardSectionTitleLabelStyle}"
+                                   Text="راهنمای امکانات برنامه" />
+                            <Label Text="مشاهده مجدد اسلایدر معرفی قابلیت‌های برنامه"
+                                   FontSize="{StaticResource FontSize11_5}"
+                                   FontFamily="KopolFontMedium"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1"
+                                Text="مشاهده تور"
+                                Command="{Binding OpenOnboardingCommand}"
+                                Style="{StaticResource LuxuryGhostButtonStyle}"
+                                HeightRequest="38"
+                                Padding="16,0"
+                                FontSize="{StaticResource FontSize12}"
+                                VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+                <!-- 6. Reset Section (Dangerous Actions) -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="عملیات بازنشانی"
+                               FontSize="{StaticResource FontSize14}"
+                               FontFamily="KopolFontBlack"
+                               TextColor="{StaticResource StatusRed}" />
+
+                        <Button Text="بازنشانی لاگ‌ها و آمار استفاده"
+                                Command="{Binding ResetUsageStatsCommand}"
+                                Style="{StaticResource LuxuryDestructiveGhostButtonStyle}" />
+
+                        <Button Text="بازگردانی تنظیمات به پیش‌فرض"
+                                Command="{Binding ResetDefaultsCommand}"
+                                Style="{StaticResource LuxuryGhostButtonStyle}" />
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+    <!-- Integrated Update Popup (Direct child of full-screen root Grid) -->
+    <views:UpdatePopup x:Name="UpdatePopupView"
+                       HorizontalOptions="Fill"
+                       VerticalOptions="Fill"
+                       ZIndex="99999" />
+</Grid>
+</ContentPage>

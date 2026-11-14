@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3C3A38</color>
+    <color name="colorPrimaryDark">#3C3A38</color>
+    <color name="colorAccent">#C8A582</color>
+    <color name="navigationBarColor">#3C3A38</color>
+    <color name="maui_splash_color">#3C3A38</color>
+    <color name="windowBackground">#3C3A38</color>
+    <color name="widget_background">#242220</color>
+    <color name="widget_stroke">#3E3A36</color>
+    <color name="widget_text_primary">#F5EFE6</color>
+    <color name="widget_text_secondary">#A89E96</color>
+    <color name="widget_item_bg">#00000000</color>
+</resources>

@@ -1,0 +1,17 @@
+<Project>
+	<!--
+	  Template for local signing secrets. Copy to signing.local.props and fill in.
+	  signing.local.props is gitignored; this example file is safe to commit.
+
+	  Keep the keystore outside the repository - never inside a folder that can
+	  be committed, zipped or shared.
+
+	  Alternatively skip the file entirely and use environment variables:
+	    KOPOLART_SIGNING_PASSWORD  keystore and key password
+	    KOPOLART_KEYSTORE_PATH     absolute path to the .keystore file
+	-->
+	<PropertyGroup>
+		<AndroidSigningPassword>change-me</AndroidSigningPassword>
+		<AndroidSigningKeyStore>C:\path\outside\the\repository\kopolart.keystore</AndroidSigningKeyStore>
+	</PropertyGroup>
+</Project>

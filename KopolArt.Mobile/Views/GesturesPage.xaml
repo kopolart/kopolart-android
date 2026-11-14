@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:KopolArt.Mobile.Helpers"
+             x:Class="KopolArt.Mobile.Views.GesturesPage"
+             BackgroundColor="{AppThemeBinding Light={StaticResource BrandBackground}, Dark={StaticResource BrandBackgroundDark}}"
+             Shell.NavBarIsVisible="False"
+             FlowDirection="RightToLeft">
+    <Grid RowDefinitions="Auto,*" Padding="16,14,16,16" RowSpacing="12">
+
+            <!-- 1. Top Bar -->
+            <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+
+                <!-- Back Button -->
+                <Border Grid.Column="0" Style="{StaticResource TopBarBackButtonStyle}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BackCommand}" />
+                    </Border.GestureRecognizers>
+                    <Label Text="{x:Static helpers:KopolArtFaIcons.Back}"
+                           Style="{StaticResource TopBarBackIconStyle}" />
+                </Border>
+
+                <!-- Title -->
+                <Label Grid.Column="1"
+                       Style="{StaticResource TopBarTitleStyle}"
+                       Text="راهنمای ژست‌های حرکتی در سایت" />
+            </Grid>
+
+            <!-- 2. Content -->
+            <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Never">
+                <VerticalStackLayout Spacing="16" Padding="0,0,0,24">
+
+                    <!-- Header Description Card -->
+                    <Border Style="{StaticResource LuxuryCardStyle}" Padding="18">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14" VerticalOptions="Center">
+                            <Border Style="{StaticResource GestureIconHeaderBorderStyle}"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource DarkRedTintLight}, Dark={StaticResource DarkRedTintDark}}"
+                                    Stroke="{AppThemeBinding Light={StaticResource StatusRed}, Dark={StaticResource DarkRedDark}}">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.Fire}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="26"
+                                       TextColor="{AppThemeBinding Light={StaticResource StatusRed}, Dark={StaticResource DarkRedDark}}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                <Label Text="کنترل آسان با ژست‌های لمسی"
+                                       FontSize="15"
+                                       FontFamily="KopolFontBlack"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                <Label Text="وب‌گردی راحت‌تر، بدون نیاز به دکمه‌های گوشی"
+                                       FontSize="12"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+
+                    <!-- 1. Long Tap Guide Card -->
+                    <Border Style="{StaticResource LuxuryCardStyle}" Padding="18">
+                        <VerticalStackLayout Spacing="12">
+                            <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                                <Border Style="{StaticResource GestureIconBorderStyle}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource DarkRedTintLight}, Dark={StaticResource DarkRedTintDark}}"
+                                        Stroke="{AppThemeBinding Light={StaticResource StatusRed}, Dark={StaticResource DarkRedDark}}">
+                                    <Label Text="{x:Static helpers:KopolArtFaIcons.DocTextInv}"
+                                           FontFamily="KopolArtFa"
+                                           FontSize="20"
+                                           TextColor="{AppThemeBinding Light={StaticResource StatusRed}, Dark={StaticResource DarkRedDark}}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Border>
+                                <Label Grid.Column="1"
+                                       Style="{StaticResource GestureTitleLabelStyle}"
+                                       Text="لمس طولانی صفحه" />
+                                <Border Grid.Column="2"
+                                        Style="{StaticResource GestureBadgeBorderStyle}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource DarkRedTintLight}, Dark={StaticResource DarkRedTintDark}}">
+                                    <Label Style="{StaticResource GestureBadgeLabelStyle}"
+                                           Text="عملیات صفحه"
+                                           TextColor="{AppThemeBinding Light={StaticResource StatusRed}, Dark={StaticResource DarkRedDark}}" />
+                                </Border>
+                            </Grid>
+                            <BoxView Style="{StaticResource CardDividerBoxViewStyle}" />
+                            <Label Style="{StaticResource GestureSubtitleLabelStyle}"
+                                   Text="باز شدن منوی امکانات صفحه (نشان‌کردن، اشتراک، بازگشت و...)"
+                                   TextColor="{AppThemeBinding Light={StaticResource StatusRed}, Dark={StaticResource DarkRedDark}}" />
+                            <Label Style="{StaticResource GestureBodyLabelStyle}"
+                                   Text="با نگه داشتن انگشت روی هر بخش خالی از صفحه، منوی گزینه‌ها باز می‌شود و می‌توانید صفحه را نشان‌گذاری یا از نشان‌ها حذف کنید، به اشتراک بگذارید، پیوند آن را کپی نمایید، صفحه را مجدداً بارگذاری کنید یا به داشبورد بازگردید."
+                                   helpers:LabelHelper.JustifyText="True" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- 2. Double Tap Guide Card -->
+                    <Border Style="{StaticResource LuxuryCardStyle}" Padding="18">
+                        <VerticalStackLayout Spacing="12">
+                            <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                                <Border Style="{StaticResource GestureIconBorderStyle}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource BrandPrimaryTintLight}, Dark={StaticResource BrandPrimaryTintDark}}"
+                                        Stroke="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}">
+                                    <Label Text="{x:Static helpers:KopolArtFaIcons.DoubleTap}"
+                                           FontFamily="KopolArtFa"
+                                           FontSize="23"
+                                           TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Border>
+                                <Label Grid.Column="1"
+                                       Style="{StaticResource GestureTitleLabelStyle}"
+                                       Text="دو بار لمس پیاپی" />
+                                <Border Grid.Column="2"
+                                        Style="{StaticResource GestureBadgeBorderStyle}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource BrandPrimaryTintLight}, Dark={StaticResource BrandPrimaryTintDark}}">
+                                    <Label Style="{StaticResource GestureBadgeLabelStyle}"
+                                           Text="بازگشت به منو"
+                                           TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}" />
+                                </Border>
+                            </Grid>
+                            <BoxView Style="{StaticResource CardDividerBoxViewStyle}" />
+                            <Label Style="{StaticResource GestureSubtitleLabelStyle}"
+                                   Text="دو بار ضربه سریع روی صفحه برای بازگشت به داشبورد"
+                                   TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}" />
+                            <Label Style="{StaticResource GestureBodyLabelStyle}"
+                                   Text="در هر صفحه‌ای از سایت که باشید، با دو بار ضربه متوالی روی صفحه، فوراً داشبورد برنامه باز می‌شود."
+                                   helpers:LabelHelper.JustifyText="True" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- 3. List Swipe Guide Card -->
+                    <Border Style="{StaticResource LuxuryCardStyle}" Padding="18">
+                        <VerticalStackLayout Spacing="12">
+                            <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                                <Border Style="{StaticResource GestureIconBorderStyle}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource ActionBlueTintLight}, Dark={StaticResource ActionBlueTintDark}}"
+                                        Stroke="{AppThemeBinding Light={StaticResource ActionBlue}, Dark={StaticResource ActionBlueDark}}">
+                                    <Label Text="{x:Static helpers:KopolArtFaIcons.SwipeRightHand}"
+                                           FontFamily="KopolArtFa"
+                                           FontSize="20"
+                                           TextColor="{AppThemeBinding Light={StaticResource ActionBlue}, Dark={StaticResource ActionBlueDark}}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Border>
+                                <Label Grid.Column="1"
+                                       Style="{StaticResource GestureTitleLabelStyle}"
+                                       Text="کشیدن به چپ و راست در لیست‌ها" />
+                                <Border Grid.Column="2"
+                                        Style="{StaticResource GestureBadgeBorderStyle}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource ActionBlueTintLight}, Dark={StaticResource ActionBlueTintDark}}">
+                                    <Label Style="{StaticResource GestureBadgeLabelStyle}"
+                                           Text="لیست‌ها"
+                                           TextColor="{AppThemeBinding Light={StaticResource ActionBlue}, Dark={StaticResource ActionBlueDark}}" />
+                                </Border>
+                            </Grid>
+                            <BoxView Style="{StaticResource CardDividerBoxViewStyle}" />
+                            <Label Style="{StaticResource GestureSubtitleLabelStyle}"
+                                   Text="مدیریت سریع آیتم‌های تاریخچه، نشان‌شده‌ها و گزارش‌ها با کشیدن انگشت"
+                                   TextColor="{AppThemeBinding Light={StaticResource ActionBlue}, Dark={StaticResource ActionBlueDark}}" />
+                            <Label Style="{StaticResource GestureBodyLabelStyle}"
+                                   Text="در صفحه تاریخچه، نشان‌شده‌ها و گزارش وب‌گردی، آیتم را به سمت چپ بکشید تا دکمه «حذف» نمایان شود؛ یا به سمت راست بکشید تا عملیات متناسب (نشان‌کردن، اشتراک‌گذاری یا حذف IP) در دسترس قرار گیرد. همچنین دکمه سطل زباله روی کارت نیز مانند قبل فعال است."
+                                   helpers:LabelHelper.JustifyText="True" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- 4. Web Swipe Navigation Card: Right to Left (Back / Dashboard) -->
+                    <Border Style="{StaticResource LuxuryCardStyle}" Padding="18">
+                        <VerticalStackLayout Spacing="12">
+                            <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                                <Border Style="{StaticResource GestureIconBorderStyle}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource BrandPrimaryTintLight}, Dark={StaticResource BrandPrimaryTintDark}}"
+                                        Stroke="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}">
+                                    <Label Text="{x:Static helpers:KopolArtFaIcons.SwipeLeftHand}"
+                                           FontFamily="KopolArtFa"
+                                           FontSize="20"
+                                           TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Border>
+                                <Label Grid.Column="1"
+                                       Style="{StaticResource GestureTitleLabelStyle}"
+                                       Text="کشیدن از راست به چپ" />
+                                <Border Grid.Column="2"
+                                        Style="{StaticResource GestureBadgeBorderStyle}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource BrandPrimaryTintLight}, Dark={StaticResource BrandPrimaryTintDark}}">
+                                    <Label Style="{StaticResource GestureBadgeLabelStyle}"
+                                           Text="صفحه قبل / خروج"
+                                           TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}" />
+                                </Border>
+                            </Grid>
+                            <BoxView Style="{StaticResource CardDividerBoxViewStyle}" />
+                            <Label Style="{StaticResource GestureSubtitleLabelStyle}"
+                                   Text="حرکت به صفحه قبل و بازگشت به داشبورد برنامه"
+                                   TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}" />
+                            <Label Style="{StaticResource GestureBodyLabelStyle}"
+                                   Text="هنگام مرور سایت، انگشت خود را از لبه راست صفحه به سمت چپ بکشید تا به صفحه قبلی بازگردید. در صورتی که در صفحه اول وب‌گردی باشید، این ژست شما را مستقیماً به داشبورد برنامه باز می‌گرداند."
+                                   helpers:LabelHelper.JustifyText="True" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- 5. Web Swipe Navigation Card: Left to Right (Forward) -->
+                    <Border Style="{StaticResource LuxuryCardStyle}" Padding="18">
+                        <VerticalStackLayout Spacing="12">
+                            <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                                <Border Style="{StaticResource GestureIconBorderStyle}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource ActionBlueTintLight}, Dark={StaticResource ActionBlueTintDark}}"
+                                        Stroke="{AppThemeBinding Light={StaticResource ActionBlue}, Dark={StaticResource ActionBlueDark}}">
+                                    <Label Text="{x:Static helpers:KopolArtFaIcons.SwipeRightHand}"
+                                           FontFamily="KopolArtFa"
+                                           FontSize="20"
+                                           TextColor="{AppThemeBinding Light={StaticResource ActionBlue}, Dark={StaticResource ActionBlueDark}}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Border>
+                                <Label Grid.Column="1"
+                                       Style="{StaticResource GestureTitleLabelStyle}"
+                                       Text="کشیدن از چپ به راست" />
+                                <Border Grid.Column="2"
+                                        Style="{StaticResource GestureBadgeBorderStyle}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource ActionBlueTintLight}, Dark={StaticResource ActionBlueTintDark}}">
+                                    <Label Style="{StaticResource GestureBadgeLabelStyle}"
+                                           Text="صفحه بعد"
+                                           TextColor="{AppThemeBinding Light={StaticResource ActionBlue}, Dark={StaticResource ActionBlueDark}}" />
+                                </Border>
+                            </Grid>
+                            <BoxView Style="{StaticResource CardDividerBoxViewStyle}" />
+                            <Label Style="{StaticResource GestureSubtitleLabelStyle}"
+                                   Text="انتقال به صفحه جلوتر در تاریخچه مرورگر"
+                                   TextColor="{AppThemeBinding Light={StaticResource ActionBlue}, Dark={StaticResource ActionBlueDark}}" />
+                            <Label Style="{StaticResource GestureBodyLabelStyle}"
+                                   Text="در صورتی که قبلاً به صفحه قبلی بازگشته باشید و صفحه جلوتری وجود داشته باشد، با کشیدن انگشت از چپ به راست به صفحه بعدی هدایت می‌شوید."
+                                   helpers:LabelHelper.JustifyText="True" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- 6. Visual Pill Indicator Card -->
+                    <Border Style="{StaticResource LuxuryCardStyle}" Padding="18">
+                        <VerticalStackLayout Spacing="12">
+                            <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                                <Border Style="{StaticResource GestureIconBorderStyle}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource BrandSlateBlueTintLight}, Dark={StaticResource BrandSlateBlueTintDark}}"
+                                        Stroke="{AppThemeBinding Light={StaticResource BrandSlateBlue}, Dark={StaticResource BrandSlateBlueLight}}">
+                                    <Label Text="{x:Static helpers:KopolArtFaIcons.Gesture}"
+                                           FontFamily="KopolArtFa"
+                                           FontSize="23"
+                                           TextColor="{AppThemeBinding Light={StaticResource BrandSlateBlue}, Dark={StaticResource BrandSlateBlueLight}}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Border>
+                                <Label Grid.Column="1"
+                                       Style="{StaticResource GestureTitleLabelStyle}"
+                                       Text="نشانگر بصری ژست‌های حرکتی" />
+                                <Border Grid.Column="2"
+                                        Style="{StaticResource GestureBadgeBorderStyle}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource BrandSlateBlueTintLight}, Dark={StaticResource BrandSlateBlueTintDark}}">
+                                    <Label Style="{StaticResource GestureBadgeLabelStyle}"
+                                           Text="ژست حرکتی"
+                                           TextColor="{AppThemeBinding Light={StaticResource BrandSlateBlue}, Dark={StaticResource BrandSlateBlueLight}}" />
+                                </Border>
+                            </Grid>
+                            <BoxView Style="{StaticResource CardDividerBoxViewStyle}" />
+                            <Label Style="{StaticResource GestureSubtitleLabelStyle}"
+                                   Text="نمایش انیمیشن شیشه‌ای در لبه صفحه"
+                                   TextColor="{AppThemeBinding Light={StaticResource BrandSlateBlue}, Dark={StaticResource BrandSlateBlueLight}}" />
+                            <Label Style="{StaticResource GestureBodyLabelStyle}"
+                                   Text="هنگام کشیدن انگشت از لبه‌ها برای برگشت یا جلو رفتن در وب، یک نشانگر متحرک و شفاف در لبه ظاهر شده تا از ثبت صحیح حرکت اطمینان حاصل فرمایید. این انیمیشن کاملاً سبک و بهینه بوده و روی تمام نسخه‌های اندروید با بالاترین سرعت اجرا می‌شود."
+                                   helpers:LabelHelper.JustifyText="True" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- 7. Image Long-Press Context Menu Card -->
+                    <Border Style="{StaticResource LuxuryCardStyle}" Padding="18">
+                        <VerticalStackLayout Spacing="12">
+                            <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                                <Border Style="{StaticResource GestureIconBorderStyle}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource DarkRedTintLight}, Dark={StaticResource DarkRedTintDark}}"
+                                        Stroke="{AppThemeBinding Light={StaticResource StatusRed}, Dark={StaticResource DarkRedDark}}">
+                                    <Label Text="{x:Static helpers:KopolArtFaIcons.Image}"
+                                           FontFamily="KopolArtFa"
+                                           FontSize="19"
+                                           TextColor="{AppThemeBinding Light={StaticResource StatusRed}, Dark={StaticResource DarkRedDark}}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Border>
+                                <Label Grid.Column="1"
+                                       Style="{StaticResource GestureTitleLabelStyle}"
+                                       Text="لمس طولانی روی تصاویر" />
+                                <Border Grid.Column="2"
+                                        Style="{StaticResource GestureBadgeBorderStyle}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource DarkRedTintLight}, Dark={StaticResource DarkRedTintDark}}">
+                                    <Label Style="{StaticResource GestureBadgeLabelStyle}"
+                                           Text="عملیات تصویر"
+                                           TextColor="{AppThemeBinding Light={StaticResource StatusRed}, Dark={StaticResource DarkRedDark}}" />
+                                </Border>
+                            </Grid>
+                            <BoxView Style="{StaticResource CardDividerBoxViewStyle}" />
+                            <Label Style="{StaticResource GestureSubtitleLabelStyle}"
+                                   Text="ذخیره، اشتراک‌گذاری یا کپی لینک تصاویر سایت"
+                                   TextColor="{AppThemeBinding Light={StaticResource StatusRed}, Dark={StaticResource DarkRedDark}}" />
+                            <Label Style="{StaticResource GestureBodyLabelStyle}"
+                                   Text="با نگه داشتن انگشت روی هر تصویری در سایت، منوی گزینه‌ها باز می‌شود و می‌توانید تصویر را ذخیره نمایید، مستقیماً به اشتراک بگذارید یا آدرس تصویر را کپی کنید."
+                                   helpers:LabelHelper.JustifyText="True" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- 8. Recommendation / Tips Card -->
+                    <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                        <VerticalStackLayout Spacing="8">
+                            <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.Info}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="24"
+                                       TextColor="{StaticResource ActionAmber}"
+                                       HorizontalOptions="Start" />
+                                <Label Text="نکته کاربردی"
+                                       FontSize="14"
+                                       FontFamily="KopolFontBlack"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <Label Style="{StaticResource GestureBodyLabelStyle}"
+                                   Text="برای عملکرد دقیق‌تر ژست‌ها، روی بخش‌های خالی صفحه لمس کنید و روی لینک‌ها یا کادرهای متنی ضربه نزنید."
+                                   helpers:LabelHelper.JustifyText="True" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+</ContentPage>

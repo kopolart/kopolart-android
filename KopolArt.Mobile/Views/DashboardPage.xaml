@@ -1,0 +1,1098 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KopolArt.Mobile.ViewModels"
+             xmlns:helpers="clr-namespace:KopolArt.Mobile.Helpers"
+             xmlns:models="clr-namespace:KopolArt.Mobile.Models"
+             x:Class="KopolArt.Mobile.Views.DashboardPage"
+             x:Name="ThisDashboardPage"
+             x:DataType="vm:DashboardViewModel"
+             BackgroundColor="{AppThemeBinding Light={StaticResource BrandBackground}, Dark={StaticResource BrandBackgroundDark}}"
+             Shell.NavBarIsVisible="False"
+             FlowDirection="RightToLeft">
+
+    <Grid>
+        <!-- Main Scrollable Dashboard Content -->
+        <ScrollView x:Name="DashboardScrollView" VerticalScrollBarVisibility="Never">
+            <VerticalStackLayout Spacing="16" Padding="18,20,18,20">
+
+                <!-- 1. App Brand & Title Header -->
+                <VerticalStackLayout HorizontalOptions="Center"
+                                     Spacing="8"
+                                     Margin="0,3,0,0">
+                    <Border WidthRequest="86"
+                            HeightRequest="86"
+                            HorizontalOptions="Center"
+                            StrokeThickness="0">
+                        <Border.Shadow>
+                            <Shadow Brush="{StaticResource BrandPrimary}" Offset="0,4" Radius="10" Opacity="0.26" />
+                        </Border.Shadow>
+                        <Image Source="kopolart_icon.png"
+                               Aspect="AspectFill" />
+                    </Border>
+
+                    <Label x:Name="WelcomeLabel"
+                           Text="به کپل‌آرت خوش‌آمدید!"
+                           FontSize="{StaticResource FontSize22}"
+                           FontFamily="KopolFontBlack"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                           HorizontalOptions="Center"
+                           Opacity="0"
+                           TranslationY="16" />
+
+                </VerticalStackLayout>
+
+                <!-- 2. HERO BUTTON: Start Browsing KopolArt -->
+                <Border BackgroundColor="{StaticResource BrandPrimary}"
+                        StrokeThickness="0"
+                        Padding="20,18">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="22" />
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="{StaticResource BrandPrimary}" Offset="0,6" Radius="14" Opacity="0.38" />
+                    </Border.Shadow>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenBrowserCommand}" />
+                    </Border.GestureRecognizers>
+
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="0" Spacing="4" VerticalOptions="Center">
+                            <Label Text="شروع گشت و گذار در کپل‌آرت"
+                                   FontSize="{StaticResource FontSize18}"
+                                   FontFamily="KopolFontBlack"
+                                   TextColor="{StaticResource White}" />
+                            <Label Text="گرافیک، برنامه‌نویسی و خلاقیت"
+                                   FontSize="{StaticResource FontSize12}"
+                                   FontFamily="KopolFontMedium"
+                                   TextColor="{StaticResource BrandPrimarySubtext}" />
+                        </VerticalStackLayout>
+
+                        <Label Grid.Column="1"
+                               Text="{x:Static helpers:KopolArtFaIcons.Compass}"
+                               FontFamily="KopolArtFa"
+                               FontSize="{StaticResource FontSize38}"
+                               TextColor="{StaticResource White}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+                <!-- 3. FEATURED BUTTON: Personal Website (josephy.ir in External Browser) -->
+                <Border Style="{StaticResource LuxuryCardStyle}"
+                        Padding="18,16">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenPersonalWebsiteCommand}" />
+                    </Border.GestureRecognizers>
+
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="0" Spacing="3" VerticalOptions="Center">
+                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                <Label Text="وبسایت شخصی"
+                                       FontSize="{StaticResource FontSize16}"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                <Border BackgroundColor="{AppThemeBinding Light={StaticResource BrandSlateBlueTintLight}, Dark={StaticResource BrandSlateBlueTintDark}}"
+                                        Stroke="{AppThemeBinding Light={StaticResource BrandSlateBlue}, Dark={StaticResource BrandSlateBlueLight}}"
+                                        StrokeThickness="1"
+                                        Padding="6,1"
+                                        VerticalOptions="Center">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="6" />
+                                    </Border.StrokeShape>
+                                    <Label Text="رزومه"
+                                           FontSize="{StaticResource FontSize10}"
+                                           FontFamily="KopolFontBold"
+                                           TextColor="{AppThemeBinding Light={StaticResource BrandSlateBlue}, Dark={StaticResource BrandSlateBlueLight}}" />
+                                </Border>
+                            </HorizontalStackLayout>
+                            <Label Text="مشاهده رزومه و ثبت سفارش پروژه‌ (josephy.ir)"
+                                   FontSize="{StaticResource FontSize12}"
+                                   FontFamily="KopolFontMedium"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                        </VerticalStackLayout>
+
+                        <Border Grid.Column="1"
+                                WidthRequest="44"
+                                HeightRequest="44"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource BrandSlateBlueTintLight}, Dark={StaticResource BrandSlateBlueTintDark}}"
+                                Stroke="{AppThemeBinding Light={StaticResource BrandSlateBlueBorderLight}, Dark={StaticResource BrandSlateBlueBorderDark}}"
+                                StrokeThickness="1"
+                                VerticalOptions="Center">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="14" />
+                            </Border.StrokeShape>
+                            <Label Text="{x:Static helpers:KopolArtFaIcons.Globe}"
+                                   FontFamily="KopolArtFa"
+                                   FontSize="{StaticResource FontSize26}"
+                                   TextColor="{AppThemeBinding Light={StaticResource BrandSlateBlue}, Dark={StaticResource BrandSlateBlueLight}}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+                    </Grid>
+                </Border>
+                <!-- 2.1. Categories Quick Hub (2 Slides: 3 items in first slide, remaining 2 items in second slide) -->
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                Text="دسترسی سریع به بخش‌ها"
+                FontSize="{StaticResource FontSize13_5}"
+                FontFamily="KopolFontBold"
+                TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                VerticalOptions="Center" 
+                HorizontalTextAlignment="Center"
+                HorizontalOptions="Center"/>
+
+                    <CarouselView x:Name="CategoriesCarousel"
+                                  ItemsSource="{Binding CategorySlides}"
+                                  IndicatorView="CategoriesIndicator"
+                                  Loop="False"
+                                  IsSwipeEnabled="True"
+                                  MinimumHeightRequest="108"
+                                  HorizontalScrollBarVisibility="Never">
+                        <CarouselView.ItemTemplate>
+                            <DataTemplate x:DataType="models:DashboardCategorySlide">
+                                <Grid HorizontalOptions="Fill" VerticalOptions="Center">
+                                    <HorizontalStackLayout HorizontalOptions="Center"
+                                                           VerticalOptions="Center"
+                                                           Spacing="8"
+                                                           Padding="8,4,8,14"
+                                                           BindableLayout.ItemsSource="{Binding Items}">
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate x:DataType="models:DashboardCategoryItem">
+                                                <Border Style="{StaticResource LuxuryCardStyle}"
+                                                        MinimumWidthRequest="82"
+                                                        MinimumHeightRequest="86"
+                                                        Padding="4,8"
+                                                        StrokeThickness="1"
+                                                        VerticalOptions="Center">
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="16" />
+                                                    </Border.StrokeShape>
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding OpenCommand}" />
+                                                    </Border.GestureRecognizers>
+
+                                                    <VerticalStackLayout Spacing="5"
+                                                                          HorizontalOptions="Center"
+                                                                          VerticalOptions="Center">
+                                                        <Grid WidthRequest="42"
+                                                              HeightRequest="36"
+                                                              HorizontalOptions="Center"
+                                                              VerticalOptions="Center">
+                                                            <Border WidthRequest="34"
+                                                                    HeightRequest="34"
+                                                                    StrokeThickness="1"
+                                                                    Stroke="{Binding BorderColor}"
+                                                                    BackgroundColor="{Binding BadgeBgColor}"
+                                                                    HorizontalOptions="Center"
+                                                                    VerticalOptions="Center">
+                                                                <Border.StrokeShape>
+                                                                    <RoundRectangle CornerRadius="10" />
+                                                                </Border.StrokeShape>
+                                                                <Label Text="{Binding IconGlyph}"
+                                                                       FontFamily="KopolArtFa"
+                                                                       FontSize="{StaticResource FontSize17}"
+                                                                       TextColor="{Binding AccentColor}"
+                                                                       HorizontalOptions="Center"
+                                                                       VerticalOptions="Center" />
+                                                            </Border>
+
+                                                            <!-- Red Badge Count on top corner -->
+                                                            <Border IsVisible="{Binding HasBadge}"
+                                                                    BackgroundColor="{StaticResource StatusRed}"
+                                                                    Stroke="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}"
+                                                                    StrokeThickness="1.5"
+                                                                    Padding="3,0"
+                                                                    MinimumWidthRequest="16"
+                                                                    HeightRequest="16"
+                                                                    HorizontalOptions="End"
+                                                                    VerticalOptions="Start"
+                                                                    TranslationX="2"
+                                                                    TranslationY="-2"
+                                                                    ZIndex="2">
+                                                                <Border.StrokeShape>
+                                                                    <RoundRectangle CornerRadius="8" />
+                                                                </Border.StrokeShape>
+                                                                <Label Text="{Binding BadgeCountText}"
+                                                                       FontFamily="KopolFontBold"
+                                                                       FontSize="{StaticResource FontSize10}"
+                                                                       TextColor="White"
+                                                                       HorizontalOptions="Center"
+                                                                       VerticalOptions="Center"
+                                                                       HorizontalTextAlignment="Center"
+                                                                       VerticalTextAlignment="Center" />
+                                                            </Border>
+                                                        </Grid>
+
+                                                        <Label Text="{Binding Title}"
+                                                               FontFamily="KopolFontBold"
+                                                               FontSize="{StaticResource FontSize12}"
+                                                               TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                                               HorizontalOptions="Center"
+                                                               HorizontalTextAlignment="Center"
+                                                               VerticalOptions="Center" />
+                                                    </VerticalStackLayout>
+                                                </Border>
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </DataTemplate>
+                        </CarouselView.ItemTemplate>
+                    </CarouselView>
+
+                    <!-- Slide Indicator Dots -->
+                    <IndicatorView x:Name="CategoriesIndicator"
+                                   IndicatorColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                   SelectedIndicatorColor="{StaticResource BrandPrimary}"
+                                   IndicatorsShape="Circle"
+                                   IndicatorSize="6"
+                                   HorizontalOptions="Center"
+                                   Margin="0,0,0,2" />
+                </VerticalStackLayout>
+
+                <!-- 2.2. Instant Search Bar with Category Dropdown Selector -->
+                <Border x:Name="SearchSectionContainer"
+                        Style="{StaticResource DashboardSearchBarCardStyle}">
+                    <Grid ColumnDefinitions="Auto,Auto,*,Auto"
+                          VerticalOptions="Center"
+                          FlowDirection="RightToLeft">
+
+                        <!-- Category Dropdown Selector Button (RTL Start) -->
+                        <Border Grid.Column="0"
+                                Style="{StaticResource DashboardSearchCategoryPillStyle}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectSearchCategoryCommand}" />
+                            </Border.GestureRecognizers>
+                            <HorizontalStackLayout Spacing="5" VerticalOptions="Center" HorizontalOptions="Center">
+                                <Label Text="{Binding SelectedSearchCategoryIcon}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="{StaticResource FontSize13_5}"
+                                       TextColor="{Binding SelectedSearchCategoryAccent}"
+                                       VerticalOptions="Center" />
+                                <Label Text="{Binding SelectedSearchCategoryTitle}"
+                                       FontFamily="KopolFontBold"
+                                       FontSize="{StaticResource FontSize11_5}"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                       VerticalOptions="Center" />
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.SortAltDown}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="{StaticResource FontSize11}"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </Border>
+
+                        <!-- Divider -->
+                        <BoxView Grid.Column="1"
+                                 Style="{StaticResource DashboardSearchBarDividerStyle}" />
+
+                        <!-- Search Input Field -->
+                        <Entry x:Name="SearchEntry"
+                               Grid.Column="2"
+                               Text="{Binding SearchQuery}"
+                               Placeholder="{Binding SearchPlaceholder}"
+                               ReturnType="Search"
+                               ReturnCommand="{Binding ExecuteSearchCommand}"
+                               ClearButtonVisibility="WhileEditing"
+                               Style="{StaticResource SearchEntryStyle}" />
+
+                        <!-- Search Action Button -->
+                        <Border Grid.Column="3"
+                                Style="{StaticResource DashboardSearchActionButtonStyle}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ExecuteSearchCommand}" />
+                            </Border.GestureRecognizers>
+                            <Label Text="{x:Static helpers:KopolArtFaIcons.Search}"
+                                   FontFamily="KopolArtFa"
+                                   FontSize="{StaticResource FontSize21}"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- 2.2.5. Recent Search History Chips -->
+                <Grid x:Name="RecentSearchesContainer"
+                      IsVisible="{Binding ShowRecentSearches}"
+                      HeightRequest="36"
+                      Margin="1,-4,1,0"
+                      ColumnDefinitions="Auto,*"
+                      ColumnSpacing="6"
+                      FlowDirection="RightToLeft">
+
+                    <!-- Fixed Header on Right (Column 0 in RTL): Clock + Title (Always stays on right) -->
+                    <HorizontalStackLayout Grid.Column="0"
+                                           Spacing="4"
+                                           VerticalOptions="Center"
+                                           InputTransparent="True">
+                        <Label Text="{x:Static helpers:KopolArtFaIcons.Clock}"
+                               FontFamily="KopolArtFa"
+                               FontSize="{StaticResource FontSize12}"
+                               TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                               VerticalOptions="Center" />
+                        <Label Text="جستجوهای اخیر:"
+                               FontFamily="KopolFontMedium"
+                               FontSize="{StaticResource FontSize10_5}"
+                               TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+
+                    <!-- Scrollable Chips Container on Left (Column 1 in RTL) -->
+                    <ScrollView x:Name="RecentSearchesScrollView"
+                                Grid.Column="1"
+                                Orientation="Horizontal"
+                                HorizontalScrollBarVisibility="Never"
+                                HeightRequest="36"
+                                VerticalOptions="Center"
+                                FlowDirection="RightToLeft">
+                        <HorizontalStackLayout x:Name="RecentSearchesStack"
+                                               BindableLayout.ItemsSource="{Binding RecentSearches}"
+                                               Spacing="6"
+                                               VerticalOptions="Center"
+                                               FlowDirection="RightToLeft">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="models:RecentSearchChipItem">
+                                    <Border Style="{StaticResource RecentSearchChipBorderStyle}">
+                                        <Grid ColumnDefinitions="Auto,Auto" ColumnSpacing="2" VerticalOptions="Center">
+                                            <!-- Query text (Tap to search) -->
+                                            <Grid Grid.Column="0"
+                                                  Padding="9,2,3,2"
+                                                  BackgroundColor="Transparent"
+                                                  VerticalOptions="Center">
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding SelectCommand}" />
+                                                </Grid.GestureRecognizers>
+                                                <Label Text="{Binding Query}"
+                                                       InputTransparent="True"
+                                                       Style="{StaticResource RecentSearchChipLabelStyle}" />
+                                            </Grid>
+
+                                            <!-- Remove '×' button -->
+                                            <Border Grid.Column="1"
+                                                    WidthRequest="24"
+                                                    HeightRequest="24"
+                                                    Margin="0,0,5,0"
+                                                    Padding="0"
+                                                    BackgroundColor="Transparent"
+                                                    StrokeThickness="0"
+                                                    VerticalOptions="Center"
+                                                    HorizontalOptions="Center">
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding RemoveCommand}" />
+                                                </Border.GestureRecognizers>
+                                                <Label Text="{x:Static helpers:KopolArtFaIcons.Cancel}"
+                                                       InputTransparent="True"
+                                                       Style="{StaticResource RecentSearchChipDeleteIconStyle}"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center" />
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </HorizontalStackLayout>
+                    </ScrollView>
+                </Grid>
+
+                <!-- 2.3. Search Suggestions Live Dropdown -->
+                <Border Style="{StaticResource SearchSuggestionsCardStyle}"
+                        IsVisible="{Binding ShowSuggestions}">
+                    <VerticalStackLayout Spacing="0">
+                        <!-- Top Header with category indicator and close button -->
+                        <Grid ColumnDefinitions="*,Auto"
+                              Padding="14,9"
+                              BackgroundColor="{AppThemeBinding Light={StaticResource BrandPrimaryTintLight}, Dark={StaticResource BrandPrimaryTintDark}}">
+                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                <Label Text="{Binding SelectedSearchCategoryIcon}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="{StaticResource FontSize13}"
+                                       TextColor="{Binding SelectedSearchCategoryAccent}"
+                                       VerticalOptions="Center" />
+                                <Label Text="نتایج در کپل‌آرت"
+                                       FontFamily="KopolFontBold"
+                                       FontSize="{StaticResource FontSize11_5}"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <Border Grid.Column="1"
+                                    WidthRequest="24"
+                                    HeightRequest="24"
+                                    BackgroundColor="Transparent"
+                                    StrokeThickness="0"
+                                    VerticalOptions="Center">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding DismissSuggestionsCommand}" />
+                                </Border.GestureRecognizers>
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.Cancel}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="{StaticResource FontSize11}"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Border>
+                        </Grid>
+
+                        <!-- Subtle Divider -->
+                        <BoxView HeightRequest="1"
+                                 Color="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}" />
+
+                        <!-- Searching / Loading Indicator -->
+                        <HorizontalStackLayout IsVisible="{Binding IsSearchingSuggestions}"
+                                               Spacing="8"
+                                               Padding="16,12"
+                                               HorizontalOptions="Center">
+                            <ActivityIndicator IsRunning="{Binding IsSearchingSuggestions}"
+                                               WidthRequest="16"
+                                               HeightRequest="16"
+                                               Color="{StaticResource BrandPrimary}" />
+                            <Label Text="در حال جستجوی آنلاین..."
+                                   FontFamily="KopolFontMedium"
+                                   FontSize="{StaticResource FontSize11}"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                   VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+
+                        <!-- Empty State (No suggestions found) -->
+                        <Label IsVisible="{Binding HasNoSuggestions}"
+                               Text="نتیجه‌ای مطابق عبارت وارد شده یافت نشد"
+                               FontFamily="KopolFontMedium"
+                               FontSize="{StaticResource FontSize11_5}"
+                               TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                               HorizontalTextAlignment="Center"
+                               Padding="16,14" />
+
+                        <!-- Suggestions List -->
+                        <CollectionView ItemsSource="{Binding Suggestions}"
+                                        SelectionMode="None"
+                                        MaximumHeightRequest="220">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:SearchSuggestionItem">
+                                    <Border Style="{StaticResource SearchSuggestionRowBorderStyle}">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:DashboardViewModel}}, Path=OpenSuggestionCommand}"
+                                                                  CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+                                        <Grid ColumnDefinitions="Auto,*,Auto"
+                                              ColumnSpacing="10"
+                                              FlowDirection="RightToLeft"
+                                              VerticalOptions="Center">
+
+                                            <!-- Thumbnail Image with Fallback -->
+                                            <Border Grid.Column="0"
+                                                    Style="{StaticResource SearchSuggestionImageBorderStyle}">
+                                                <Grid>
+                                                    <Label Text="{x:Static helpers:KopolArtFaIcons.Image}"
+                                                           FontFamily="KopolArtFa"
+                                                           FontSize="{StaticResource FontSize15}"
+                                                           TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                                           HorizontalOptions="Center"
+                                                           VerticalOptions="Center" />
+                                                    <Image Source="{Binding FullImageUrl}"
+                                                           Aspect="AspectFill"
+                                                           IsVisible="{Binding HasImage}" />
+                                                </Grid>
+                                            </Border>
+
+                                            <!-- Label & Secondary Value -->
+                                            <VerticalStackLayout Grid.Column="1"
+                                                                 Spacing="2"
+                                                                 VerticalOptions="Center">
+                                                <Label Text="{Binding Label}"
+                                                       FontFamily="KopolFontBold"
+                                                       FontSize="{StaticResource FontSize12}"
+                                                       LineBreakMode="TailTruncation"
+                                                       MaxLines="1"
+                                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                                <Label Text="{Binding Value}"
+                                                       FontFamily="KopolFontMedium"
+                                                       FontSize="{StaticResource FontSize10}"
+                                                       LineBreakMode="TailTruncation"
+                                                       MaxLines="1"
+                                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                                       IsVisible="{Binding HasValueText}" />
+                                            </VerticalStackLayout>
+
+                                            <!-- Left arrow indicator -->
+                                            <Label Grid.Column="2"
+                                                   Text="{x:Static helpers:KopolArtFaIcons.AngleLeft}"
+                                                   FontFamily="KopolArtFa"
+                                                   FontSize="{StaticResource FontSize12}"
+                                                   TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                                   VerticalOptions="Center" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <!-- Footer: View all results -->
+                        <Border BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}"
+                                StrokeThickness="0"
+                                Padding="12,10">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ExecuteSearchCommand}" />
+                            </Border.GestureRecognizers>
+                            <HorizontalStackLayout HorizontalOptions="Center" Spacing="6">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.Search}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="{StaticResource FontSize12}"
+                                       TextColor="{StaticResource BrandPrimary}"
+                                       VerticalOptions="Center" />
+                                <Label Text="مشاهده تمامی نتایج در سایت"
+                                       FontFamily="KopolFontBold"
+                                       FontSize="{StaticResource FontSize11}"
+                                       TextColor="{StaticResource BrandPrimary}"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- 4. Quick Metrics Summary Pill (Responsive 3 Columns) -->
+                <Border Style="{StaticResource LuxuryCardStyle}"
+                        Padding="12,12">
+                    <Grid ColumnDefinitions="*,Auto,*,Auto,*" VerticalOptions="Center">
+                        <!-- Usage Duration -->
+                        <VerticalStackLayout Grid.Column="0" Spacing="2" HorizontalOptions="Center">
+                            <Label Text="مدت گردش"
+                                   FontSize="{StaticResource FontSize10_5}"
+                                   FontFamily="KopolFontMedium"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="{Binding TotalUsageTime}"
+                                   FontSize="{StaticResource FontSize12_5}"
+                                   FontFamily="KopolFontBlack"
+                                   TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                                   HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+
+                        <!-- Divider 1 -->
+                        <BoxView Grid.Column="1"
+                                 WidthRequest="1"
+                                 HeightRequest="30"
+                                 Color="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}"
+                                 VerticalOptions="Center" />
+
+                        <!-- Online Users (Live Green & Responsive) -->
+                        <VerticalStackLayout Grid.Column="2" Spacing="2" HorizontalOptions="Center">
+                            <Label Text="کاربران آنلاین"
+                                   FontSize="{StaticResource FontSize10_5}"
+                                   FontFamily="KopolFontMedium"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                   HorizontalTextAlignment="Center" />
+                            <HorizontalStackLayout x:Name="OnlineUsersContainer"
+                                                   Spacing="3"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center">
+
+                                <Label x:Name="OnlineUsersLabel"
+                                       Text="{Binding OnlineUsersCount}"
+                                       FontSize="{StaticResource FontSize12_5}"
+                                       FontFamily="KopolFontBlack"
+                                       TextColor="{AppThemeBinding Light={StaticResource LiveGreenLight}, Dark={StaticResource LiveGreenDark}}"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+
+                        <!-- Divider 2 -->
+                        <BoxView Grid.Column="3"
+                                 WidthRequest="1"
+                                 HeightRequest="30"
+                                 Color="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}"
+                                 VerticalOptions="Center" />
+
+                        <!-- Internet Data -->
+                        <VerticalStackLayout Grid.Column="4" Spacing="2" HorizontalOptions="Center">
+                            <Label Text="ترافیک مصرفی"
+                                   FontSize="{StaticResource FontSize10_5}"
+                                   FontFamily="KopolFontMedium"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="{Binding TotalDataUsed}"
+                                   FontSize="{StaticResource FontSize12_5}"
+                                   FontFamily="KopolFontBlack"
+                                   TextColor="{AppThemeBinding Light={StaticResource BrandSecondary}, Dark={StaticResource BrandAccent}}"
+                                   HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- 4.1. User Account Card (kopol_user cookie status) -->
+                <Border Style="{StaticResource LuxuryCardStyle}"
+                        Padding="16,13"
+                        MinimumHeightRequest="68">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding IsUserLoggedIn}" Value="True">
+                            <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource StatusRed}, Dark={StaticResource DarkRedDark}}" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Grid HeightRequest="42"
+                          VerticalOptions="Center">
+                        <!-- Container 1: Account view (Logged-in or Guest) -->
+                        <Grid x:Name="UserAccountContainer"
+                              HeightRequest="42"
+                              VerticalOptions="Center"
+                              IsVisible="{Binding IsShowingAccountCard}">
+                            <!-- Logged-in view (shown when user is logged in) -->
+                            <Grid IsVisible="{Binding IsUserLoggedIn}"
+                                  HorizontalOptions="Fill"
+                                  HeightRequest="42"
+                                  VerticalOptions="Center"
+                                  BackgroundColor="Transparent">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenUserProfileCommand}" />
+                                </Grid.GestureRecognizers>
+
+                                <Grid HorizontalOptions="Center"
+                                      VerticalOptions="Center"
+                                      HeightRequest="42"
+                                      ColumnDefinitions="Auto,Auto"
+                                      ColumnSpacing="8">
+                                    <Label Grid.Column="0"
+                                           Text="{x:Static helpers:KopolArtFaIcons.User}"
+                                           FontFamily="KopolArtFa"
+                                           FontSize="{StaticResource FontSize18}"
+                                           TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center" />
+                                    <Label Grid.Column="1"
+                                           Text="{Binding UserGreetingText}"
+                                           FontSize="{StaticResource FontSize14}"
+                                           FontFamily="KopolFontBold"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="1"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center" />
+                                </Grid>
+                            </Grid>
+
+                            <!-- Guest / Not logged-in view (shown when user is not logged in) -->
+                            <Grid IsVisible="{Binding IsUserNotLoggedIn}"
+                                  ColumnDefinitions="*,Auto,*"
+                                  HeightRequest="42"
+                                  VerticalOptions="Center">
+                                <!-- Right part (Column 0 in RTL): ورود (Login) -->
+                                <Grid Grid.Column="0"
+                                      BackgroundColor="Transparent"
+                                      HorizontalOptions="Fill"
+                                      VerticalOptions="Center">
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding OpenLoginCommand}" />
+                                    </Grid.GestureRecognizers>
+                                    <VerticalStackLayout Spacing="2" HorizontalOptions="Center" VerticalOptions="Center">
+                                        <HorizontalStackLayout Spacing="6" HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label Text="{x:Static helpers:KopolArtFaIcons.Login}"
+                                                   FontFamily="KopolArtFa"
+                                                   FontSize="{StaticResource FontSize15_5}"
+                                                   TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                                                   VerticalOptions="Center" />
+                                            <Label Text="ورود"
+                                                   FontSize="{StaticResource FontSize13}"
+                                                   FontFamily="KopolFontBold"
+                                                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                                   VerticalOptions="Center" />
+                                        </HorizontalStackLayout>
+                                        <Label Text="ورود به حساب کاربری"
+                                               FontSize="{StaticResource FontSize10_5}"
+                                               FontFamily="KopolFontMedium"
+                                               TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                               HorizontalTextAlignment="Center" />
+                                    </VerticalStackLayout>
+                                </Grid>
+
+                                <!-- Divider -->
+                                <BoxView Grid.Column="1"
+                                         WidthRequest="1"
+                                         HeightRequest="32"
+                                         Color="{AppThemeBinding Light={StaticResource CardBorderLight}, Dark={StaticResource CardBorderDark}}"
+                                         VerticalOptions="Center" />
+
+                                <!-- Left part (Column 2 in RTL): ثبت نام (Register) -->
+                                <Grid Grid.Column="2"
+                                      BackgroundColor="Transparent"
+                                      HorizontalOptions="Fill"
+                                      VerticalOptions="Center">
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding OpenRegisterCommand}" />
+                                    </Grid.GestureRecognizers>
+                                    <VerticalStackLayout Spacing="2" HorizontalOptions="Center" VerticalOptions="Center">
+                                        <HorizontalStackLayout Spacing="6" HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label Text="{x:Static helpers:KopolArtFaIcons.Edit}"
+                                                   FontFamily="KopolArtFa"
+                                                   FontSize="{StaticResource FontSize15_5}"
+                                                   TextColor="{AppThemeBinding Light={StaticResource BrandSecondary}, Dark={StaticResource BrandAccent}}"
+                                                   VerticalOptions="Center" />
+                                            <Label Text="ثبت نام"
+                                                   FontSize="{StaticResource FontSize13}"
+                                                   FontFamily="KopolFontBold"
+                                                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                                   VerticalOptions="Center" />
+                                        </HorizontalStackLayout>
+                                        <Label Text="عضویت در کپل‌آرت"
+                                               FontSize="{StaticResource FontSize10_5}"
+                                               FontFamily="KopolFontMedium"
+                                               TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                               HorizontalTextAlignment="Center" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+
+                        <!-- Container 2: Persian Date view (shows every 5 seconds) -->
+                        <Grid x:Name="PersianDateContainer"
+                              HeightRequest="42"
+                              VerticalOptions="Center"
+                              IsVisible="{Binding IsShowingDateCard}"
+                              HorizontalOptions="Fill"
+                              BackgroundColor="Transparent">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding DateCardTappedCommand}" />
+                            </Grid.GestureRecognizers>
+
+                            <Grid HorizontalOptions="Center"
+                                  VerticalOptions="Center"
+                                  HeightRequest="42"
+                                  ColumnDefinitions="Auto,Auto"
+                                  ColumnSpacing="8">
+                                <Label Grid.Column="0"
+                                       Text="{x:Static helpers:KopolArtFaIcons.Calendar}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="{StaticResource FontSize18}"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandSecondary}, Dark={StaticResource BrandAccent}}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalTextAlignment="Center" />
+                                <Label Grid.Column="1"
+                                       Text="{Binding PersianTodayDate}"
+                                       FontSize="{StaticResource FontSize14}"
+                                       FontFamily="KopolFontBold"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="1"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalTextAlignment="Center" />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <!-- 5. Dashboard 2-Column Grid -->
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="12">
+
+                    <!-- 1. Settings -->
+                    <Border Grid.Row="0" Grid.Column="0"
+                            Style="{StaticResource LuxuryCardStyle}"
+                            Padding="16,16">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenSettingsCommand}" />
+                        </Border.GestureRecognizers>
+
+                        <Grid RowDefinitions="Auto,Auto" RowSpacing="10">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.Setting}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="{StaticResource FontSize26}"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                                       HorizontalOptions="Start"
+                                       VerticalOptions="Center" />
+
+                                <!-- Update Badge if available -->
+                                <Border Grid.Column="1"
+                                        IsVisible="{Binding HasUpdateBadge}"
+                                        BackgroundColor="{StaticResource StatusRed}"
+                                        StrokeThickness="0"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="End"
+                                        Padding="8,3">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="8" />
+                                    </Border.StrokeShape>
+                                    <Label Text="{Binding NewVersionBadge}"
+                                           FontSize="{StaticResource FontSize10}"
+                                           TextColor="{StaticResource White}"
+                                           FontFamily="KopolFontBold"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Border>
+                            </Grid>
+
+                            <VerticalStackLayout Grid.Row="1" Spacing="2">
+                                <Label Text="تنظیمات"
+                                       FontSize="{StaticResource FontSize15_5}"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                <Label Text="تم، حافظه و به‌روزرسانی"
+                                       FontSize="{StaticResource FontSize11}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+
+                    <!-- 2. Usage Statistics -->
+                    <Border Grid.Row="0" Grid.Column="1"
+                            Style="{StaticResource LuxuryCardStyle}"
+                            Padding="16,16">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenUsageCommand}" />
+                        </Border.GestureRecognizers>
+
+                        <Grid RowDefinitions="Auto,Auto" RowSpacing="10">
+                            <Label Text="{x:Static helpers:KopolArtFaIcons.ChartPie}"
+                                   FontFamily="KopolArtFa"
+                                   FontSize="{StaticResource FontSize25}"
+                                   TextColor="{AppThemeBinding Light={StaticResource BrandSecondary}, Dark={StaticResource BrandAccent}}"
+                                   HorizontalOptions="Start" />
+
+                            <VerticalStackLayout Grid.Row="1" Spacing="2">
+                                <Label Text="آمار وب‌گردی"
+                                       FontSize="{StaticResource FontSize15_5}"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                <Label Text="ترافیک، جلسات و IP"
+                                       FontSize="{StaticResource FontSize11}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+
+                    <!-- 3. Visited History -->
+                    <Border Grid.Row="1" Grid.Column="0"
+                            Style="{StaticResource LuxuryCardStyle}"
+                            Padding="16,16">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenHistoryCommand}" />
+                        </Border.GestureRecognizers>
+
+                        <Grid RowDefinitions="Auto,Auto" RowSpacing="10">
+                            <Label Text="{x:Static helpers:KopolArtFaIcons.Calendar}"
+                                   FontFamily="KopolArtFa"
+                                   FontSize="{StaticResource FontSize22}"
+                                   TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                                   HorizontalOptions="Start" />
+
+                            <VerticalStackLayout Grid.Row="1" Spacing="2">
+                                <Label Text="تاریخچه صفحات"
+                                       FontSize="{StaticResource FontSize15_5}"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                <Label Text="سوابق صفحات بازدیدشده"
+                                       FontSize="{StaticResource FontSize11}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+
+                    <!-- 4. Download History -->
+                    <Border Grid.Row="1" Grid.Column="1"
+                            Style="{StaticResource LuxuryCardStyle}"
+                            Padding="16,16">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenDownloadsCommand}" />
+                        </Border.GestureRecognizers>
+
+                        <Grid RowDefinitions="Auto,Auto" RowSpacing="10">
+                            <Label Text="{x:Static helpers:KopolArtFaIcons.DownloadCloud}"
+                                   FontFamily="KopolArtFa"
+                                   FontSize="{StaticResource FontSize25_5}"
+                                   TextColor="{AppThemeBinding Light={StaticResource BrandSecondary}, Dark={StaticResource BrandAccent}}"
+                                   HorizontalOptions="Start" />
+
+                            <VerticalStackLayout Grid.Row="1" Spacing="2">
+                                <Label Text="سوابق دانلود"
+                                       FontSize="{StaticResource FontSize15_5}"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                <Label Text="فایل‌های دریافت‌شده"
+                                       FontSize="{StaticResource FontSize11}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+
+                    <!-- 5. Bookmarks -->
+                    <Border Grid.Row="2" Grid.Column="0"
+                            Style="{StaticResource LuxuryCardStyle}"
+                            Padding="16,16">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenBookmarksCommand}" />
+                        </Border.GestureRecognizers>
+
+                        <Grid RowDefinitions="Auto,Auto" RowSpacing="10">
+                            <Label Text="{x:Static helpers:KopolArtFaIcons.BookmarkEmpty}"
+                                   FontFamily="KopolArtFa"
+                                   FontSize="{StaticResource FontSize25}"
+                                   TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                                   HorizontalOptions="Start" />
+
+                            <VerticalStackLayout Grid.Row="1" Spacing="2">
+                                <Label Text="‌‌برگزیده و آفلاین"
+                                       FontSize="{StaticResource FontSize15_5}"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                <Label Text="مرور صفحات برگزیده و آفلاین"
+                                       FontSize="{StaticResource FontSize11}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+
+                    <!-- 6. Gestures Guide (Consistent Dark Red border & icon) -->
+                    <Border Grid.Row="2" Grid.Column="1"
+                            Style="{StaticResource LuxuryCardStyle}"
+                            Stroke="{AppThemeBinding Light={StaticResource StatusRed}, Dark={StaticResource DarkRedDark}}"
+                            StrokeThickness="1"
+                            Padding="16,16">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenGesturesCommand}" />
+                        </Border.GestureRecognizers>
+
+                        <Grid RowDefinitions="Auto,Auto" RowSpacing="10">
+                            <Label Text="{x:Static helpers:KopolArtFaIcons.SwipeRightHand}"
+                                   FontFamily="KopolArtFa"
+                                   FontSize="{StaticResource FontSize26}"
+                                   TextColor="{AppThemeBinding Light={StaticResource StatusRed}, Dark={StaticResource DarkRedDark}}"
+                                   HorizontalOptions="Start"
+                                   VerticalOptions="Center" />
+
+                            <VerticalStackLayout Grid.Row="1" Spacing="2">
+                                <Label Text="ژست‌های حرکتی"
+                                       FontSize="{StaticResource FontSize15_5}"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                <Label Text="راهنمای جابه‌جایی در صفحات"
+                                       FontSize="{StaticResource FontSize11}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+
+                    <!-- 7. Contact Us -->
+                    <Border Grid.Row="3" Grid.Column="0"
+                            Style="{StaticResource LuxuryCardStyle}"
+                            Padding="16,16">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenContactCommand}" />
+                        </Border.GestureRecognizers>
+
+                        <Grid RowDefinitions="Auto,Auto" RowSpacing="10">
+                            <Label Text="{x:Static helpers:KopolArtFaIcons.Phone}"
+                                   FontFamily="KopolArtFa"
+                                   FontSize="{StaticResource FontSize23}"
+                                   TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                                   HorizontalOptions="Start" />
+
+                            <VerticalStackLayout Grid.Row="1" Spacing="2">
+                                <Label Text="تماس با من"
+                                       FontSize="{StaticResource FontSize15_5}"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                <Label Text="تلفن، ایمیل و پشتیبانی"
+                                       FontSize="{StaticResource FontSize11}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+
+                    <!-- 8. About App -->
+                    <Border Grid.Row="3" Grid.Column="1"
+                            Style="{StaticResource LuxuryCardStyle}"
+                            Padding="16,16">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenAboutCommand}" />
+                        </Border.GestureRecognizers>
+
+                        <Grid RowDefinitions="Auto,Auto" RowSpacing="10">
+                            <Label Text="{x:Static helpers:KopolArtFaIcons.Info}"
+                                   FontFamily="KopolArtFa"
+                                   FontSize="{StaticResource FontSize25}"
+                                   TextColor="{AppThemeBinding Light={StaticResource BrandSecondary}, Dark={StaticResource BrandAccent}}"
+                                   HorizontalOptions="Start" />
+
+                            <VerticalStackLayout Grid.Row="1" Spacing="2">
+                                <Label Text="درباره برنامه"
+                                       FontSize="{StaticResource FontSize15_5}"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                <Label Text="اطلاعات برنامه و توسعه"
+                                       FontSize="{StaticResource FontSize11}"
+                                       FontFamily="KopolFontMedium"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+
+                </Grid>
+
+                <!-- Exit Button -->
+                <Button Text="خروج از برنامه"
+                        Command="{Binding ExitCommand}"
+                        Style="{StaticResource LuxuryDestructiveGhostButtonStyle}"
+                        Padding="28,0"
+                        HorizontalOptions="Center"
+                        Margin="0,8,0,8" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Initial Startup Loading Overlay -->
+        <Grid x:Name="LoadingOverlay"
+              BackgroundColor="{AppThemeBinding Light={StaticResource BrandBackground}, Dark={StaticResource BrandBackgroundDark}}"
+              IsVisible="True"
+              ZIndex="999">
+            <VerticalStackLayout HorizontalOptions="Center"
+                                 VerticalOptions="Center"
+                                 Spacing="16">
+                <Image Source="kopolart_icon.png"
+                       WidthRequest="84"
+                       HeightRequest="84"
+                       HorizontalOptions="Center" />
+
+                <Label Text="کپل‌آرت"
+                       FontSize="{StaticResource FontSize26}"
+                       FontFamily="KopolFontBlack"
+                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                       HorizontalTextAlignment="Center" />
+
+                <Label Text="گرافیک و برنامه‌نویسی با چاشنی خلاقیت"
+                       FontSize="{StaticResource FontSize13}"
+                       FontFamily="KopolFontMedium"
+                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                       HorizontalTextAlignment="Center" />
+
+                <ActivityIndicator IsRunning="True"
+                                   Color="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                                   WidthRequest="36"
+                                   HeightRequest="36"
+                                   HorizontalOptions="Center"
+                                   Margin="0,8,0,0" />
+
+                <Label Text="در حال بارگذاری..."
+                       FontSize="{StaticResource FontSize11}"
+                       FontFamily="KopolFontMedium"
+                       TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                       HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+
+</ContentPage>

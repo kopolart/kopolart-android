@@ -1,0 +1,423 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KopolArt.Mobile.ViewModels"
+             xmlns:helpers="clr-namespace:KopolArt.Mobile.Helpers"
+             xmlns:views="clr-namespace:KopolArt.Mobile.Views"
+             x:Class="KopolArt.Mobile.Views.ContactUsPage"
+             x:DataType="vm:ContactUsViewModel"
+             BackgroundColor="{AppThemeBinding Light={StaticResource BrandBackground}, Dark={StaticResource BrandBackgroundDark}}"
+             Shell.NavBarIsVisible="False"
+             FlowDirection="RightToLeft">
+
+    <Grid>
+        <Grid RowDefinitions="Auto,*">
+        <!-- Top Bar -->
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" Padding="16,14" VerticalOptions="Center">
+            <Border Style="{StaticResource TopBarBackButtonStyle}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BackCommand}" />
+                </Border.GestureRecognizers>
+                <Label Text="{x:Static helpers:KopolArtFaIcons.Back}"
+                       Style="{StaticResource TopBarBackIconStyle}" />
+            </Border>
+
+            <Label Grid.Column="1"
+                   Text="تماس با من"
+                   Style="{StaticResource TopBarTitleStyle}" />
+        </Grid>
+
+        <!-- Content -->
+        <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Never">
+            <VerticalStackLayout Spacing="16" Padding="16,8,16,32">
+
+                <!-- Header Description Card -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="18">
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Label Text="همواره پاسخگوی شما عزیزان هستم"
+                               FontSize="16"
+                               FontFamily="KopolFontBlack"
+                               TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandPrimaryDark}}"
+                               HorizontalTextAlignment="Center" />
+                        <Label Text="برای هرگونه پرسش، پیگیری سفارش، مشاوره طراحی یا پشتیبانی فنی، از راه‌های زیر با من در ارتباط باشید."
+                               FontSize="13"
+                               FontFamily="KopolFontMedium"
+                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- FAQ Card (Clickable) -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenFaqCommand}" />
+                    </Border.GestureRecognizers>
+
+                    <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                        <Border Style="{StaticResource CardRowIconBorderStyle}">
+                            <Label Text="{x:Static helpers:KopolArtFaIcons.Chat}"
+                                   Style="{StaticResource CardRowIconLabelStyle}" />
+                        </Border>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" Margin="12,0,10,0" VerticalOptions="Center">
+                            <Label Text="پرسش‌های متداول (FAQ)"
+                                   FontSize="15"
+                                   FontFamily="KopolFontBlack"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                            <Label Text="پاسخ سریع به پرسش‌های پرتکرار کاربران"
+                                   FontSize="12"
+                                   FontFamily="KopolFontMedium"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                   LineBreakMode="TailTruncation" />
+                        </VerticalStackLayout>
+
+                        <Border Grid.Column="2"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource BrandPrimaryTintLight}, Dark={StaticResource BrandAccentTintDark}}"
+                                Stroke="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                StrokeThickness="1"
+                                Padding="10,6"
+                                VerticalOptions="Center"
+                                HorizontalOptions="End">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10" />
+                            </Border.StrokeShape>
+                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.ExportAlt}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="12"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                       VerticalOptions="Center" />
+                                <Label Text="مشاهده"
+                                       FontSize="11"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                       VerticalOptions="Center"
+                                       LineBreakMode="NoWrap" />
+                            </HorizontalStackLayout>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Social Media Channels Card (Clickable) -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ShowSocialPromoCommand}" />
+                    </Border.GestureRecognizers>
+
+                    <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                        <Border Style="{StaticResource CardRowIconBorderStyle}">
+                            <Label Text="{x:Static helpers:KopolArtFaIcons.ShareSquared}"
+                                   Style="{StaticResource CardRowIconLabelStyle}" />
+                        </Border>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" Margin="12,0,10,0" VerticalOptions="Center">
+                            <Label Text="کپل‌آرت در فضای مجازی"
+                                   FontSize="15"
+                                   FontFamily="KopolFontBlack"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                            <Label Text="اینستاگرام، تلگرام، ایتا و بله"
+                                   FontSize="12"
+                                   FontFamily="KopolFontMedium"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                   LineBreakMode="TailTruncation" />
+                        </VerticalStackLayout>
+
+                        <Border Grid.Column="2"
+                                InputTransparent="True"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource BrandPrimaryTintLight}, Dark={StaticResource BrandAccentTintDark}}"
+                                Stroke="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                StrokeThickness="1"
+                                Padding="10,6"
+                                VerticalOptions="Center"
+                                HorizontalOptions="End">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10" />
+                            </Border.StrokeShape>
+                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.ExportAlt}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="12"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                       VerticalOptions="Center" />
+                                <Label Text="مشاهده"
+                                       FontSize="11"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                       VerticalOptions="Center"
+                                       LineBreakMode="NoWrap" />
+                            </HorizontalStackLayout>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- GitHub Card (Clickable) -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenGithubCommand}" />
+                    </Border.GestureRecognizers>
+
+                    <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                        <Border Style="{StaticResource CardRowIconBorderStyle}">
+                            <Label Text="{x:Static helpers:KopolArtFaIcons.Github}"
+                                   Style="{StaticResource CardRowIconLabelStyle}" />
+                        </Border>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" Margin="12,0,10,0" VerticalOptions="Center">
+                            <Label Text="کپل‌آرت در گیت‌هاب"
+                                   FontSize="15"
+                                   FontFamily="KopolFontBlack"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                            <Label Text="پروژه‌ها و نمونه‌کارهای کدنویسی"
+                                   FontSize="12"
+                                   FontFamily="KopolFontMedium"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                   LineBreakMode="TailTruncation" />
+                        </VerticalStackLayout>
+
+                        <Border Grid.Column="2"
+                                InputTransparent="True"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource BrandPrimaryTintLight}, Dark={StaticResource BrandAccentTintDark}}"
+                                Stroke="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                StrokeThickness="1"
+                                Padding="10,6"
+                                VerticalOptions="Center"
+                                HorizontalOptions="End">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10" />
+                            </Border.StrokeShape>
+                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.ExportAlt}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="12"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                       VerticalOptions="Center" />
+                                <Label Text="مشاهده"
+                                       FontSize="11"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                       VerticalOptions="Center"
+                                       LineBreakMode="NoWrap" />
+                            </HorizontalStackLayout>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- 1. Phone Card (Clickable) -->
+                <!--<Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CallPhoneCommand}" />
+                    </Border.GestureRecognizers>
+
+                    <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                        <Border Style="{StaticResource CardRowIconBorderStyle}">
+                            <Label Text="{x:Static helpers:KopolArtFaIcons.Mobile}"
+                                   Style="{StaticResource CardRowIconLabelStyle}" />
+                        </Border>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" Margin="12,0,10,0" VerticalOptions="Center">
+                            <Label Text="شماره تماس مستقیم"
+                                   FontSize="12"
+                                   FontFamily="KopolFontMedium"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            <Label Text="۰۹۱۳۵۹۴۲۹۰۳"
+                                   FontSize="16"
+                                   FontFamily="KopolFontBlack"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                   LineBreakMode="TailTruncation" />
+                        </VerticalStackLayout>
+
+                        <Border Grid.Column="2"
+                                InputTransparent="True"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource BrandPrimaryTintLight}, Dark={StaticResource BrandAccentTintDark}}"
+                                Stroke="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                StrokeThickness="1"
+                                Padding="10,6"
+                                VerticalOptions="Center"
+                                HorizontalOptions="End">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10" />
+                            </Border.StrokeShape>
+                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.Mobile}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="12"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                       VerticalOptions="Center" />
+                                <Label Text="تماس"
+                                       FontSize="11"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                       VerticalOptions="Center"
+                                       LineBreakMode="NoWrap" />
+                            </HorizontalStackLayout>
+                        </Border>
+                    </Grid>
+                </Border>-->
+
+                <!-- 2. Primary Email (Clickable) -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SendEmailCommand}" CommandParameter="info@kopolart.ir" />
+                    </Border.GestureRecognizers>
+
+                    <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                        <Border Style="{StaticResource CardRowIconBorderStyle}">
+                            <Label Text="{x:Static helpers:KopolArtFaIcons.MailAlt}"
+                                   Style="{StaticResource CardRowIconLabelStyle}" />
+                        </Border>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" Margin="12,0,10,0" VerticalOptions="Center">
+                            <Label Text="ایمیل سازمانی کپل‌آرت"
+                                   FontSize="12"
+                                   FontFamily="KopolFontMedium"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            <Label Text="info@kopolart.ir"
+                                   FontSize="13"
+                                   FontFamily="KopolFontBlack"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                   LineBreakMode="TailTruncation" />
+                        </VerticalStackLayout>
+
+                        <Border Grid.Column="2"
+                                InputTransparent="True"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource BrandPrimaryTintLight}, Dark={StaticResource BrandAccentTintDark}}"
+                                Stroke="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                StrokeThickness="1"
+                                Padding="10,6"
+                                VerticalOptions="Center"
+                                HorizontalOptions="End">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10" />
+                            </Border.StrokeShape>
+                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.MailAlt}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="12"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                       VerticalOptions="Center" />
+                                <Label Text="ارسال ایمیل"
+                                       FontSize="11"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                       VerticalOptions="Center"
+                                       LineBreakMode="NoWrap" />
+                            </HorizontalStackLayout>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- 3. Secondary Email (Clickable) -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SendEmailCommand}" CommandParameter="contact.yousefi@gmail.com" />
+                    </Border.GestureRecognizers>
+
+                    <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                        <Border Style="{StaticResource CardRowIconBorderStyle}">
+                            <Label Style="{StaticResource CardRowIconLabelStyle}"
+                                   Text="{x:Static helpers:KopolArtFaIcons.MailAlt}"
+                                   TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}" />
+                        </Border>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" Margin="12,0,10,0" VerticalOptions="Center">
+                            <Label Text="ایمیل پشتیبانی و مدیریت"
+                                   FontSize="12"
+                                   FontFamily="KopolFontMedium"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            <Label Text="contact.yousefi@gmail.com"
+                                   FontSize="12"
+                                   FontFamily="KopolFontBlack"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                   LineBreakMode="TailTruncation" />
+                        </VerticalStackLayout>
+
+                        <Border Grid.Column="2"
+                                InputTransparent="True"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource BrandPrimaryTintLight}, Dark={StaticResource BrandAccentTintDark}}"
+                                Stroke="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                StrokeThickness="1"
+                                Padding="10,6"
+                                VerticalOptions="Center"
+                                HorizontalOptions="End">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10" />
+                            </Border.StrokeShape>
+                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                <Label Text="{x:Static helpers:KopolArtFaIcons.MailAlt}"
+                                       FontFamily="KopolArtFa"
+                                       FontSize="12"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                       VerticalOptions="Center" />
+                                <Label Text="ارسال ایمیل"
+                                       FontSize="11"
+                                       FontFamily="KopolFontBold"
+                                       TextColor="{AppThemeBinding Light={StaticResource BrandPrimary}, Dark={StaticResource BrandAccent}}"
+                                       VerticalOptions="Center"
+                                       LineBreakMode="NoWrap" />
+                            </HorizontalStackLayout>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- 4. Location Card -->
+                <Border Style="{StaticResource LuxuryCardStyle}" Padding="16">
+                    <Grid ColumnDefinitions="Auto,*" VerticalOptions="Center">
+                        <Border Style="{StaticResource CardRowIconBorderStyle}">
+                            <Label Style="{StaticResource CardRowIconLabelStyle}"
+                                   Text="{x:Static helpers:KopolArtFaIcons.Location}"
+                                   TextColor="{StaticResource StatusRed}" />
+                        </Border>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" Margin="14,0,0,0" VerticalOptions="Center">
+                            <Label Text="موقعیت جغرافیایی"
+                                   FontSize="12"
+                                   FontFamily="KopolFontMedium"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+                            <Label Text="ایران، نصف جهان"
+                                   FontSize="15"
+                                   FontFamily="KopolFontBlack"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- 5. Online Contact Form Link / Action Button -->
+                <Border BackgroundColor="{StaticResource BrandPrimary}"
+                        StrokeThickness="0"
+                        Padding="18,16"
+                        Margin="0,8,0,0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="18" />
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenContactFormCommand}" />
+                    </Border.GestureRecognizers>
+
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="0" Spacing="3" VerticalOptions="Center">
+                            <Label Text="فرم تماس آنلاین در وبسایت"
+                                   FontSize="16"
+                                   FontFamily="KopolFontBlack"
+                                   TextColor="{StaticResource White}" />
+                            <Label Text="ثبت پیام و در وبسایت کپل‌آرت"
+                                   FontSize="12"
+                                   FontFamily="KopolFontMedium"
+                                   TextColor="{StaticResource BrandPrimarySubtext}" />
+                        </VerticalStackLayout>
+
+                        <Label Grid.Column="1"
+                               Text="{x:Static helpers:KopolArtFaIcons.ExportAlt}"
+                               FontFamily="KopolArtFa"
+                               FontSize="22"
+                               TextColor="{StaticResource White}"
+                               VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+        </Grid>
+
+        <!-- Social Media Promo Popup Overlay -->
+        <views:SocialPromoPopup x:Name="SocialPromo" />
+    </Grid>
+</ContentPage>
