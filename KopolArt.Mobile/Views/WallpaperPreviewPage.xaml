@@ -45,20 +45,24 @@
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
                     IsVisible="{Binding IsReady}">
-                <Grid IsClippedToBounds="True">
+                <Grid x:Name="PreviewClipHost"
+                      IsClippedToBounds="True"
+                      SizeChanged="OnPreviewClipHostSizeChanged">
+                    <!-- Gestures live on the untransformed host: Android scales the
+                         reported pinch delta by the recognizer view's own Scale. -->
+                    <Grid.GestureRecognizers>
+                        <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
+                        <PanGestureRecognizer PanUpdated="OnPanUpdated" />
+                        <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnDoubleTapped" />
+                    </Grid.GestureRecognizers>
+
                     <Image Source="{Binding PreviewImagePath}"
                            Aspect="AspectFill"
                            HorizontalOptions="Fill"
                            VerticalOptions="Fill"
                            Scale="{Binding ImageScale}"
                            TranslationX="{Binding ImageTranslationX}"
-                           TranslationY="{Binding ImageTranslationY}">
-                        <Image.GestureRecognizers>
-                            <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
-                            <PanGestureRecognizer PanUpdated="OnPanUpdated" />
-                            <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnDoubleTapped" />
-                        </Image.GestureRecognizers>
-                    </Image>
+                           TranslationY="{Binding ImageTranslationY}" />
                 </Grid>
             </Border>
 

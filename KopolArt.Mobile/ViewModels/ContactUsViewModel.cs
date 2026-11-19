@@ -11,8 +11,6 @@ namespace KopolArt.Mobile.ViewModels
 
         public const string PhoneNumber = "09135942903";
         public const string PrimaryEmail = "info@kopolart.ir";
-        public const string SecondaryEmail = "contact.yousefi@gmail.com";
-        public const string LocationText = "ایران، نصف جهان";
         public const string ContactFormUrl = "https://kopolart.ir/contact-us";
 
         public event EventHandler? RequestShowSocialPromo;

@@ -14,7 +14,7 @@
 		<ApplicationTitle>KopolArt</ApplicationTitle>
 		<ApplicationId>ir.kopolart.app</ApplicationId>
 		<ApplicationDisplayVersion>1.6.6</ApplicationDisplayVersion>
-		<ApplicationVersion>332</ApplicationVersion>
+		<ApplicationVersion>336</ApplicationVersion>
 
 		<!-- Android 8.0 baseline (API 26) -->
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">26.0</SupportedOSPlatformVersion>
@@ -29,6 +29,9 @@
 		<!-- Disable MAUI's intermediate font resizetizer on Android; fonts are included directly as AndroidAsset -->
 		<EnableMauiFontProcessing>false</EnableMauiFontProcessing>
 		<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
+		<!-- Compile XAML into generated C# (MAUI 11's default). Pinned so a future framework
+		     default change cannot silently fall back to a runtime inflator. -->
+		<MauiXamlInflator>SourceGen</MauiXamlInflator>
 		<CodePage>65001</CodePage>
 	</PropertyGroup>
 
@@ -73,16 +76,25 @@
 		<RuntimeIdentifiers>android-arm;android-arm64</RuntimeIdentifiers>
 
 		<!-- Trimming: Safe partial trimming for BCL -->
-		<PublishTrimmed>true</PublishTrimmed>
+		<PublishTrimmed>false</PublishTrimmed>
 		<TrimMode>partial</TrimMode>
 
 		<!-- Fast startup: Use standard Profiled AOT (avoids massive APK bloat and long compilation times of Full AOT) -->
 		<AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
-
 		<!-- Note: If you deliberately want Full AOT despite larger APK size (~32MB vs ~18MB), uncomment the following:
 		<RunAOTCompilation>true</RunAOTCompilation>
 		<AndroidStripILAfterAOT>false</AndroidStripILAfterAOT>
 		-->
+
+		<!-- .NET 11 Android runs on CoreCLR, where Mono-era Profiled AOT no longer applies;
+		     ReadyToRun is the supported ahead-of-time lever and is already on by default here
+		     (it requires PublishTrimmed, which this configuration sets). The SDK's default
+		     partial R2R already precompiles this app's own assembly through a generated MIBC
+		     profile, so MauiEnableFullReadyToRun is deliberately left off: measured on this
+		     project, full R2R grew the signed APK from ~33.1 MB to ~47.5 MB (+14.5 MB), far
+		     more than the quoted 65-266 KB, for a cold-start gain that must still be measured
+		     on a device. -->
+		<!--<MauiEnableFullReadyToRun>false</MauiEnableFullReadyToRun>-->
 	</PropertyGroup>
 
 	<!-- Preserve MAUI assemblies from ILLink trimming to ensure fonts, XAML, and reflection work reliably -->

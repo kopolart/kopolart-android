@@ -1,4 +1,5 @@
-﻿using KopolArt.Mobile.Models;
+﻿using System.Diagnostics.CodeAnalysis;
+using KopolArt.Mobile.Models;
 using KopolArt.Mobile.Services;
 using KopolArt.Mobile.Views;
 
@@ -9,6 +10,10 @@ namespace KopolArt.Mobile.Helpers
     /// </summary>
     public static class BrowserOfflineSaveCoordinator
     {
+        [SuppressMessage(
+            "Reliability",
+            "CA2000:Dispose objects before losing scope",
+            Justification = "The native WebView owns the callback and invokes it asynchronously; disposing it here would invalidate the callback.")]
         public static void SavePageForOffline(
             WebView? webBrowser,
             string url,

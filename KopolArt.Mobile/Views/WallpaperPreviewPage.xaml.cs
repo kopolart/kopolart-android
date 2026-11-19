@@ -92,6 +92,9 @@ namespace KopolArt.Mobile.Views
         private void OnPreviewHostSizeChanged(object? sender, EventArgs e) =>
             _viewModel.SetViewportHost(PreviewHost.Width, PreviewHost.Height);
 
+        private void OnPreviewClipHostSizeChanged(object? sender, EventArgs e) =>
+            _viewModel.SetViewportSize(PreviewClipHost.Width, PreviewClipHost.Height);
+
         private void OnPinchUpdated(object? sender, PinchGestureUpdatedEventArgs e)
         {
             switch (e.Status)
@@ -102,6 +105,11 @@ namespace KopolArt.Mobile.Views
 
                 case GestureStatus.Running:
                     _viewModel.UpdatePinch(e.Scale, e.ScaleOrigin);
+                    break;
+
+                case GestureStatus.Canceled:
+                case GestureStatus.Completed:
+                    _viewModel.EndPinch();
                     break;
             }
         }

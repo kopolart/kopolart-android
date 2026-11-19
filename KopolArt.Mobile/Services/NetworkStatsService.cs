@@ -5,8 +5,6 @@ namespace KopolArt.Mobile.Services
     public class NetworkStatsService : INetworkStatsService
     {
         private const string PrefKeyCumulativeBytes = "AppCumulativeNetworkBytes";
-        private const string PrefKeyLastBootRx = "AppLastBootRxBytes";
-        private const string PrefKeyLastBootTx = "AppLastBootTxBytes";
 
         private readonly object _lock = new();
         private long _cumulativeBytes;

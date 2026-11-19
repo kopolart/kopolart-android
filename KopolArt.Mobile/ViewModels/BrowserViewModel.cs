@@ -41,7 +41,6 @@ namespace KopolArt.Mobile.ViewModels
         public event EventHandler<(string Url, string Title)>? RequestSavePageForOffline;
 
         private bool _hasSuccessfullyLoadedPage;
-        public bool HasSuccessfullyLoadedPage => _hasSuccessfullyLoadedPage;
 
         public bool IsPullRefreshing
         {

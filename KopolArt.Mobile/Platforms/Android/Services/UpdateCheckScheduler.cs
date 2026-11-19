@@ -64,22 +64,6 @@ namespace KopolArt.Mobile.Platforms.Android
                 System.Diagnostics.Debug.WriteLine($"[UpdateCheckScheduler] Failed to schedule periodic update check: {ex}");
             }
         }
-
-        /// <summary>
-        /// Cancels the periodic background check.
-        /// </summary>
-        public static void CancelPeriodicCheck(Context context)
-        {
-            try
-            {
-                var jobScheduler = (JobScheduler?)context.GetSystemService(Context.JobSchedulerService);
-                jobScheduler?.Cancel(JobId);
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"[UpdateCheckScheduler] Failed to cancel job {JobId}: {ex}");
-            }
-        }
     }
 
     [BroadcastReceiver(

@@ -5,13 +5,6 @@ namespace KopolArt.Mobile.Services
 {
     public class UpdateService
     {
-        /// <summary>
-        /// If no bytes arrive for this long during the APK download, the
-        /// download is aborted (HttpClient.Timeout only covers the time until
-        /// response headers are received, not the streamed body).
-        /// </summary>
-        private static readonly TimeSpan ReadStallTimeout = TimeSpan.FromSeconds(30);
-
         private readonly HttpClient _httpClient;
         private readonly IAppInstaller _installer;
         private readonly IUpdateDownloader _downloader;

@@ -17,7 +17,7 @@
     <Color x:Key="Gray950">#141414</Color>
 
     <!-- KopolArt Brand Colors -->
-    <Color x:Key="BrandBackground">#E2CDB4</Color> <!-- Hardcoded in Constants.cs, Android colors.xml & splash_screen.xml -->
+    <Color x:Key="BrandBackground">#E2CDB4</Color> <!-- Hardcoded in Constants.cs & Android colors.xml -->
     <Color x:Key="BrandBackgroundDark">#403E3B</Color>
     <Color x:Key="BrandPrimary">#8C5634</Color>
     <Color x:Key="BrandPrimaryDark">#C8A582</Color> <!-- Hardcoded in UpdatePopup.xaml.cs & Android values-night/colors.xml -->

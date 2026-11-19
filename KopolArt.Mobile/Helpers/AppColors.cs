@@ -50,25 +50,5 @@ namespace KopolArt.Mobile.Helpers
         public static readonly Color SlateDark = Color.FromArgb("#626F8F");
         public static readonly Color SlateTintLight = Color.FromArgb("#20535E7B");
         public static readonly Color SlateTintDark = Color.FromArgb("#30626F8F");
-
-        public static Color GetThemeResource(string key, Color fallback)
-        {
-            if (Application.Current?.Resources != null &&
-                Application.Current.Resources.TryGetValue(key, out var val) &&
-                val is Color color)
-            {
-                return color;
-            }
-            return fallback;
-        }
-
-        public static void SetThemedColor(
-            BindableObject element,
-            BindableProperty property,
-            Color lightColor,
-            Color darkColor)
-        {
-            element.SetAppThemeColor(property, lightColor, darkColor);
-        }
     }
 }

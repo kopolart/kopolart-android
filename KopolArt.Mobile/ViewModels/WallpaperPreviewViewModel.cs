@@ -30,11 +30,10 @@ namespace KopolArt.Mobile.ViewModels
         private double _scale = 1.0;
         private double _translationX;
         private double _translationY;
-        private double _pinchStartScale = 1.0;
-        private double _pinchStartTranslationX;
-        private double _pinchStartTranslationY;
-        private double _panStartTranslationX;
-        private double _panStartTranslationY;
+        private double _panTotalX;
+        private double _panTotalY;
+        private bool _isPinching;
+        private bool _rebaselinePan;
         private double _viewportWidth;
         private double _viewportHeight;
         private double _hostWidth;
@@ -203,57 +202,87 @@ namespace KopolArt.Mobile.ViewModels
             UpdateFrameSize();
         }
 
-        public void BeginPinch()
+        public void SetViewportSize(double width, double height)
         {
-            _pinchStartScale = _scale;
-            _pinchStartTranslationX = _translationX;
-            _pinchStartTranslationY = _translationY;
+            if (width <= 0 || height <= 0)
+                return;
+
+            if (Math.Abs(width - _viewportWidth) < 0.5 && Math.Abs(height - _viewportHeight) < 0.5)
+                return;
+
+            _viewportWidth = width;
+            _viewportHeight = height;
+            ResetView();
         }
+
+        public void BeginPinch() => _isPinching = true;
 
         public void UpdatePinch(double relativeScale, Point origin)
         {
-            if (_viewportWidth <= 0 || _viewportHeight <= 0 || _pinchStartScale <= 0)
+            if (_viewportWidth <= 0 || _viewportHeight <= 0 || !double.IsFinite(relativeScale) || relativeScale <= 0)
                 return;
 
-            double newScale = Math.Clamp(_pinchStartScale * relativeScale, MinimumScale, MaximumScale);
-            double factor = newScale / _pinchStartScale;
+            _isPinching = true;
 
-            double originX = (origin.X * _viewportWidth) - (_viewportWidth / 2) - _pinchStartTranslationX;
-            double originY = (origin.Y * _viewportHeight) - (_viewportHeight / 2) - _pinchStartTranslationY;
+            // PinchGestureUpdatedEventArgs.Scale is the ratio since the previous
+            // update, not since the gesture began, so it accumulates on the current zoom.
+            // Clamping guards against the span spikes Android reports when fingers are
+            // added or lifted mid-gesture.
+            double delta = Math.Clamp(relativeScale, 0.5, 2.0);
+            double newScale = Math.Clamp(_scale * delta, MinimumScale, MaximumScale);
+            double factor = newScale / _scale;
 
-            _scale = newScale;
-            _translationX = _pinchStartTranslationX - (originX * (factor - 1));
-            _translationY = _pinchStartTranslationY - (originY * (factor - 1));
+            double focalX = (origin.X - 0.5) * _viewportWidth;
+            double focalY = (origin.Y - 0.5) * _viewportHeight;
 
-            ClampTranslation();
-            RaiseTransformChanged();
+            var (translationX, translationY) = ClampTranslation(
+                newScale,
+                focalX - (factor * (focalX - _translationX)),
+                focalY - (factor * (focalY - _translationY)));
+
+            SetTransform(newScale, translationX, translationY);
+        }
+
+        public void EndPinch()
+        {
+            _isPinching = false;
+            _rebaselinePan = true;
         }
 
         public void BeginPan()
         {
-            _panStartTranslationX = _translationX;
-            _panStartTranslationY = _translationY;
+            _panTotalX = 0;
+            _panTotalY = 0;
+            _rebaselinePan = false;
         }
 
         public void UpdatePan(double totalX, double totalY)
         {
-            if (_viewportWidth <= 0 || _viewportHeight <= 0)
+            if (_viewportWidth <= 0 || _viewportHeight <= 0 || !double.IsFinite(totalX) || !double.IsFinite(totalY))
                 return;
 
-            _translationX = _panStartTranslationX + totalX;
-            _translationY = _panStartTranslationY + totalY;
+            double deltaX = totalX - _panTotalX;
+            double deltaY = totalY - _panTotalY;
+            _panTotalX = totalX;
+            _panTotalY = totalY;
 
-            ClampTranslation();
-            RaiseTransformChanged();
+            // Android keeps measuring the pan total from the original touch-down point,
+            // so the first frame after a pinch would jump. Drop it and start fresh.
+            if (_isPinching || _rebaselinePan)
+            {
+                _rebaselinePan = false;
+                return;
+            }
+
+            var (translationX, translationY) = ClampTranslation(
+                _scale,
+                _translationX + deltaX,
+                _translationY + deltaY);
+
+            SetTransform(_scale, translationX, translationY);
         }
 
-        public void ResetView()
-        {
-            _scale = MinimumScale;
-            _translationX = 0;
-            _translationY = 0;
-            RaiseTransformChanged();
-        }
+        public void ResetView() => SetTransform(MinimumScale, 0, 0);
 
         public void Release()
         {
@@ -407,26 +436,40 @@ namespace KopolArt.Mobile.ViewModels
             FrameWidth = frameWidth;
             FrameHeight = frameWidth * aspect;
 
-            _viewportWidth = FrameWidth;
-            _viewportHeight = FrameHeight;
+            // Fallback until the clip host reports its exact (stroke-inset) size.
+            if (_viewportWidth <= 0 || _viewportHeight <= 0)
+            {
+                _viewportWidth = FrameWidth;
+                _viewportHeight = FrameHeight;
+            }
 
             ResetView();
         }
 
-        private void ClampTranslation()
+        private (double X, double Y) ClampTranslation(double scale, double translationX, double translationY)
         {
-            double maxX = Math.Max(0, _viewportWidth * (_scale - 1) / 2);
-            double maxY = Math.Max(0, _viewportHeight * (_scale - 1) / 2);
+            double maxX = Math.Max(0, _viewportWidth * (scale - 1) / 2);
+            double maxY = Math.Max(0, _viewportHeight * (scale - 1) / 2);
 
-            _translationX = Math.Clamp(_translationX, -maxX, maxX);
-            _translationY = Math.Clamp(_translationY, -maxY, maxY);
+            return (Math.Clamp(translationX, -maxX, maxX), Math.Clamp(translationY, -maxY, maxY));
         }
 
-        private void RaiseTransformChanged()
+        private void SetTransform(double scale, double translationX, double translationY)
         {
-            OnPropertyChanged(nameof(ImageScale));
-            OnPropertyChanged(nameof(ImageTranslationX));
-            OnPropertyChanged(nameof(ImageTranslationY));
+            bool scaleChanged = Math.Abs(scale - _scale) > 0.0001;
+            bool xChanged = Math.Abs(translationX - _translationX) > 0.01;
+            bool yChanged = Math.Abs(translationY - _translationY) > 0.01;
+
+            _scale = scale;
+            _translationX = translationX;
+            _translationY = translationY;
+
+            if (scaleChanged)
+                OnPropertyChanged(nameof(ImageScale));
+            if (xChanged)
+                OnPropertyChanged(nameof(ImageTranslationX));
+            if (yChanged)
+                OnPropertyChanged(nameof(ImageTranslationY));
         }
 
         private void SetError(string message)

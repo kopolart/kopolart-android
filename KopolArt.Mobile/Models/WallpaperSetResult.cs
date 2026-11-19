@@ -18,7 +18,5 @@
     public sealed class WallpaperSetResult
     {
         public WallpaperSetStatus Status { get; init; } = WallpaperSetStatus.Unknown;
-
-        public bool Succeeded => Status is WallpaperSetStatus.Success or WallpaperSetStatus.HomeScreenOnly;
     }
 }

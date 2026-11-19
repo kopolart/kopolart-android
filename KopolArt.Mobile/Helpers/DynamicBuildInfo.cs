@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace KopolArt.Mobile.Helpers
 {
@@ -9,8 +8,6 @@ namespace KopolArt.Mobile.Helpers
         public static string BuildNumber => AppInfo.Current.BuildString;
         public static string PackageName => AppInfo.Current.PackageName;
         public static string AppName => AppInfo.Current.Name;
-
-        public static string DotNetRuntime => RuntimeInformation.FrameworkDescription;
 
         public static string MauiVersion
         {
@@ -33,8 +30,6 @@ namespace KopolArt.Mobile.Helpers
                 }
             }
         }
-
-        public static string CSharpVersion => "C# 14";
 
         public static string DeviceModel => $"{DeviceInfo.Current.Manufacturer} {DeviceInfo.Current.Model}";
         public static string OsVersion => $"{DeviceInfo.Current.Platform} {DeviceInfo.Current.VersionString}";
