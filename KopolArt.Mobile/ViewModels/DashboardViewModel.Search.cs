@@ -136,7 +136,10 @@ namespace KopolArt.Mobile.ViewModels
                     _searchDebounceCts.Cancel();
                     _searchDebounceCts.Dispose();
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[DashboardViewModel] Search debounce cancellation cleanup failed: {ex.Message}");
+                }
                 _searchDebounceCts = null;
             }
         }

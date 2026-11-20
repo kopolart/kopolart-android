@@ -112,7 +112,10 @@ namespace KopolArt.Mobile.Services
                             File.Delete(existing.FilePath);
                         }
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[OfflinePageService] Failed to delete existing offline page file: {ex.Message}");
+                    }
                 }
 
                 _items.Insert(0, item);
@@ -197,7 +200,10 @@ namespace KopolArt.Mobile.Services
                             File.Delete(item.FilePath);
                         }
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[OfflinePageService] Failed to delete offline page file: {ex.Message}");
+                    }
                 }
 
                 _items.Clear();

@@ -116,7 +116,10 @@ namespace KopolArt.Mobile.Views
                             await WelcomeLoadingCard.FadeToAsync(1.0, 450, Easing.CubicIn);
                         }
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[BrowserPage] Welcome card fade-in failed: {ex.Message}");
+                    }
                 });
             }
         }
@@ -290,7 +293,10 @@ namespace KopolArt.Mobile.Views
                             }
                         }
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[BrowserPage] Page title extraction for context menu failed: {ex.Message}");
+                    }
                     await _viewModel.ShowPageContextMenuAsync(currentUrl, pageTitle);
                 }
                 catch (Exception ex)
@@ -506,14 +512,20 @@ namespace KopolArt.Mobile.Views
                         pageTitle = pageTitle.Trim('"');
                     }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[BrowserPage] Page title extraction failed: {ex.Message}");
+                }
                 string urlToReport = e.Url;
 #if ANDROID
                 try
                 {
                     Android.Webkit.CookieManager.Instance?.Flush();
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[BrowserPage] Cookie flush failed: {ex.Message}");
+                }
                 if (WebBrowser?.Handler?.PlatformView is Android.Webkit.WebView nativeWebView && !string.IsNullOrWhiteSpace(nativeWebView.Url))
                 {
                     urlToReport = nativeWebView.Url;

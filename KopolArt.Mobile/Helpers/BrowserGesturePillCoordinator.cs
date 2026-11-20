@@ -67,7 +67,7 @@
                     pill.IsVisible = false;
                 }
             }
-            catch (TaskCanceledException) { }
+            catch (TaskCanceledException) { /* expected: pill hide timer cancelled */ }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[BrowserGesturePillCoordinator] Gesture pill animation error: {ex.Message}");

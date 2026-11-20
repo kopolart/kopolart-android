@@ -160,7 +160,10 @@ namespace KopolArt.Mobile.ViewModels
                         {
                             displayItem.Item.FileSizeBytes = new FileInfo(htmlPath).Length;
                         }
-                        catch { }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"[OfflinePagesViewModel] Failed to read offline page file size: {ex.Message}");
+                        }
                         await _offlinePageService.AddOfflinePageAsync(displayItem.Item);
                     }
                 }

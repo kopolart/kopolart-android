@@ -307,7 +307,7 @@ namespace KopolArt.Mobile.Platforms.Android.Services
                 notifService.CancelNotification(notifId);
                 if (destinationFile.Exists())
                 {
-                    try { destinationFile.Delete(); } catch { }
+                    try { destinationFile.Delete(); } catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"[AndroidUpdateDownloader] Failed to delete partial download file: {ex.Message}"); }
                 }
                 throw;
             }
@@ -316,7 +316,7 @@ namespace KopolArt.Mobile.Platforms.Android.Services
                 notifService.CancelNotification(notifId);
                 if (destinationFile.Exists())
                 {
-                    try { destinationFile.Delete(); } catch { }
+                    try { destinationFile.Delete(); } catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"[AndroidUpdateDownloader] Failed to delete partial download file: {ex.Message}"); }
                 }
                 throw;
             }

@@ -23,7 +23,10 @@ namespace KopolArt.Mobile.Services
                 {
                     cookieManager.Flush();
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[UserService] Cookie flush failed: {ex.Message}");
+                }
 
                 var candidateUrls = new List<string>
                 {

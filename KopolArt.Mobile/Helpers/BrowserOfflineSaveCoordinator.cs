@@ -61,7 +61,10 @@ namespace KopolArt.Mobile.Helpers
                                     {
                                         fileSizeBytes = new FileInfo(finalPath).Length;
                                     }
-                                    catch { }
+                                    catch (Exception ex)
+                                    {
+                                        System.Diagnostics.Debug.WriteLine($"[BrowserOfflineSaveCoordinator] Failed to read saved file size: {ex.Message}");
+                                    }
 
                                     var item = new OfflinePageItem
                                     {

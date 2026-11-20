@@ -587,7 +587,10 @@ namespace KopolArt.Mobile.ViewModels
                     _rotationCts.Dispose();
                 }
 
-                catch { }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[DashboardViewModel] Rotation cancellation cleanup failed: {ex.Message}");
+                }
 
                 _rotationCts = null;
             }

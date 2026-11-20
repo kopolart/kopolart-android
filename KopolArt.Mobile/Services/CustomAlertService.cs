@@ -276,7 +276,10 @@ namespace KopolArt.Mobile.Services
                             await tile.FadeToAsync(0.5, 40);
                             await tile.FadeToAsync(1.0, 40);
                         }
-                        catch { }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"[CustomAlertService] Tile highlight animation failed: {ex.Message}");
+                        }
                         await context.DismissAsync(() => tcs.TrySetResult(capturedReturn));
                     };
                     tile.GestureRecognizers.Add(tap);

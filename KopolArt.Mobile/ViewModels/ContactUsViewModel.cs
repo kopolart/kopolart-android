@@ -87,7 +87,10 @@ namespace KopolArt.Mobile.ViewModels
                     "تأیید",
                     AlertType.Info);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[ContactUsViewModel] Phone number clipboard fallback failed: {ex.Message}");
+            }
         }
 
         private async void OnSendEmail(string? email)

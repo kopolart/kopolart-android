@@ -239,7 +239,10 @@
                 {
                     await Shell.Current.GoToAsync("BrowserPage");
                 }
-                catch { }
+                catch (Exception navEx)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[NavigationHelper] Shell navigation to BrowserPage failed: {navEx.Message}");
+                }
             }
         }
 
@@ -266,7 +269,10 @@
                     if (Shell.Current is not null)
                         await Shell.Current.GoToAsync("//DashboardPage");
                 }
-                catch { }
+                catch (Exception navEx)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[NavigationHelper] Shell navigation to DashboardPage failed: {navEx.Message}");
+                }
             }
         }
     }

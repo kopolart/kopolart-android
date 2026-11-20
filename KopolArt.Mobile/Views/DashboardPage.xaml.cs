@@ -405,7 +405,10 @@ namespace KopolArt.Mobile.Views
                                     }
                                     hsv.FullScroll(global::Android.Views.FocusSearchDirection.Right);
                                 }
-                                catch { }
+                                catch (Exception ex)
+                                {
+                                    System.Diagnostics.Debug.WriteLine($"[DashboardPage] Horizontal FullScroll failed: {ex.Message}");
+                                }
                             });
                             return;
                         }

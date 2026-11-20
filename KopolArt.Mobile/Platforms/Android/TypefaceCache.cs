@@ -141,9 +141,9 @@ namespace KopolArt.Mobile.Platforms.Android
                 if (context == null) return null;
 
                 Stream? stream = null;
-                try { stream = assets.Open(filename); } catch { }
-                if (stream == null) { try { stream = assets.Open($"Fonts/{filename}"); } catch { } }
-                if (stream == null) { try { stream = assets.Open($"fonts/{filename}"); } catch { } }
+                try { stream = assets.Open(filename); } catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"[TypefaceCache] Failed to open font asset at assets root: {ex.Message}"); }
+                if (stream == null) { try { stream = assets.Open($"Fonts/{filename}"); } catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"[TypefaceCache] Failed to open font asset under Fonts/: {ex.Message}"); } }
+                if (stream == null) { try { stream = assets.Open($"fonts/{filename}"); } catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"[TypefaceCache] Failed to open font asset under fonts/: {ex.Message}"); } }
 
                 if (stream == null)
                 {

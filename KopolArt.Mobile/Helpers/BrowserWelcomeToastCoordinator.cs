@@ -61,7 +61,10 @@
                     _usageToastTimer?.Stop();
                     _usageToastTimer = null;
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[BrowserWelcomeToastCoordinator] Failed to stop usage toast timer: {ex.Message}");
+                }
             });
         }
 
@@ -83,7 +86,10 @@
                     );
                     toastBorder.IsVisible = false;
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[BrowserWelcomeToastCoordinator] Failed to hide welcome toast: {ex.Message}");
+                }
             });
         }
 

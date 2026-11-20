@@ -117,10 +117,6 @@
 		     project it grew the signed APK from ~33 MB to ~47.5 MB. -->
 		<MauiEnableFullReadyToRun>false</MauiEnableFullReadyToRun>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net11.0-android37.0|AnyCPU'">
-	  <DefineConstants>$(DefineConstants);KOPOLAR_FONT_ABAR</DefineConstants>
-	</PropertyGroup>
-
 	<!-- Preserve MAUI assemblies from ILLink trimming to ensure fonts, XAML, and reflection work reliably -->
 	<ItemGroup Condition="'$(Configuration)' == 'Release'">
 		<TrimmerRootAssembly Include="KopolArt.Mobile" />

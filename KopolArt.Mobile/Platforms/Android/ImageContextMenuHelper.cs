@@ -156,7 +156,10 @@ namespace KopolArt.Mobile.Platforms.Android
                         Uri = imageUrl
                     });
                 }
-                catch { }
+                catch (Exception shareEx)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[ImageContextMenuHelper] Failed to launch image share intent: {shareEx.Message}");
+                }
             }
         }
     }

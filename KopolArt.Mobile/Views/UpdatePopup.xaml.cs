@@ -113,7 +113,10 @@ namespace KopolArt.Mobile.Views
                     _downloadCts.Dispose();
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[UpdatePopup] Download cancellation cleanup failed: {ex.Message}");
+            }
             finally
             {
                 _downloadCts = null;

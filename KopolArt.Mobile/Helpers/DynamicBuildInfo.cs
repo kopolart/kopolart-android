@@ -45,7 +45,10 @@ namespace KopolArt.Mobile.Helpers
                     var minSdk = context.ApplicationInfo?.MinSdkVersion ?? 26;
                     return $"\u200Fاندروید {AndroidVersionName(minSdk)} \u202A(API {minSdk})\u202C به بالا\u200F";
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[DynamicBuildInfo] Failed to read min SDK info: {ex.Message}");
+                }
 #endif
                 return "\u200Fاندروید ۸.۰ \u202A(API 26)\u202C به بالا\u200F";
             }
@@ -78,7 +81,10 @@ namespace KopolArt.Mobile.Helpers
                     var targetSdk = (int)(context.ApplicationInfo?.TargetSdkVersion ?? (Android.OS.BuildVersionCodes)37);
                     return $"API {targetSdk}";
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[DynamicBuildInfo] Failed to read target SDK info: {ex.Message}");
+                }
 #endif
                 return "API 37";
             }
