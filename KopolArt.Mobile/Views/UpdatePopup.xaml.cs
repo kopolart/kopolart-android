@@ -89,6 +89,9 @@ namespace KopolArt.Mobile.Views
             ButtonsSection.IsVisible = true;
             DownloadProgressBar.Progress = 0;
 
+            // Store builds cannot install APKs, so the action reads as a store hand-off.
+            UpdateButton.Text = updateService.IsStoreManagedUpdate ? "به‌روزرسانی از بازار" : "به‌روزرسانی";
+
             IsVisible = true;
             Opacity = 0;
             _ = this.FadeToAsync(1, 350, Easing.CubicOut);
@@ -140,6 +143,24 @@ namespace KopolArt.Mobile.Views
         private async void OnUpdateClicked(object sender, EventArgs e)
         {
             if (_updateService == null || _updateInfo == null) return;
+
+            // Store-managed builds (Cafe Bazaar) never download or install APKs: Android 8.0+
+            // would require REQUEST_INSTALL_PACKAGES, which the store rejects. Hand off instead.
+            if (_updateService.IsStoreManagedUpdate)
+            {
+                bool storeOpened = _updateService.OpenStoreForUpdate();
+                Hide();
+
+                if (!storeOpened)
+                {
+                    await GetAlertService().ShowAlertAsync(
+                        "بازار در دسترس نیست",
+                        "برای دریافت نسخه جدید، کپل‌آرت را از بازار به‌روزرسانی کنید.",
+                        "متوجه شدم",
+                        AlertType.Warning);
+                }
+                return;
+            }
 
             // Check for install permission on Android before downloading to avoid wasting data
             if (!_updateService.CanInstallApkDirectly())

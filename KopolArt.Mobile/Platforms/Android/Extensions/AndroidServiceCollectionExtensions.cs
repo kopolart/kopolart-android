@@ -7,7 +7,13 @@ namespace KopolArt.Mobile.Platforms.Android.Extensions
     {
         public static IServiceCollection AddPlatformServices(this IServiceCollection services)
         {
+            // Cafe Bazaar build: android.permission.REQUEST_INSTALL_PACKAGES is absent, so the
+            // app hands updates to the Bazaar client instead of installing APKs itself.
+#if BAZAAR_BUILD
+            services.AddSingleton<IAppInstaller, AndroidBazaarAppInstaller>();
+#else
             services.AddSingleton<IAppInstaller, AndroidAppInstaller>();
+#endif
             services.AddSingleton<IUpdateDownloader, AndroidUpdateDownloader>();
             services.AddSingleton<INotificationPermissionService, AndroidNotificationPermissionService>();
             services.AddSingleton<INewContentNotifier>(_ => new NewContentNotifier(global::Android.App.Application.Context));

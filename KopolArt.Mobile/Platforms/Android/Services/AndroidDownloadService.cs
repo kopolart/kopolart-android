@@ -1,4 +1,4 @@
-﻿﻿#define DEBUG
+﻿#define DEBUG
  using System.Diagnostics;
  using System.Net;
  using System.Net.Http.Headers;
@@ -78,8 +78,8 @@ public class AndroidDownloadService : IDownloadService
 				HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
 				try
 				{
-					CookieManager cookieManager = CookieManager.Instance;
-					string cookies = ((cookieManager != null) ? cookieManager.GetCookie(url) : null);
+					CookieManager? cookieManager = CookieManager.Instance;
+					string? cookies = ((cookieManager != null) ? cookieManager.GetCookie(url) : null);
 					if (!string.IsNullOrWhiteSpace(cookies))
 					{
 						request.Headers.TryAddWithoutValidation("Cookie", cookies);

@@ -220,6 +220,18 @@ namespace KopolArt.Mobile.Services
         }
 
         /// <summary>
+        /// True when the distribution store owns updates (Cafe Bazaar build). The UI must then
+        /// redirect to the store instead of downloading and installing an APK.
+        /// </summary>
+        public bool IsStoreManagedUpdate => _installer.IsStoreManagedUpdate;
+
+        /// <summary>
+        /// Opens this app's page in the store so the user can install the update there.
+        /// Returns false when neither the store client nor a browser could be launched.
+        /// </summary>
+        public bool OpenStoreForUpdate() => _installer.OpenStorePage();
+
+        /// <summary>
         /// Checks if the app has permission to install packages directly.
         /// </summary>
         public bool CanInstallApkDirectly() => _installer.CanInstallDirectly();

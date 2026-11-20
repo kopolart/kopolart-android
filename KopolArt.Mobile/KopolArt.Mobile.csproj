@@ -41,6 +41,28 @@
 		<CodePage>65001</CodePage>
 	</PropertyGroup>
 
+	<!-- ── Distribution channel ─────────────────────────────────────────────────
+	     Bazaar builds must NOT declare android.permission.REQUEST_INSTALL_PACKAGES.
+	     Cafe Bazaar rejects that permission unless installing APKs is the app's core
+	     function, and Android 8.0+ (API 26) requires it for any app-initiated install.
+	     A Bazaar build therefore hands updates to the Bazaar client instead of
+	     installing them itself (see AndroidBazaarAppInstaller).
+
+	       dotnet publish -c Release -f net11.0-android37.0 -p:Distribution=Bazaar   → store
+	       dotnet publish -c Release -f net11.0-android37.0                          → direct
+
+	     The permission is declared in AndroidManifest.Direct.xml and merged only for
+	     non-Bazaar builds, so a store APK can never carry it by accident. -->
+	<PropertyGroup Condition="'$(Distribution)' == 'Bazaar'">
+		<DefineConstants>$(DefineConstants);BAZAAR_BUILD</DefineConstants>
+	</PropertyGroup>
+
+	<!-- Direct builds use the full manifest that declares REQUEST_INSTALL_PACKAGES;
+	     Bazaar builds keep the shared manifest without it. -->
+	<PropertyGroup Condition="'$(Distribution)' != 'Bazaar'">
+		<AndroidManifest>Platforms\Android\AndroidManifest.Direct.xml</AndroidManifest>
+	</PropertyGroup>
+
 	<!-- Font family selection. The licensed Abar family is used only when the complete set
 	     exists locally; the public repository ships OFL Estedad instead because Abar may not
 	     be redistributed. Nothing else in the build needs to know which family is active. -->
@@ -95,6 +117,9 @@
 		     project it grew the signed APK from ~33 MB to ~47.5 MB. -->
 		<MauiEnableFullReadyToRun>false</MauiEnableFullReadyToRun>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net11.0-android37.0|AnyCPU'">
+	  <DefineConstants>$(DefineConstants);KOPOLAR_FONT_ABAR</DefineConstants>
+	</PropertyGroup>
 
 	<!-- Preserve MAUI assemblies from ILLink trimming to ensure fonts, XAML, and reflection work reliably -->
 	<ItemGroup Condition="'$(Configuration)' == 'Release'">
@@ -117,6 +142,10 @@
 		<AndroidAsset Include="Resources\Fonts\*" Exclude="Resources\Fonts\abar-*;Resources\Fonts\estedad-*" Link="%(Filename)%(Extension)" Visible="false" />
 		<AndroidAsset Include="Resources\Fonts\abar-*" Condition="'$(KopolArtUsePremiumFonts)' == 'true'" Link="%(Filename)%(Extension)" Visible="false" />
 		<AndroidAsset Include="Resources\Fonts\estedad-*" Condition="'$(KopolArtUsePremiumFonts)' != 'true'" Link="%(Filename)%(Extension)" Visible="false" />
+
+		<!-- (Widget font resource include removed: source font filenames contain hyphens,
+		     which are invalid in Android resource names. Re-add with underscore-named
+		     copies if the widget font is needed.) -->
 	</ItemGroup>
 
 	<ItemGroup>
@@ -130,10 +159,8 @@
 	     silently packages Estedad. Compare the evaluation against the real disk state so a
 	     wrong-family APK fails the build instead of reaching users. -->
 	<Target Name="VerifyFontFamilySelection" BeforeTargets="_GenerateAndroidAssetsDir;_CreateBaseApk" Condition="$(TargetFramework.Contains('-android'))">
-		<Error Condition="'$(KopolArtUsePremiumFonts)' != 'true' and (Exists('$(MSBuildProjectDirectory)\Resources\Fonts\abar-medium.ttf') or Exists('Resources\Fonts\abar-medium.ttf'))"
-		       Text="[FontCheck] The Abar family is present in Resources\Fonts but this build selected Estedad, so the APK would ship without the Abar font. Visual Studio evaluated the project before those files appeared: unload and reload the project (right-click the project, Unload Project, then Reload) or restart Visual Studio, then build again." />
-		<Error Condition="'$(KopolArtUsePremiumFonts)' == 'true' and (!Exists('$(MSBuildProjectDirectory)\Resources\Fonts\abar-medium.ttf') and !Exists('Resources\Fonts\abar-medium.ttf'))"
-		       Text="[FontCheck] The Abar family is missing in Resources\Fonts. abar-medium.ttf is required before building with KopolArtUsePremiumFonts=true." />
+		<Error Condition="'$(KopolArtUsePremiumFonts)' != 'true' and (Exists('$(MSBuildProjectDirectory)\Resources\Fonts\abar-medium.ttf') or Exists('Resources\Fonts\abar-medium.ttf'))" Text="[FontCheck] The Abar family is present in Resources\Fonts but this build selected Estedad, so the APK would ship without the Abar font. Visual Studio evaluated the project before those files appeared: unload and reload the project (right-click the project, Unload Project, then Reload) or restart Visual Studio, then build again." />
+		<Error Condition="'$(KopolArtUsePremiumFonts)' == 'true' and (!Exists('$(MSBuildProjectDirectory)\Resources\Fonts\abar-medium.ttf') and !Exists('Resources\Fonts\abar-medium.ttf'))" Text="[FontCheck] The Abar family is missing in Resources\Fonts. abar-medium.ttf is required before building with KopolArtUsePremiumFonts=true." />
 		<Message Importance="high" Text="[FontCheck] Font family: $(KopolArtUiFontMedium), $(KopolArtUiFontBold), $(KopolArtUiFontBlack)" />
 	</Target>
 

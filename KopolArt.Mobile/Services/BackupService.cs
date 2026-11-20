@@ -80,7 +80,7 @@ public class BackupService(ISettingsService settingsService, IBookmarkService bo
 	{
 		try
 		{
-			FileResult pickResult = await FilePicker.Default.PickAsync(new PickOptions
+			FileResult? pickResult = await FilePicker.Default.PickAsync(new PickOptions
 			{
 				PickerTitle = "انتخاب فایل پشتیبان کپل\u200cآرت (JSON)"
 			});

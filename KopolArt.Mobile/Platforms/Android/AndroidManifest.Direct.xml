@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Manifest for the DIRECT distribution build (kopolart.ir APK), selected by the csproj with
+
+      <AndroidManifest>Platforms\Android\AndroidManifest.Direct.xml</AndroidManifest>
+
+  whenever -p:Distribution is not "Bazaar". A single shared manifest cannot express the
+  difference: android.permission.REQUEST_INSTALL_PACKAGES must be present for the in-app
+  updater but absent for Cafe Bazaar, and .NET Android's Release build uses the trimmable
+  type-map pipeline, which does not support AndroidManifestOverlay.
+
+  KEEP IN SYNC WITH Platforms/Android/AndroidManifest.xml except for the
+  REQUEST_INSTALL_PACKAGES permission below.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          android:installLocation="internalOnly">
+
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+
+	<!-- Required by Android 8.0+ (API 26) to install the downloaded update APK.
+	     Only declared for direct distribution; Cafe Bazaar rejects this permission
+	     unless installing APKs is the app's core function. -->
+	<uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+	<!-- Install-time (normal) permission: lets downloaded wallpapers be applied to the device -->
+	<uses-permission android:name="android.permission.SET_WALLPAPER" />
+
+	<!-- Legacy storage (Android 12 and below) -->
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+	                 android:maxSdkVersion="32" />
+
+	<!-- Public Downloads writing on Android 8/9 only (API 26-28).
+	     Android 10+ saves through MediaStore and needs no storage permission. -->
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+	                 android:maxSdkVersion="28" />
+
+	<!-- READ_MEDIA_* permissions removed: the system file picker used for
+	     WebView uploads and MediaStore downloads require no media permission -->
+
+	<!-- Android 13+ notifications -->
+	<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+	<!-- Boot completed permission for JobScheduler persistence across reboots -->
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+	<!-- WakeLock for reliable background update downloads -->
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+
+	<!-- Queries for intent package visibility (Android 11+) -->
+	<queries>
+		<!-- Bazaar client: the store build hands updates over to it -->
+		<package android:name="com.farsitel.bazaar" />
+		<intent>
+			<action android:name="android.intent.action.SENDTO" />
+			<data android:scheme="mailto" />
+		</intent>
+		<intent>
+			<action android:name="android.intent.action.DIAL" />
+			<data android:scheme="tel" />
+		</intent>
+	</queries>
+
+	<application
+		android:allowBackup="true"
+		android:icon="@mipmap/icon"
+		android:supportsRtl="true"
+		android:usesCleartextTraffic="false"
+		android:networkSecurityConfig="@xml/network_security_config"
+		android:label="KopolArt"
+		android:enableOnBackInvokedCallback="true">
+
+		<!-- ── FileProvider (required for opening downloaded files) ── -->
+		<provider
+			android:name="androidx.core.content.FileProvider"
+			android:authorities="${applicationId}.fileprovider"
+			android:exported="false"
+			android:grantUriPermissions="true">
+			<meta-data
+				android:name="android.support.FILE_PROVIDER_PATHS"
+				android:resource="@xml/file_paths" />
+		</provider>
+	</application>
+
+</manifest>

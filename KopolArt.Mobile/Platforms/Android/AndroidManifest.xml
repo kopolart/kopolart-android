@@ -5,7 +5,13 @@
 
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+	<!-- android.permission.REQUEST_INSTALL_PACKAGES is deliberately NOT declared here.
+	     Cafe Bazaar rejects it unless installing APKs is the app's core function, and
+	     Android 8.0+ requires it for any app-initiated APK install. The store build
+	     therefore hands updates over to the Bazaar client (see AndroidBazaarAppInstaller).
+	     The direct-download build re-adds it through AndroidManifest.Direct.xml, which the
+	     csproj merges only when -p:Distribution is not "Bazaar". -->
 
 	<!-- Install-time (normal) permission: lets downloaded wallpapers be applied to the device -->
 	<uses-permission android:name="android.permission.SET_WALLPAPER" />
@@ -33,6 +39,8 @@
 
 	<!-- Queries for intent package visibility (Android 11+) -->
 	<queries>
+		<!-- Bazaar client: used to hand update installs over to the store -->
+		<package android:name="com.farsitel.bazaar" />
 		<intent>
 			<action android:name="android.intent.action.SENDTO" />
 			<data android:scheme="mailto" />

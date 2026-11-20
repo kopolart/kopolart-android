@@ -7,6 +7,9 @@ namespace KopolArt.Mobile.Platforms.Android
 {
     public class AndroidAppInstaller : IAppInstaller
     {
+        // Direct-download build (kopolart.ir): the app owns its updates and installs them.
+        public bool IsStoreManagedUpdate => false;
+
         public bool CanInstallDirectly()
         {
             if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
@@ -99,6 +102,8 @@ namespace KopolArt.Mobile.Platforms.Android
                 });
             }
         }
+
+        public bool OpenStorePage() => AndroidStorePageLauncher.TryOpenAppPage();
 
         private static void OpenUnknownSourcesSettings(Context context)
         {
