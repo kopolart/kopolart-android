@@ -5,5 +5,7 @@
 		<!-- Secrets can come from signing.local.props (gitignored) or from environment variables. -->
 		<AndroidSigningPassword Condition="'$(AndroidSigningPassword)' == '' and '$(KOPOLART_SIGNING_PASSWORD)' != ''">$(KOPOLART_SIGNING_PASSWORD)</AndroidSigningPassword>
 		<AndroidSigningKeyStore Condition="'$(AndroidSigningKeyStore)' == '' and '$(KOPOLART_KEYSTORE_PATH)' != ''">$(KOPOLART_KEYSTORE_PATH)</AndroidSigningKeyStore>
+		<!-- Font option override: can come from signing.local.props or environment variable -->
+		<KopolArtUsePremiumFonts Condition="'$(KopolArtUsePremiumFonts)' == '' and '$(KOPOLART_USE_PREMIUM_FONTS)' != ''">$(KOPOLART_USE_PREMIUM_FONTS)</KopolArtUsePremiumFonts>
 	</PropertyGroup>
 </Project>

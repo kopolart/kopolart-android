@@ -14,13 +14,19 @@
 		<ApplicationTitle>KopolArt</ApplicationTitle>
 		<ApplicationId>ir.kopolart.app</ApplicationId>
 		<ApplicationDisplayVersion>1.6.6</ApplicationDisplayVersion>
-		<ApplicationVersion>336</ApplicationVersion>
+		<ApplicationVersion>337</ApplicationVersion>
 
 		<!-- Android 8.0 baseline (API 26) -->
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">26.0</SupportedOSPlatformVersion>
 
 		<!-- Strip unused satellite resource cultures to reduce APK size -->
 		<SatelliteResourceLanguages>none</SatelliteResourceLanguages>
+
+		<!-- Ensure font assets are stored uncompressed in the APK. Android's native Typeface.createFromAsset()
+		     requires uncompressed asset streams for direct memory-mapping; compressed font assets fail to load
+		     or silently fall back to the default system font on physical Android devices. -->
+		<AndroidStoreUncompressedFileExtensions>.ttf;.otf;.woff;.woff2;$(AndroidStoreUncompressedFileExtensions)</AndroidStoreUncompressedFileExtensions>
+		<AndroidAapt2LinkExtraArgs>$(AndroidAapt2LinkExtraArgs) -0 .ttf -0 .otf -0 .woff -0 .woff2</AndroidAapt2LinkExtraArgs>
 
 		<!-- Debug RIDs include x64 for emulators; Release overrides to physical ARM devices.
 		     android-x86 is omitted: .NET 11 Android uses CoreCLR, which has no x86 runtime pack. -->
@@ -31,15 +37,15 @@
 		<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
 		<!-- Compile XAML into generated C# (MAUI 11's default). Pinned so a future framework
 		     default change cannot silently fall back to a runtime inflator. -->
-		<MauiXamlInflator>SourceGen</MauiXamlInflator>
+		<!--<MauiXamlInflator>SourceGen</MauiXamlInflator>-->
 		<CodePage>65001</CodePage>
 	</PropertyGroup>
 
-	<!-- Font family selection. The licensed Abar family is used only when those files exist
-	     locally; the public repository ships OFL Estedad instead because Abar may not be
-	     redistributed. Nothing else in the build needs to know which family is active. -->
+	<!-- Font family selection. The licensed Abar family is used only when the complete set
+	     exists locally; the public repository ships OFL Estedad instead because Abar may not
+	     be redistributed. Nothing else in the build needs to know which family is active. -->
 	<PropertyGroup>
-		<KopolArtUsePremiumFonts Condition="Exists('$(MSBuildProjectDirectory)\Resources\Fonts\abar-medium.ttf')">true</KopolArtUsePremiumFonts>
+		<KopolArtUsePremiumFonts Condition="'$(KopolArtUsePremiumFonts)' == '' and (Exists('$(MSBuildProjectDirectory)\Resources\Fonts\abar-medium.ttf') or Exists('Resources\Fonts\abar-medium.ttf'))">true</KopolArtUsePremiumFonts>
 		<KopolArtUiFontMedium Condition="'$(KopolArtUsePremiumFonts)' == 'true'">abar-medium.ttf</KopolArtUiFontMedium>
 		<KopolArtUiFontBold Condition="'$(KopolArtUsePremiumFonts)' == 'true'">abar-bold.ttf</KopolArtUiFontBold>
 		<KopolArtUiFontBlack Condition="'$(KopolArtUsePremiumFonts)' == 'true'">abar-black.ttf</KopolArtUiFontBlack>
@@ -75,26 +81,19 @@
 		<AndroidPackageFormat>apk</AndroidPackageFormat>
 		<RuntimeIdentifiers>android-arm;android-arm64</RuntimeIdentifiers>
 
-		<!-- Trimming: Safe partial trimming for BCL -->
-		<PublishTrimmed>false</PublishTrimmed>
+		<!-- Trimming is what keeps this APK small on CoreCLR: an untrimmed Release build
+		     embeds a full assembly store per ABI (~92 MB total), while partial trimming
+		     measured ~33 MB with the same feature set. It also lets the SDK turn on its
+		     partial ReadyToRun pass. -->
+		<PublishTrimmed>true</PublishTrimmed>
 		<TrimMode>partial</TrimMode>
 
-		<!-- Fast startup: Use standard Profiled AOT (avoids massive APK bloat and long compilation times of Full AOT) -->
-		<AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
-		<!-- Note: If you deliberately want Full AOT despite larger APK size (~32MB vs ~18MB), uncomment the following:
-		<RunAOTCompilation>true</RunAOTCompilation>
-		<AndroidStripILAfterAOT>false</AndroidStripILAfterAOT>
-		-->
-
-		<!-- .NET 11 Android runs on CoreCLR, where Mono-era Profiled AOT no longer applies;
-		     ReadyToRun is the supported ahead-of-time lever and is already on by default here
-		     (it requires PublishTrimmed, which this configuration sets). The SDK's default
-		     partial R2R already precompiles this app's own assembly through a generated MIBC
-		     profile, so MauiEnableFullReadyToRun is deliberately left off: measured on this
-		     project, full R2R grew the signed APK from ~33.1 MB to ~47.5 MB (+14.5 MB), far
-		     more than the quoted 65-266 KB, for a cold-start gain that must still be measured
-		     on a device. -->
-		<!--<MauiEnableFullReadyToRun>false</MauiEnableFullReadyToRun>-->
+		<!-- .NET 11 Android runs on CoreCLR, where the Mono-era switches
+		     (RunAOTCompilation, AndroidEnableProfiledAot, AndroidStripILAfterAOT,
+		     _DisableParallelAot, AndroidLinkMode) are ignored or rejected, so none of
+		     them are set here. Full ReadyToRun stays off as well: measured on this
+		     project it grew the signed APK from ~33 MB to ~47.5 MB. -->
+		<MauiEnableFullReadyToRun>false</MauiEnableFullReadyToRun>
 	</PropertyGroup>
 
 	<!-- Preserve MAUI assemblies from ILLink trimming to ensure fonts, XAML, and reflection work reliably -->
@@ -124,6 +123,19 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="11.0.10" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.12" Condition="'$(Configuration)' == 'Debug'" />
 	</ItemGroup>
+
+	<!-- A publish must never ship a different family than the one compiled into the app.
+	     Visual Studio caches the project evaluation: when the (gitignored) Abar files appear
+	     after the project was loaded, KopolArtUsePremiumFonts stays false and the build
+	     silently packages Estedad. Compare the evaluation against the real disk state so a
+	     wrong-family APK fails the build instead of reaching users. -->
+	<Target Name="VerifyFontFamilySelection" BeforeTargets="_GenerateAndroidAssetsDir;_CreateBaseApk" Condition="$(TargetFramework.Contains('-android'))">
+		<Error Condition="'$(KopolArtUsePremiumFonts)' != 'true' and (Exists('$(MSBuildProjectDirectory)\Resources\Fonts\abar-medium.ttf') or Exists('Resources\Fonts\abar-medium.ttf'))"
+		       Text="[FontCheck] The Abar family is present in Resources\Fonts but this build selected Estedad, so the APK would ship without the Abar font. Visual Studio evaluated the project before those files appeared: unload and reload the project (right-click the project, Unload Project, then Reload) or restart Visual Studio, then build again." />
+		<Error Condition="'$(KopolArtUsePremiumFonts)' == 'true' and (!Exists('$(MSBuildProjectDirectory)\Resources\Fonts\abar-medium.ttf') and !Exists('Resources\Fonts\abar-medium.ttf'))"
+		       Text="[FontCheck] The Abar family is missing in Resources\Fonts. abar-medium.ttf is required before building with KopolArtUsePremiumFonts=true." />
+		<Message Importance="high" Text="[FontCheck] Font family: $(KopolArtUiFontMedium), $(KopolArtUiFontBold), $(KopolArtUiFontBlack)" />
+	</Target>
 
 	<!-- Safety safeguard: Ensure font assets are copied to Android intermediate assets directory before APK packaging -->
 	<Target Name="EnsureFontAssetsPresent" BeforeTargets="_CreateBaseApk;_CreateBaseApkWithAapt2;_GenerateAndroidAssetsDir" Condition="$(TargetFramework.Contains('-android'))">

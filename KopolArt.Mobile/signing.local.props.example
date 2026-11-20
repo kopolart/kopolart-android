@@ -13,5 +13,7 @@
 	<PropertyGroup>
 		<AndroidSigningPassword>change-me</AndroidSigningPassword>
 		<AndroidSigningKeyStore>C:\path\outside\the\repository\kopolart.keystore</AndroidSigningKeyStore>
+		<!-- Explicitly enable/force the licensed Abar font family in local builds (auto-detected if omitted) -->
+		<!-- <KopolArtUsePremiumFonts>true</KopolArtUsePremiumFonts> -->
 	</PropertyGroup>
 </Project>

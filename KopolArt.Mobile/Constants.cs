@@ -144,6 +144,8 @@
             public const string AbarStaticBoldWoff = "abar-static-bold.woff";
             public const string KopolArtFaWoff2 = "kopolart-fa.woff2";
             public const string KopolArtFaWoff = "kopolart-fa.woff";
+            public const string KopolArtFaWebWoff2 = "kopolart-fa-web.woff2";
+            public const string KopolArtFaWebWoff = "kopolart-fa-web.woff";
             public const string KopolArtFaCss = "kopolart-fa.css";
 
             public const string UiFontBlackAlias = "KopolFontBlack";

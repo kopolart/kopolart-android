@@ -37,6 +37,3 @@ desktop.ini
 # Licensed commercial font family (Abar, fontiran.com) - local builds only.
 # The public repository ships the OFL Estedad family instead.
 KopolArt.Mobile/Resources/Fonts/abar-*
-/KopolArt.Mobile/KopolArt.Mobile.csproj
-/KopolArt.Mobile.sln
-/KopolArt.Mobile.sln

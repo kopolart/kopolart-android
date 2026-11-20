@@ -12,15 +12,19 @@ public static class LabelSetup
     {
         TypefaceCache.Initialize();
 
-        // 1. Label font preservation & justification
-        LabelHandler.Mapper.AppendToMapping("FontPreserve", (handler, view) =>
+        // Mapper keys must be real property names: the chained action runs after that
+        // property's own mapping (and once at handler creation), never for invented keys.
+        static void PreserveLabelFont(Microsoft.Maui.Handlers.ILabelHandler handler, Microsoft.Maui.ILabel view)
         {
             if (view is Microsoft.Maui.Controls.Label label && handler.PlatformView is TextView textView)
             {
                 TypefaceCache.ApplyTypeface(textView, label.FontFamily, label.FontAttributes);
                 TypefaceCache.AttachFontPreserver(textView, () => label.FontFamily, () => label.FontAttributes);
             }
-        });
+        }
+
+        LabelHandler.Mapper.AppendToMapping(nameof(Label.FontFamily), PreserveLabelFont);
+        LabelHandler.Mapper.AppendToMapping(nameof(Label.FontAttributes), PreserveLabelFont);
 
         LabelHandler.Mapper.AppendToMapping("JustifyText", (handler, view) =>
         {
@@ -35,35 +39,41 @@ public static class LabelSetup
             }
         });
 
-        // 2. Button font preservation
-        ButtonHandler.Mapper.AppendToMapping("FontPreserve", (handler, view) =>
+        static void PreserveButtonFont(Microsoft.Maui.Handlers.IButtonHandler handler, Microsoft.Maui.IButton view)
         {
             if (view is Microsoft.Maui.Controls.Button button && handler.PlatformView is TextView textView)
             {
                 TypefaceCache.ApplyTypeface(textView, button.FontFamily, button.FontAttributes);
                 TypefaceCache.AttachFontPreserver(textView, () => button.FontFamily, () => button.FontAttributes);
             }
-        });
+        }
 
-        // 3. Entry font preservation
-        EntryHandler.Mapper.AppendToMapping("FontPreserve", (handler, view) =>
+        ButtonHandler.Mapper.AppendToMapping(nameof(Microsoft.Maui.Controls.Button.FontFamily), PreserveButtonFont);
+        ButtonHandler.Mapper.AppendToMapping(nameof(Microsoft.Maui.Controls.Button.FontAttributes), PreserveButtonFont);
+
+        static void PreserveEntryFont(Microsoft.Maui.Handlers.IEntryHandler handler, Microsoft.Maui.IEntry view)
         {
             if (view is Microsoft.Maui.Controls.Entry entry && handler.PlatformView is TextView textView)
             {
                 TypefaceCache.ApplyTypeface(textView, entry.FontFamily, entry.FontAttributes);
                 TypefaceCache.AttachFontPreserver(textView, () => entry.FontFamily, () => entry.FontAttributes);
             }
-        });
+        }
 
-        // 4. Editor font preservation
-        EditorHandler.Mapper.AppendToMapping("FontPreserve", (handler, view) =>
+        EntryHandler.Mapper.AppendToMapping(nameof(Entry.FontFamily), PreserveEntryFont);
+        EntryHandler.Mapper.AppendToMapping(nameof(Entry.FontAttributes), PreserveEntryFont);
+
+        static void PreserveEditorFont(Microsoft.Maui.Handlers.IEditorHandler handler, Microsoft.Maui.IEditor view)
         {
             if (view is Microsoft.Maui.Controls.Editor editor && handler.PlatformView is TextView textView)
             {
                 TypefaceCache.ApplyTypeface(textView, editor.FontFamily, editor.FontAttributes);
                 TypefaceCache.AttachFontPreserver(textView, () => editor.FontFamily, () => editor.FontAttributes);
             }
-        });
+        }
+
+        EditorHandler.Mapper.AppendToMapping(nameof(Editor.FontFamily), PreserveEditorFont);
+        EditorHandler.Mapper.AppendToMapping(nameof(Editor.FontAttributes), PreserveEditorFont);
     }
 }
 #endif

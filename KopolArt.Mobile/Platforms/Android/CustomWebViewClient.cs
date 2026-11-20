@@ -594,6 +594,18 @@ namespace KopolArt.Mobile.Platforms.Android
                         assetName = Constants.Fonts.KopolArtFaWoff;
                         mimeType = "font/woff";
                     }
+                    // The live site renamed its icon webfont to kopolart-fa-web.*; serve the
+                    // bundled copy of that exact face so saved pages keep every site glyph.
+                    else if (path.EndsWith("/kopolart-fa-web.woff2") || path == "kopolart-fa-web.woff2")
+                    {
+                        assetName = Constants.Fonts.KopolArtFaWebWoff2;
+                        mimeType = "font/woff2";
+                    }
+                    else if (path.EndsWith("/kopolart-fa-web.woff") || path == "kopolart-fa-web.woff")
+                    {
+                        assetName = Constants.Fonts.KopolArtFaWebWoff;
+                        mimeType = "font/woff";
+                    }
                     else if (path.EndsWith("/abar-static.woff") || path == "abar-static.woff")
                     {
                         assetName = Constants.Fonts.AbarStaticWoff;
