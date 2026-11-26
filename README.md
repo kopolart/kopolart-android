@@ -195,7 +195,6 @@ The MIT license covers **code only**. The KopolArt name, logo, wordmark, colour 
 - [Estedad](https://github.com/aminabedi68/Estedad) — OFL 1.1
 - Icon font generated with IcoMoon; Font Awesome Free glyphs are CC BY 4.0
 - [.NET MAUI](https://github.com/dotnet/maui) and the .NET team
-
 ---
 
 <div dir="rtl">
@@ -216,5 +215,9 @@ The MIT license covers **code only**. The KopolArt name, logo, wordmark, colour 
 نصب: فایل APK آخرین نسخه را از بخش Releases دریافت کنید (اندروید ۸.۰ به بالا).
 
 این مخزن فقط کد کلاینت اندروید است؛ محتوا، تصاویر و سرویس سایت جزء آن نیستند.
+
+## دریافت از کافه‌بازار
+
+[**دانلود اپلیکیشن کپل‌آرت از کافه‌بازار**](https://cafebazaar.ir/app/ir.kopolart.app)
 
 </div>
